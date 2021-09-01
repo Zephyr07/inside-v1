@@ -28,7 +28,7 @@ const routes: Routes = [
     component : SidemenuComponent,
     children : [
       {
-        path : 'dashboard',
+        path : 'home',
         component : HomeComponent,
       },
       {
@@ -36,7 +36,7 @@ const routes: Routes = [
         component : ProfileComponent,
       },
       { path: '',
-        redirectTo: '/inside/dashboard',
+        redirectTo: '/inside/home',
         pathMatch: 'full'
       }
     ]

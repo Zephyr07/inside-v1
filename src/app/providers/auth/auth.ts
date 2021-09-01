@@ -67,7 +67,11 @@ export class AuthProvider {
       this.api.restangular.all('auth/signup').post(credentials)
         .subscribe( (response:any) => {
           if(response.body.data == undefined){
-            reject(response);
+            const data = response.body;
+            localStorage.setItem(this.token_key, data.token);
+            localStorage.setItem('user', data.user);
+
+            resolve(data);
           } else {
             const data = response.body.data;
             localStorage.setItem(this.token_key, data.token);

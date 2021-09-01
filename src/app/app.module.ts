@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import * as _ from 'lodash';
 import {RestangularModule} from 'ngx-restangular';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgxPermissionsModule, NgxPermissionsService, NgxRolesService} from 'ngx-permissions';
 import {API_ENDPOINT} from './services/contants';
 import {ApiProvider} from './providers/api/api';
@@ -95,6 +95,7 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     RestangularModule.forRoot(RestangularConfigFactory),
     NgxPermissionsModule.forRoot(),
     AppRoutingModule,
+    ReactiveFormsModule,
     FormsModule
   ],
   providers: [
