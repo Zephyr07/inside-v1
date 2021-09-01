@@ -1,0 +1,48 @@
+<div class="register-page"><div class="register-box">
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <h1><b>BVS</b> Inside</h1>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" [(ngModel)]="username" placeholder="Nom d'utilisateur">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" [(ngModel)]="password" placeholder="Mot de passe">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" [(ngModel)]="password_confirmation" placeholder="Confirmer mot de passe">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <!-- /.col -->
+          <div class="col-6 offset-6">
+            <button class="btn btn-primary btn-block" (click)="register()">Enregistrer</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </div>
+
+
+      <a routerLink="/login" class="text-center">Me connecter</a>
+    </div>
+    <!-- /.form-box -->
+  </div><!-- /.card -->
+</div>
+  <!-- /.register-box -->
+</div>

@@ -1,0 +1,126 @@
+<div class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu"  role="button"><i class="fas fa-bars"></i></a>
+        </li>
+      </ul>
+
+      <!-- SEARCH FORM -->
+      <form class="form-inline ml-3">
+        <div class="input-group input-group-sm">
+          <input class="form-control form-control-navbar" type="search" placeholder="Rechercher" aria-label="Rechercher">
+          <div class="input-group-append">
+            <button class="btn btn-navbar">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </nav>
+    <!-- /.navbar -->
+  </div>
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary">
+    <!-- Brand Logo -->
+    <div class="brand-link">
+      <span class="brand-text font-weight-light">Inside Admin</span>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="../../../assets/img/EDWARD.jpg" class="elevation-2" alt="Image">
+        </div>
+        <div class="info">
+          <a class="d-block">Edward NANDA</a>
+          <a class="d-block sub-info">Responsable des Systèmes d'Informations</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a routerLink="/admin/list-entity" class="nav-link">
+              <i class="nav-icon fas fa-building"></i>
+              <p>
+                Entités
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/admin/list-management" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Directions
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/admin/list-user" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Employés
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Groupes
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Notes
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Anniversaires
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Evènements
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>
+                Deconnexion
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+</div>
+
+<div class="content-wrapper" style="overflow-y: auto; padding: 20px">
+  <router-outlet></router-outlet>
+
+</div>

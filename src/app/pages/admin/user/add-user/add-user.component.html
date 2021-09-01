@@ -1,0 +1,99 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Nouvel employé</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/admin/list-user">Liste des employés</a></li>
+          <li class="breadcrumb-item active">Nouvel employé</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Formulaire</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" class="form-control form-control-border" [(ngModel)]="user.username" [ngModelOptions]="{standalone: true}" id="username" placeholder="Nom d'utilisateur">
+              </div>
+              <div class="form-group">
+                <label for="name">Nom(s)</label>
+                <input type="text" class="form-control form-control-border" [(ngModel)]="user.employee.first_name" [ngModelOptions]="{standalone: true}" id="name" placeholder="Nom">
+              </div>
+              <div class="form-group">
+                <label for="prenom">Prénom(s)</label>
+                <input type="text" class="form-control form-control-border" [(ngModel)]="user.employee.last_name" [ngModelOptions]="{standalone: true}" id="prenom" placeholder="Prénom(s)">
+              </div>
+              <div class="form-group">
+                <label for="title">Intitulé du poste</label>
+                <input type="text" class="form-control form-control-border" [(ngModel)]="user.employee.title" [ngModelOptions]="{standalone: true}" id="title" placeholder="Intitulé du poste">
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control form-control-border" [(ngModel)]="user.employee.email" [ngModelOptions]="{standalone: true}" id="email" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label for="telephone">Téléphone</label>
+                <input type="number" min="1" class="form-control form-control-border" [(ngModel)]="user.employee.phone" [ngModelOptions]="{standalone: true}" id="telephone" placeholder="Téléphone">
+              </div>
+              <div class="form-group">
+                <label for="ipphone">Poste fixe</label>
+                <input type="number" min="1" class="form-control form-control-border" [(ngModel)]="user.employee.ipphone" [ngModelOptions]="{standalone: true}" id="ipphone" placeholder="Poste fixe">
+              </div>
+              <div class="form-group">
+                <label for="sup">Supérieur hiérachique</label>
+                <select class="custom-select form-control-border" [(ngModel)]="user.employee.sup_id" [ngModelOptions]="{standalone: true}" id="sup">
+                  <option *ngFor="let e of employees" value="{{e.id}}">{{e.first_name}} {{e.last_name}} - {{e.title}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="direction">Direction</label>
+                <select class="custom-select form-control-border" [(ngModel)]="user.employee.direction_id" [ngModelOptions]="{standalone: true}" id="direction">
+                  <option *ngFor="let m of managements" value="{{m.id}}">{{m.name}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputFile">Image</label>
+                <div class="input-group">
+                  <div class="custom-file">
+                    <input type="file" [(ngModel)]="user.employee.image" [ngModelOptions]="{standalone: true}" class="custom-file-input" id="exampleInputFile">
+                    <label class="custom-file-label" for="exampleInputFile">Choisir une image</label>
+                  </div>
+                  <div class="input-group-append">
+                    <span class="input-group-text">Upload</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <button (click)="saveUser()" class="btn btn-primary">Enregistrer</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!--/.col (left) -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
