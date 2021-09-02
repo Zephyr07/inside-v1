@@ -13,6 +13,8 @@ import {ListEntityComponent} from "./pages/admin/entity/list-entity/list-entity.
 import {AddEntityComponent} from "./pages/admin/entity/add-entity/add-entity.component";
 import {ListManagementComponent} from "./pages/admin/management/list-management/list-management.component";
 import {AddManagementComponent} from "./pages/admin/management/add-management/add-management.component";
+import {ListGroupComponent} from "./pages/admin/group/list-group/list-group.component";
+import {AddGroupComponent} from "./pages/admin/group/add-group/add-group.component";
 
 const routes: Routes = [
   {
@@ -72,6 +74,18 @@ const routes: Routes = [
       {
         path : 'add-entity',
         component : AddEntityComponent,
+      },
+      {
+        path : 'list-group',
+        component : ListGroupComponent,
+      },
+      {
+        path : 'add-group/:id',
+        component : AddGroupComponent,
+      },
+      {
+        path : 'add-group',
+        component : AddGroupComponent,
       },
       {
         path : 'list-management',

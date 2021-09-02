@@ -26,6 +26,9 @@ import { ListEntityComponent } from './pages/admin/entity/list-entity/list-entit
 import { AddEntityComponent } from './pages/admin/entity/add-entity/add-entity.component';
 import { AddManagementComponent } from './pages/admin/management/add-management/add-management.component';
 import { ListManagementComponent } from './pages/admin/management/list-management/list-management.component';
+import { ListGroupComponent } from './pages/admin/group/list-group/list-group.component';
+import { AddGroupComponent } from './pages/admin/group/add-group/add-group.component';
+import {RouterModule} from "@angular/router";
 
 export function RestangularConfigFactory(RestangularProvider:any) {
   RestangularProvider
@@ -88,7 +91,9 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     ListEntityComponent,
     AddEntityComponent,
     AddManagementComponent,
-    ListManagementComponent
+    ListManagementComponent,
+    ListGroupComponent,
+    AddGroupComponent
   ],
   imports: [
     BrowserModule,

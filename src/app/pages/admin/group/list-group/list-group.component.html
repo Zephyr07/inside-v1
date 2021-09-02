@@ -1,0 +1,67 @@
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Liste des groupes</h3>
+
+            <div class="card-tools">
+              <div class="input-group input-group-sm" style="width: 300px;">
+                <input type="text" name="table_search" [(ngModel)]="search_text" class="form-control float-right" placeholder="Recherche">
+
+                <div class="input-group-append">
+                  <button (click)="search()" class="btn btn-default">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+                <div class="input-group-append">
+                  <button routerLink="/admin/add-group" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Ajouter
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body table-responsive p-0" style="height: 300px;">
+            <table class="table table-head-fixed text-nowrap">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Nombre de membre</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let u of groups">
+                <td>{{u.id}}</td>
+                <td>{{u.name}}</td>
+                <td>{{u.description}}</td>
+                <td>{{u.members.length}}</td>
+                <td>
+                  <button routerLink="/admin/add-group/{{u.id}}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button (click)="deleteGroup(u.id)" class="btn btn-primary btn-sm">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->

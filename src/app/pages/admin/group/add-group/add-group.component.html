@@ -1,0 +1,88 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>{{title}}</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/admin/list-group">Liste des groupes</a></li>
+          <li class="breadcrumb-item active">{{title}}</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Formulaire</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="username">Nom</label>
+                <input type="text" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="username" placeholder="Nom">
+              </div>
+              <div class="form-group">
+                <label for="name">Description</label>
+                <input type="text" [(ngModel)]="description" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="name" placeholder="Adresse">
+              </div>
+              <div class="form-group">
+                <label for="direction">Proprietaire</label>
+                <select class="custom-select form-control-border" [(ngModel)]="owner" [ngModelOptions]="{standalone: true}" id="direction">
+                  <option *ngFor="let m of employees" value="{{m.id}}">{{m.first_name}} {{m.last_name}} - {{m.id}}</option>
+                </select>
+              </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <button (click)="saveGroup()" class="btn btn-primary">Enregistrer</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!--/.col (left) -->
+      <!-- right column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Membre</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form>
+            <div class="card-body">
+              <div class="form-group">
+                <div class="custom-control custom-checkbox" *ngFor="let e of employees">
+                  <input class="custom-control-input" [disabled]="owner==e.id" type="checkbox" id="customCheckbox{{e.id}}" checked="{{e.checked}}" (change)="test(e)" value="{{e.check}}">
+                  <label for="customCheckbox{{e.id}}" class="custom-control-label">{{e.first_name}} {{e.last_name}} - {{e.id}}</label>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <button (click)="saveGroup()" class="btn btn-primary">Enregistrer</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!--/.right (left) -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->

@@ -2,17 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import {ApiProvider} from "../../../../providers/api/api";
 
 @Component({
-  selector: 'app-list-user',
-  templateUrl: './list-user.component.html',
-  styleUrls: ['./list-user.component.scss']
+  selector: 'app-list-group',
+  templateUrl: './list-group.component.html',
+  styleUrls: ['./list-group.component.scss']
 })
-export class ListUserComponent implements OnInit {
-  public users : any = [];
+export class ListGroupComponent implements OnInit {
+
+  public groups : any = [];
   public search_text = "";
   constructor(
     private api : ApiProvider
   ) {
-    this.getUsers();
+    this.getGroups();
   }
 
   ngOnInit(): void {
@@ -22,25 +23,25 @@ export class ListUserComponent implements OnInit {
 
   }
 
-  getUsers(){
+  getGroups(){
     const opt = {
       should_paginate: false,
-      _sort: 'username',
+      _sort: 'name',
       _sortDir: 'asc',
-      _includes: 'employee'
+      _includes: 'members'
     };
 
-    this.api.Users.getList(opt).subscribe((d:any)=>{
+    this.api.Groups.getList(opt).subscribe((d:any)=>{
       console.log(d);
-      this.users = d;
+      this.groups = d;
     })
   }
 
-  deleteUser(id:number){
-    this.api.Users.get(id).subscribe((d:any)=>{
+  deleteGroup(id:number){
+    this.api.Groups.get(id).subscribe((d:any)=>{
       d.id=d.body.id;
       d.remove().subscribe((a:any)=>{
-        alert('Employé supprimé');
+        alert('Groupe supprimé');
       }, (e:any) => {
         console.log(e);
       })
