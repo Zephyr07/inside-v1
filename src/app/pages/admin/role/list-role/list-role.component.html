@@ -49,7 +49,7 @@
                   <button routerLink="/admin/add-role/{{e.id}}" class="btn btn-primary btn-sm">
                     <i class="fas fa-edit"></i>
                   </button>
-                  <button [disabled]="e.name == 'super.administrator'" (click)="deleteRole(e.id)" class="btn btn-primary btn-sm">
+                  <button [disabled]="e.name == 'super.administrator'" (click)="deleteRole(e.id)" class="btn btn-danger btn-sm">
                     <i class="fas fa-trash"></i>
                   </button>
                 </td>

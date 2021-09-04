@@ -41,12 +41,15 @@ export class ListEntityComponent implements OnInit {
   }
 
   deleteEntity(id:number){
+    this.show = true;
     this.api.Entities.get(id).subscribe((d:any)=>{
       d.id=d.body.id;
       d.remove().subscribe((a:any)=>{
         alert('Entité supprimée');
+        this.getEntities();
       }, (e:any) => {
         console.log(e);
+        this.show = false;
       })
     })
   }

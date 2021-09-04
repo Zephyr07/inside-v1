@@ -43,12 +43,15 @@ export class ListManagementComponent implements OnInit {
   }
 
   deleteManagement(id:number){
+    this.show = true;
     this.api.Managements.get(id).subscribe((d:any)=>{
       d.id=d.body.id;
       d.remove().subscribe((a:any)=>{
         alert('Entité supprimée');
+        this.getManagements();
       }, (e:any) => {
         console.log(e);
+        this.show = false;
       })
     })
   }

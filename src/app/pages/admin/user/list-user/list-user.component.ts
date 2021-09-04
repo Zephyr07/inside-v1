@@ -19,8 +19,16 @@ export class ListUserComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  search(){
-
+  resetPassword(u:any){
+    const x = new FormData();
+    x.append('_method', 'PUT');
+    x.append('password', 'password');
+    x.append('password_confirmation', 'password');
+    this.api.restangular.all('users/' + u.id).customPOST(x, undefined, undefined, {'Content-Type': undefined}).subscribe((d:any) => {
+      alert("Mot de passe reinitialisé " + u.username);
+    }, (e:any)=>{
+      console.log(e);
+    });
   }
 
   getUsers(){
@@ -46,12 +54,15 @@ export class ListUserComponent implements OnInit {
   }
 
   deleteUser(id:number){
+    this.show = true;
     this.api.Users.get(id).subscribe((d:any)=>{
       d.id=d.body.id;
       d.remove().subscribe((a:any)=>{
         alert('Employé supprimé');
+        this.getUsers();
       }, (e:any) => {
         console.log(e);
+        this.show = false;
       })
     })
   }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiProvider} from "../../../../providers/api/api";
 import {ActivatedRoute, Router} from "@angular/router";
-import {AuthProvider} from "../../../../providers/auth/auth";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
@@ -17,11 +16,13 @@ export class AddUserComponent implements OnInit {
   show_loading = false;
   show_direction = true;
   show_employee = true;
+  show_role = true;
   closeResult = '';
   public success_title = "";
   public titre = "Nouvel employé";
   public user:any;
   public employees:any = [];
+  public roles:any = [];
   public managements:any = [];
   public username = "";
   public email = "";
@@ -29,13 +30,14 @@ export class AddUserComponent implements OnInit {
   public last_name = "";
   public title = "";
   public phone = 0;
+  public role_id = 0;
   public ip_phone = 0;
   public location = "";
-  public sup_id=1;
+  public sup_id=0;
   public imageSrc ="";
   public birthday:any;
   public today = new Date();
-  public direction_id=1;
+  public direction_id=0;
   public images = new FormData();
   constructor(
     public route: ActivatedRoute,
@@ -51,6 +53,7 @@ export class AddUserComponent implements OnInit {
       this.getUser(parseInt(id));
     } else {
       this.getEmployees();
+      this.getRoles();
       this.getManagements();
     }
   }
@@ -62,7 +65,6 @@ export class AddUserComponent implements OnInit {
     if(this.checkForm()){
       this.show_loading = true;
       if(this.user != undefined && this.user != null){
-        console.log(this.user);
         if(this.user.body.username != this.username){
           this.user.username = this.username;
           this.user.put().subscribe((u:any)=>{
@@ -76,7 +78,6 @@ export class AddUserComponent implements OnInit {
         }
 
       } else {
-        console.log("aze");
         // creation de l'utilisateur
         const user = {
           password:"password",
@@ -105,7 +106,14 @@ export class AddUserComponent implements OnInit {
             this.images.append('_method', 'PUT');
             this.api.restangular.all('employees/' + e.body.id).customPOST(this.images, undefined, undefined, {'Content-Type': undefined}).subscribe((d:any) => {
               //console.log('ok', d);
-               }, (e:any)=>{
+              this.openModal("Employé "+this.first_name + " "+ this.last_name +" créé");
+              // affectation du profil
+              this.api.RoleUsers.post({user_id:e.body.id, role_id:this.role_id, 'user_type':"App\\user"}).subscribe(()=>{
+                console.log("profil affecté")
+              }, (e:any)=>{
+                console.log(e);
+              })
+            }, (e:any)=>{
               console.log(e);
             })
           }, (e:any)=>{
@@ -130,6 +138,18 @@ export class AddUserComponent implements OnInit {
     })
   }
 
+  getRoles(){
+    const opt = {
+      should_paginate : false,
+      _sort:'display_name',
+      _sortDir: 'asc'
+    };
+    this.api.Roles.getList(opt).subscribe((d:any)=>{
+      this.roles = d;
+      this.show_role = false;
+    })
+  }
+
   getManagements(){
     const opt = {
       should_paginate : false,
@@ -143,8 +163,7 @@ export class AddUserComponent implements OnInit {
   }
 
   getUser(id:number){
-    this.api.Users.get(id,{_includes:'employee'}).subscribe((d:any)=>{
-      console.log(d);
+    this.api.Users.get(id,{_includes:'employee,role_user'}).subscribe((d:any)=>{
       this.user = d;
       this.user.id = d.body.id;
       this.username = d.body.username;
@@ -155,6 +174,9 @@ export class AddUserComponent implements OnInit {
       this.ip_phone = d.body.employee.ip_phone;
       this.email = d.body.employee.email;
       this.imageSrc = d.body.employee.image;
+      if(d.body.role_user != undefined){
+        this.role_id = d.body.role_user.role_id;
+      }
       const x = d.body.employee.birthday.split(" ")[0];
       this.birthday = {
         year: parseInt(x.split("-")[0]),
@@ -167,6 +189,8 @@ export class AddUserComponent implements OnInit {
       this.show_spinnner = false;
       this.getEmployees();
       this.getManagements();
+      this.getRoles();
+
     })
   }
 
@@ -242,14 +266,39 @@ export class AddUserComponent implements OnInit {
           this.api.restangular.all('employees/' + d.body.id).customPOST(this.images, undefined, undefined, {'Content-Type': undefined}).subscribe(() => {
             //console.log('ok', d);
             this.openModal("Employé "+this.first_name + " "+ this.last_name +" mise à jour");
-            this.show_loading = true;
+            this.show_loading = false;
           }, (e:any)=>{
             console.log(e);
           });
         } else {
-          alert("Employé mise à jour");
           this.show_loading = true;
           this.openModal("Employé "+this.first_name + " "+ this.last_name +" mise à jour");
+          if(this.user.body.role_user !=undefined){
+            if(this.role_id != this.user.body.role_user.role_id){
+              this.api.RoleUsers.get(this.user.body.role_user.id).subscribe((a:any)=>{
+                console.log("profil affecté");
+                a.id = a.body.id;
+                a.role_id = this.role_id;
+                a.put().subscribe((s:any)=>{
+                  console.log("ok",s);
+                  this.show_loading = false;
+                });
+              }, (e:any)=>{
+                console.log(e);
+                this.show_loading = false;
+              })
+            }
+          } else {
+            // creation
+            this.api.RoleUsers.post({user_id:this.user.body.id, role_id:this.role_id, user_type:"App\\user"}).subscribe(()=>{
+              console.log("profil affecté");
+              this.show_loading = false;
+            }, (e:any)=>{
+              console.log(e);
+              this.show_loading = false;
+            })
+          }
+
         }
       })
     }, (e:any)=>{

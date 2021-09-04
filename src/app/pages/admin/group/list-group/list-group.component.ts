@@ -42,12 +42,15 @@ export class ListGroupComponent implements OnInit {
   }
 
   deleteGroup(id:number){
+    this.show = true;
     this.api.Groups.get(id).subscribe((d:any)=>{
       d.id=d.body.id;
       d.remove().subscribe((a:any)=>{
         alert('Groupe supprimé');
+        this.getGroups();
       }, (e:any) => {
         console.log(e);
+        this.show = false;
       })
     })
   }

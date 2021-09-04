@@ -42,12 +42,15 @@ export class ListEventComponent implements OnInit {
   }
 
   deleteNewsletter(id:number){
+    this.show = true;
     this.api.Newsletters.get(id).subscribe((d:any)=>{
       d.id=d.body.id;
       d.remove().subscribe((a:any)=>{
         alert('Newslettere supprimé');
+        this.getNewsletters();
       }, (e:any) => {
         console.log(e);
+        this.show = false;
       })
     })
   }

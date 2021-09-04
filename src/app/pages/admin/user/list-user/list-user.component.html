@@ -48,13 +48,13 @@
                 <td>{{u.title}}</td>
                 <td>{{u.status |status}}</td>
                 <td>
-                  <button routerLink="/admin/add-user/{{u.id}}" class="btn btn-primary btn-sm">
+                  <button (click)="resetPassword(u)" class="btn btn-warning btn-sm">
                     <i class="fas fa-key"></i>
                   </button>
                   <button routerLink="/admin/add-user/{{u.id}}" class="btn btn-primary btn-sm">
                     <i class="fas fa-edit"></i>
                   </button>
-                  <button (click)="deleteUser(u.id)" class="btn btn-primary btn-sm">
+                  <button [disabled]="u.username == 'bvnand01'" (click)="deleteUser(u.id)" class="btn btn-danger btn-sm">
                     <i class="fas fa-trash"></i>
                   </button>
                </td>

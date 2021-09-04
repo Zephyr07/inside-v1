@@ -142,6 +142,17 @@
                 </select>
               </div>
               <div class="form-group">
+                <label for="direction">Profil
+                  <span class="spinner-grow spinner-grow-sm"
+                        style="vertical-align: inherit"
+                        *ngIf="show_role"
+                        role="status" aria-hidden="true"></span>
+                </label>
+                <select class="custom-select form-control-border" [(ngModel)]="role_id" [ngModelOptions]="{standalone: true}" id="role">
+                  <option *ngFor="let m of roles" value="{{m.id}}">{{m.display_name}}</option>
+                </select>
+              </div>
+              <div class="form-group">
                 <div class="row">
                   <div class="col-4">
                     <img [src]="imageSrc" *ngIf="imageSrc" style="width:100%">
