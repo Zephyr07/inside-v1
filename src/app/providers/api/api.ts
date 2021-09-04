@@ -16,10 +16,15 @@ export class ApiProvider {
   public Entities: any = this.restangular.service('entities');
   public Groups: any = this.restangular.service('groups');
   public Members: any = this.restangular.service('members');
-  public Permissions: any = this.restangular.service('permissions');
-  public Receipts: any = this.restangular.service('receipts');
+  public Newsletters: any = this.restangular.service('newsletters');
+  public NewsletterEntities: any = this.restangular.service('newsletter_entities');
+  public NewsletterGroups: any = this.restangular.service('newsletter_groups');
+  public NewsletterDirections: any = this.restangular.service('newsletter_directions');
+  public Suggestions: any = this.restangular.service('suggestions');
   public Roles: any = this.restangular.service('roles');
   public Users: any = this.restangular.service('users');
+  public Permissions: any = this.restangular.service('permissions');
+  public PermissionRoles: any = this.restangular.service('permission_roles');
   public RoleUsers: any = this.restangular.service('role_users');
   public me: any = this.restangular.one('auth/me');
 

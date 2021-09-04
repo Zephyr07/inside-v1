@@ -15,6 +15,13 @@ import {ListManagementComponent} from "./pages/admin/management/list-management/
 import {AddManagementComponent} from "./pages/admin/management/add-management/add-management.component";
 import {ListGroupComponent} from "./pages/admin/group/list-group/list-group.component";
 import {AddGroupComponent} from "./pages/admin/group/add-group/add-group.component";
+import {ListNewsletterComponent} from "./pages/admin/newsletter/list-newsletter/list-newsletter.component";
+import {AddNewsletterComponent} from "./pages/admin/newsletter/add-newsletter/add-newsletter.component";
+import {ListEventComponent} from "./pages/admin/event/list-event/list-event.component";
+import {AddEventComponent} from "./pages/admin/event/add-event/add-event.component";
+import {SuggestionComponent} from "./pages/admin/suggestion/suggestion.component";
+import {ListRoleComponent} from "./pages/admin/role/list-role/list-role.component";
+import {AddRoleComponent} from "./pages/admin/role/add-role/add-role.component";
 
 const routes: Routes = [
   {
@@ -52,6 +59,10 @@ const routes: Routes = [
         component : DashboardComponent,
       },
       {
+        path : 'suggestion',
+        component : SuggestionComponent,
+      },
+      {
         path : 'list-user',
         component : ListUserComponent,
       },
@@ -86,6 +97,42 @@ const routes: Routes = [
       {
         path : 'add-group',
         component : AddGroupComponent,
+      },
+      {
+        path : 'list-newsletter',
+        component : ListNewsletterComponent,
+      },
+      {
+        path : 'add-newsletter/:id',
+        component : AddNewsletterComponent,
+      },
+      {
+        path : 'add-newsletter',
+        component : AddNewsletterComponent,
+      },
+      {
+        path : 'list-event',
+        component : ListEventComponent,
+      },
+      {
+        path : 'add-event/:id',
+        component : AddEventComponent,
+      },
+      {
+        path : 'add-event',
+        component : AddEventComponent,
+      },
+      {
+        path : 'list-role',
+        component : ListRoleComponent,
+      },
+      {
+        path : 'add-role/:id',
+        component : AddRoleComponent,
+      },
+      {
+        path : 'add-role',
+        component : AddRoleComponent,
       },
       {
         path : 'list-management',

@@ -3,12 +3,17 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Nouvel employé</h1>
+        <h1>{{titre}}
+          <span class="spinner-grow spinner-grow-sm"
+                style="vertical-align: inherit"
+                *ngIf="show_spinnner"
+                role="status" aria-hidden="true"></span>
+        </h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a routerLink="/admin/list-user">Liste des employés</a></li>
-          <li class="breadcrumb-item active">Nouvel employé</li>
+          <li class="breadcrumb-item active">{{titre}}</li>
         </ol>
       </div>
     </div>
@@ -24,53 +29,114 @@
         <!-- general form elements -->
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title">Formulaire</h3>
+
           </div>
           <!-- /.card-header -->
           <!-- form start -->
-          <form [formGroup]="userForm" (ngSubmit)="saveUser()">
+          <div>
             <div class="card-body">
+              <div>
+                <ngb-toast *ngIf="show" class="bg-danger" [autohide]="false" (hidden)="show=false">
+                  <ng-template ngbToastHeader>
+                    <strong class="mx-1">Erreur lors de l'enreigstrement</strong>
+                  </ng-template>
+                  {{message_toast}}
+                </ngb-toast>
+              </div>
               <div class="form-group">
                 <label for="username">Nom d'utilisateur</label>
-                <input type="text" class="form-control form-control-border" formControlName="username" id="username" placeholder="Nom d'utilisateur">
+                <input type="text" class="form-control form-control-border" [(ngModel)]="username" [ngModelOptions]="{standalone: true}" id="username" placeholder="Nom d'utilisateur">
               </div>
               <div class="form-group">
                 <label for="name">Nom(s)</label>
-                <input type="text" class="form-control form-control-border" formControlName="first_name" id="name" placeholder="Nom">
+                <input type="text" class="form-control form-control-border" [(ngModel)]="first_name" [ngModelOptions]="{standalone: true}" id="name" placeholder="Nom">
               </div>
               <div class="form-group">
                 <label for="prenom">Prénom(s)</label>
-                <input type="text" class="form-control form-control-border" formControlName="last_name" id="prenom" placeholder="Prénom(s)">
+                <input type="text" class="form-control form-control-border" [(ngModel)]="last_name" [ngModelOptions]="{standalone: true}" id="prenom" placeholder="Prénom(s)">
               </div>
               <div class="form-group">
                 <label for="title">Intitulé du poste</label>
-                <input type="text" class="form-control form-control-border" formControlName="title" id="title" placeholder="Intitulé du poste">
+                <input type="text" class="form-control form-control-border" [(ngModel)]="title" [ngModelOptions]="{standalone: true}" id="title" placeholder="Intitulé du poste">
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control form-control-border" formControlName="email" id="email" placeholder="Email">
+                <input type="email" class="form-control form-control-border" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" id="email" placeholder="Email">
               </div>
               <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" placeholder="Date de naissance"
+                         name="dp" [(ngModel)]="birthday" [ngModelOptions]="{standalone: true}" ngbDatepicker #d="ngbDatepicker"
+                         [footerTemplate]="footerTemplate"
+                         (click)="d.toggle()">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                      <i class="nav-icon fas fa-calendar"></i>
+                    </button>
+                  </div>
+                  <ng-template #footerTemplate>
+                    <hr class="my-0">
+                    <button class="btn btn-primary btn-sm m-2 float-left" (click)="birthday = today; d.close()">Aujourd'hui</button>
+                    <button class="btn btn-secondary btn-sm m-2 float-right" (click)="d.close()">Fermer</button>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <button (click)="saveUser()" class="btn btn-primary">Enregistrer
+                <span class="spinner-grow spinner-grow-sm"
+                      style="vertical-align: inherit"
+                      *ngIf="show_loading"
+                      role="status" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!--/.col (left) -->
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form>
+            <div class="card-body">
+              <div class="form-group">
                 <label for="telephone">Téléphone</label>
-                <input type="number" min="1" class="form-control form-control-border" formControlName="phone" id="telephone" placeholder="Téléphone">
+                <input type="number" min="1" class="form-control form-control-border" [(ngModel)]="phone" [ngModelOptions]="{standalone: true}" id="telephone" placeholder="Téléphone">
               </div>
               <div class="form-group">
                 <label for="ip_phone">Poste fixe</label>
-                <input type="number" min="1" class="form-control form-control-border" formControlName="ip_phone" id="ip_phone" placeholder="Poste fixe">
+                <input type="number" min="1" class="form-control form-control-border" [(ngModel)]="ip_phone" [ngModelOptions]="{standalone: true}" id="ip_phone" placeholder="Poste fixe">
               </div>
               <div class="form-group">
                 <label for="ville">Ville</label>
-                <input type="text" class="form-control form-control-border" formControlName="location" id="ville" placeholder="Ville">
+                <input type="text" class="form-control form-control-border" [(ngModel)]="location" [ngModelOptions]="{standalone: true}" id="ville" placeholder="Ville">
               </div>
               <div class="form-group">
-                <label for="sup">Supérieur hiérachique</label>
+                <label for="sup">Supérieur hiérachique
+                  <span class="spinner-grow spinner-grow-sm"
+                        style="vertical-align: inherit"
+                        *ngIf="show_employee"
+                        role="status" aria-hidden="true"></span>
+                </label>
                 <select class="custom-select form-control-border" [(ngModel)]="sup_id" [ngModelOptions]="{standalone: true}" id="sup">
                   <option value="0">Aucun</option>
                   <option *ngFor="let e of employees" value="{{e.id}}">{{e.first_name}} {{e.last_name}} - {{e.title}}</option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="direction">Direction</label>
+                <label for="direction">Direction
+                  <span class="spinner-grow spinner-grow-sm"
+                        style="vertical-align: inherit"
+                        *ngIf="show_direction"
+                        role="status" aria-hidden="true"></span>
+                </label>
                 <select class="custom-select form-control-border" [(ngModel)]="direction_id" [ngModelOptions]="{standalone: true}" id="direction">
                   <option *ngFor="let m of managements" value="{{m.id}}">{{m.name}}</option>
                 </select>
@@ -84,7 +150,7 @@
                     <label for="image">Image</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" (change)="onSelectImage($event)" class="custom-file-input" id="image">
+                        <input type="file" (change)="onSelectImage($event)" class="custom-file-input" id="image" accept="image/*">
                         <label class="custom-file-label">Choisir une image</label>
                       </div>
                     </div>
@@ -93,9 +159,6 @@
               </div>
             </div>
             <!-- /.card-body -->
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary">Enregistrer</button>
-            </div>
           </form>
         </div>
         <!-- /.card -->
@@ -106,3 +169,15 @@
   </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Succès</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{success_title}}.</p>
+  </div>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(content)">Launch demo modal</button>

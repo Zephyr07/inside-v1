@@ -1,0 +1,170 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>{{titre}}
+          <span class="spinner-grow spinner-grow-sm"
+                style="vertical-align: inherit"
+                *ngIf="show_spinnner"
+                role="status" aria-hidden="true"></span>
+        </h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/admin/list-newsletter">Liste des notes</a></li>
+          <li class="breadcrumb-item active">{{titre}}</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form>
+            <div class="card-body">
+              <div>
+                <ngb-toast *ngIf="show" class="bg-danger" [autohide]="false" (hidden)="show=false">
+                  <ng-template ngbToastHeader>
+                    <strong class="mx-1">Erreur lors de l'enreigstrement</strong>
+                  </ng-template>
+                  {{message_toast}}
+                </ngb-toast>
+              </div>
+              <div class="form-group">
+                <label for="username">Titre</label>
+                <input type="text" [(ngModel)]="title" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="username" placeholder="Nom">
+              </div>
+              <div class="form-group">
+                <label for="name">Description</label>
+                <textarea [(ngModel)]="description" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="name" placeholder="Description"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="type">Type</label>
+                <select class="custom-select form-control-border" [(ngModel)]="type" [ngModelOptions]="{standalone: true}" id="type">
+                  <option value="information">Note d'information</option>
+                  <option value="service">Note de service</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" placeholder="Date de publication"
+                         name="dp" [(ngModel)]="date" [ngModelOptions]="{standalone: true}" ngbDatepicker #d="ngbDatepicker"
+                         [footerTemplate]="footerTemplate"
+                         (click)="d.toggle()">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                      <i class="nav-icon fas fa-calendar"></i>
+                    </button>
+                  </div>
+                  <ng-template #footerTemplate>
+                    <hr class="my-0">
+                    <button class="btn btn-primary btn-sm m-2 float-left" (click)="date = today; d.close()">Aujourd'hui</button>
+                    <button class="btn btn-secondary btn-sm m-2 float-right" (click)="d.close()">Fermer</button>
+                  </ng-template>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="file">Fichier</label>
+                <br>
+                <label *ngIf="fichier!=''">{{fichier}}</label>
+                <div class="input-group">
+                  <input type="file" placeholder="Selectionner un fichicer" (change)="onSelectFile($event)" id="file" accept="image/*, .pdf,.docx,.doc">
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <button (click)="saveNewsletter()" class="btn btn-primary">Enregistrer
+                <span class="spinner-grow spinner-grow-sm"
+                      style="vertical-align: inherit"
+                      *ngIf="show_loading"
+                      role="status" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!--/.col (left) -->
+      <!-- right column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form>
+            <div class="card-body">
+              <h5>Entité
+                <span class="spinner-grow spinner-grow-sm"
+                      style="vertical-align: inherit"
+                      *ngIf="show_entity"
+                      role="status" aria-hidden="true"></span>
+              </h5>
+              <div class="form-group">
+                <div class="custom-control custom-checkbox" *ngFor="let e of entities">
+                  <input class="custom-control-input" type="checkbox" id="customCheckbox{{e.id}}" checked="{{e.checked}}" (change)="test(e)" value="{{e.check}}">
+                  <label for="customCheckbox{{e.id}}" class="custom-control-label">{{e.name}}</label>
+                </div>
+              </div>
+              <h5>Direction
+                <span class="spinner-grow spinner-grow-sm"
+                      style="vertical-align: inherit"
+                      *ngIf="show_direction"
+                      role="status" aria-hidden="true"></span>
+              </h5>
+              <div class="form-group">
+                <div class="custom-control custom-checkbox" *ngFor="let e of directions">
+                  <input class="custom-control-input" type="checkbox" id="direction{{e.id}}" checked="{{e.checked}}" (change)="test(e)" value="{{e.check}}">
+                  <label for="direction{{e.id}}" class="custom-control-label">{{e.name}}</label>
+                </div>
+              </div>
+              <h5>Groupe
+                <span class="spinner-grow spinner-grow-sm"
+                      style="vertical-align: inherit"
+                      *ngIf="show_group"
+                      role="status" aria-hidden="true"></span>
+              </h5>
+              <div class="form-group">
+                <div class="custom-control custom-checkbox" *ngFor="let e of groups">
+                  <input class="custom-control-input" type="checkbox" id="group{{e.id}}" checked="{{e.checked}}" (change)="test(e)" value="{{e.check}}">
+                  <label for="group{{e.id}}" class="custom-control-label">{{e.name}}</label>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!--/.right (left) -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Succès</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{success_title}}.</p>
+  </div>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(content)">Launch demo modal</button>

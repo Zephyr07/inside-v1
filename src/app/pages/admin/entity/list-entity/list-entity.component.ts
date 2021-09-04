@@ -10,6 +10,7 @@ export class ListEntityComponent implements OnInit {
 
   public entities : any = [];
   public search_text = "";
+  public show = true;
   constructor(
     private api : ApiProvider
   ) {
@@ -31,8 +32,11 @@ export class ListEntityComponent implements OnInit {
     };
 
     this.api.Entities.getList(opt).subscribe((d:any)=>{
-      console.log(d);
       this.entities = d;
+      this.show = false;
+    }, (e:any)=>{
+      console.log(e);
+      this.show = false;
     })
   }
 

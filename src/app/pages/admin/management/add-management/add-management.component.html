@@ -3,7 +3,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>{{title}}</h1>
+        <h1>{{title}}
+          <span class="spinner-grow spinner-grow-sm"
+                style="vertical-align: inherit"
+                *ngIf="show_spinnner"
+                role="status" aria-hidden="true"></span>
+        </h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -24,12 +29,19 @@
         <!-- general form elements -->
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title">Formulaire</h3>
           </div>
           <!-- /.card-header -->
           <!-- form start -->
           <form>
             <div class="card-body">
+              <div>
+                <ngb-toast *ngIf="show" class="bg-danger" [autohide]="false" (hidden)="show=false">
+                  <ng-template ngbToastHeader>
+                    <strong class="mx-1">Erreur lors de l'enreigstrement</strong>
+                  </ng-template>
+                  {{message_toast}}
+                </ngb-toast>
+              </div>
               <div class="form-group">
                 <label for="username">Nom</label>
                 <input type="text" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="username" placeholder="Nom">
@@ -39,7 +51,12 @@
                 <input type="text" [(ngModel)]="acronym" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="name" placeholder="Adresse">
               </div>
               <div class="form-group">
-                <label for="direction">Entité</label>
+                <label for="direction">Entité
+                  <span class="spinner-grow spinner-grow-sm"
+                        style="vertical-align: inherit"
+                        *ngIf="show_entity"
+                        role="status" aria-hidden="true"></span>
+                </label>
                 <select class="custom-select form-control-border" [(ngModel)]="entity_id" [ngModelOptions]="{standalone: true}" id="direction">
                   <option *ngFor="let m of entities" value="{{m.id}}">{{m.name}}</option>
                 </select>
@@ -47,7 +64,12 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-              <button (click)="saveManagement()" class="btn btn-primary">Enregistrer</button>
+              <button (click)="saveManagement()" class="btn btn-primary">Enregistrer
+                <span class="spinner-grow spinner-grow-sm"
+                      style="vertical-align: inherit"
+                      *ngIf="show_loading"
+                      role="status" aria-hidden="true"></span>
+              </button>
             </div>
           </form>
         </div>
@@ -59,3 +81,15 @@
   </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Succès</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{success_title}}.</p>
+  </div>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(content)">Launch demo modal</button>

@@ -28,7 +28,15 @@ import { AddManagementComponent } from './pages/admin/management/add-management/
 import { ListManagementComponent } from './pages/admin/management/list-management/list-management.component';
 import { ListGroupComponent } from './pages/admin/group/list-group/list-group.component';
 import { AddGroupComponent } from './pages/admin/group/add-group/add-group.component';
-import {RouterModule} from "@angular/router";
+import {NgbPaginationModule, NgbAlertModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ListNewsletterComponent } from './pages/admin/newsletter/list-newsletter/list-newsletter.component';
+import { AddNewsletterComponent } from './pages/admin/newsletter/add-newsletter/add-newsletter.component';
+import { ListEventComponent } from './pages/admin/event/list-event/list-event.component';
+import { AddEventComponent } from './pages/admin/event/add-event/add-event.component';
+import { SuggestionComponent } from './pages/admin/suggestion/suggestion.component';
+import { ListRoleComponent } from './pages/admin/role/list-role/list-role.component';
+import { AddRoleComponent } from './pages/admin/role/add-role/add-role.component';
+import {PriceFormatPipe} from "./pipe/price-format";
 
 export function RestangularConfigFactory(RestangularProvider:any) {
   RestangularProvider
@@ -93,13 +101,27 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     AddManagementComponent,
     ListManagementComponent,
     ListGroupComponent,
-    AddGroupComponent
+    AddGroupComponent,
+    ListNewsletterComponent,
+    AddNewsletterComponent,
+    ListEventComponent,
+    AddEventComponent,
+    SuggestionComponent,
+    FilterPipe,
+    StatutPipe,
+    LimitToPipe,
+    PriceFormatPipe,
+    ListRoleComponent,
+    AddRoleComponent
   ],
   imports: [
     BrowserModule,
     RestangularModule.forRoot(RestangularConfigFactory),
     NgxPermissionsModule.forRoot(),
     AppRoutingModule,
+    NgbModule,
+    NgbPaginationModule,
+    NgbAlertModule,
     ReactiveFormsModule,
     FormsModule
   ],

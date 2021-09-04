@@ -1,36 +1,145 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-8">
-      <div class="card">
-        <div class="row">
-          <div class="col-4">
-            <img src="../../../../assets/img/logo_bvs.png" style="width: 100%">
-          </div>
-          <div class="col-8">
-            <div class="card-body">
-              <h5 class="card-title">Fils d'actualité</h5>
-              <p class="card-text">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda debitis dolorem dolores eos facere in quia, recusandae repudiandae sint sit. Distinctio dolor hic molestias numquam officiis quibusdam recusandae, rerum voluptatem?
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Mot du CEO</h5>
-          <p class="card-text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda debitis dolorem dolores eos facere in quia, recusandae repudiandae sint sit. Distinctio dolor hic molestias numquam officiis quibusdam recusandae, rerum voluptatem?
-          </p>
-          <small>-Guillaume SARRA</small>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="row">
+<!-- Info boxes -->
+<div class="row">
+  <div class="col-12 col-sm-6 col-md-3" routerLink="/admin/list-entity">
+    <div class="info-box">
+      <span class="info-box-icon bg-info elevation-1"><i class="fas fa-hotel"></i></span>
 
+      <div class="info-box-content">
+        <span class="info-box-text">Entités <span class="spinner-grow spinner-grow-sm"
+                                                  style="vertical-align: inherit"
+                                                  *ngIf="show_entity"
+                                                  role="status" aria-hidden="true"></span></span>
+        <span class="info-box-number">{{entities}}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
   </div>
+  <!-- /.col -->
+  <div class="col-12 col-sm-6 col-md-3" routerLink="/admin/list-management">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-building"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Directions <span class="spinner-grow spinner-grow-sm"
+                                                     style="vertical-align: inherit"
+                                                     *ngIf="show_direction"
+                                                     role="status" aria-hidden="true"></span></span>
+        <span class="info-box-number">{{directions}}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+
+  <!-- fix for small devices only -->
+  <div class="clearfix hidden-md-up"></div>
+
+  <div class="col-12 col-sm-6 col-md-3" routerLink="/admin/list-user">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-success elevation-1"><i class="fas fa-user"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Employés <span class="spinner-grow spinner-grow-sm"
+                                                   style="vertical-align: inherit"
+                                                   *ngIf="show_employee"
+                                                   role="status" aria-hidden="true"></span></span>
+        <span class="info-box-number">{{employees}}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+  <div class="col-12 col-sm-6 col-md-3" routerLink="/admin/list-group">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Groupes <span class="spinner-grow spinner-grow-sm"
+                                                  style="vertical-align: inherit"
+                                                  *ngIf="show_group"
+                                                  role="status" aria-hidden="true"></span></span>
+        <span class="info-box-number">{{groups}}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
 </div>
+<!-- /.row -->
+<!-- Info boxes -->
+<div class="row">
+  <div class="col-12 col-sm-6 col-md-3" routerLink="/admin/list-newsletter">
+    <div class="info-box">
+      <span class="info-box-icon bg-info elevation-1"><i class="fas fa-file"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Note d'information <span class="spinner-grow spinner-grow-sm"
+                                                             style="vertical-align: inherit"
+                                                             *ngIf="show_newsletter"
+                                                             role="status" aria-hidden="true"></span></span>
+        <span class="info-box-number">{{informations}}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+  <div class="col-12 col-sm-6 col-md-3" routerLink="/admin/list-newsletter">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-file"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Note de service <span class="spinner-grow spinner-grow-sm"
+                                                          style="vertical-align: inherit"
+                                                          *ngIf="show_newsletter"
+                                                          role="status" aria-hidden="true"></span></span>
+        <span class="info-box-number">{{services}}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+
+  <!-- fix for small devices only -->
+  <div class="clearfix hidden-md-up"></div>
+
+  <div class="col-12 col-sm-6 col-md-3" routerLink="/admin/list-event">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-success elevation-1"><i class="fas fa-calendar-alt"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Evènements <span class="spinner-grow spinner-grow-sm"
+                                                     style="vertical-align: inherit"
+                                                     *ngIf="show_newsletter"
+                                                     role="status" aria-hidden="true"></span></span>
+        <span class="info-box-number">{{events}}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+  <div class="col-12 col-sm-6 col-md-3" routerLink="/admin/suggestion">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-comment-dots"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Suggestions <span class="spinner-grow spinner-grow-sm"
+                                                      style="vertical-align: inherit"
+                                                      *ngIf="show_suggestion"
+                                                      role="status" aria-hidden="true"></span></span>
+        <span class="info-box-number">{{suggestions}}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+</div>
+<!-- /.row -->

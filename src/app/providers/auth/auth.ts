@@ -111,8 +111,8 @@ export class AuthProvider {
   }*/
 
   update_info(credentials: {
-    id: number, first_name?: string, last_name?: string, phone?: string, email?: string,
-    password: string, device_tokens?: string[]
+    id: number, username?: string, has_reset_password?: boolean, status?: string,
+    password?: string, device_tokens?: string[]
   }) {
     return new Promise((resolve, reject) => {
       this.api.restangular.all('auth/update_info').post(credentials)

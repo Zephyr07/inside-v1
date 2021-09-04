@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ApiProvider} from "../../../../providers/api/api";
 import * as _ from 'lodash';
+import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-add-group',
@@ -9,7 +10,16 @@ import * as _ from 'lodash';
   styleUrls: ['./add-group.component.scss']
 })
 export class AddGroupComponent implements OnInit {
-
+  show = false;
+  show_spinnner = false;
+  show_loading = false;
+  show_group = true;
+  show_employee = true;
+  show_direction = true;
+  show_entity = true;
+  public message_toast = "";
+  public success_title = "";
+  closeResult = '';
   public employees:any = [];
   public members:any = [];
   public old_members:any = [];
@@ -20,11 +30,14 @@ export class AddGroupComponent implements OnInit {
   private group:any;
   constructor(
     public route: ActivatedRoute,
+    private router: Router,
+    private modalService: NgbModal,
     private api:ApiProvider
   ) {
     const id:any = this.route.snapshot.paramMap.get('id');
     if(id !== undefined && id != null){
       this.title = "Modification";
+      this.show_spinnner = true;
     }
     this.getEmployees();
     this.group = {
@@ -37,7 +50,8 @@ export class AddGroupComponent implements OnInit {
   }
 
   saveGroup(){
-    if(this.name !== undefined && this.name !== "" && this.description !== undefined && this.description !== "") {
+    if(this.checkForm()) {
+      this.show_loading = true;
       if(this.group.body !== undefined && this.group.body !== null){
         this.group.id = this.group.body.id;
         this.group.name = this.name;
@@ -83,7 +97,7 @@ export class AddGroupComponent implements OnInit {
               // verification si l'utilisateur n'est pas déjà membre
               if(_.find(this.group.body.members,{employee_id:v.id})== undefined) {
                 this.api.Members.post({profile:'member', group_id:d.body.id, employee_id:v.id}).subscribe(()=>{
-                  console.log("membre", v.id, 'créé');
+                  //console.log("membre", v.id, 'créé');
                 }, (e:any)=>{
                   console.log(e);
                 })
@@ -92,11 +106,11 @@ export class AddGroupComponent implements OnInit {
             } else {
               // suppremssion
               const x = _.find(this.group.body.members,{employee_id:v.id});
-              if(x.profile !='owner'){
+              if(x!=undefined && x.profile !='owner'){
                 this.api.Members.get(x.id).subscribe((a:any)=>{
                   a.id = a.body.id;
                   a.remove().subscribe((b:any)=>{
-                    console.log(b);
+                    //console.log(b);
                   }, (e:any)=>{
                     console.log(e);
                   })
@@ -108,7 +122,7 @@ export class AddGroupComponent implements OnInit {
             }
           });
 
-          alert("Groupe modifié");
+          this.openModal("Groupe "+this.name +" mis à jour");
         })
       } else {
         this.api.Groups.post({name:this.name,description:this.description}).subscribe((d:any)=>{
@@ -122,7 +136,7 @@ export class AddGroupComponent implements OnInit {
                 })
               }
             });
-            alert("Group enregistrée");
+            this.openModal("Groupe "+this.name +" créé");
           })
 
         })
@@ -139,7 +153,7 @@ export class AddGroupComponent implements OnInit {
       this.old_members = d.body.members;
       this.group.members = d.body.members;
       this.owner = _.find(d.body.members, {profile:'owner'}).employee.id;
-      console.log(this.owner);
+      this.show_spinnner = false;
       this.group.members.forEach((v:any)=>{
         if(_.find(this.employees,{first_name:v.employee.first_name})!= undefined) {
           let x = _.find(this.employees,{first_name:v.employee.first_name});
@@ -157,11 +171,15 @@ export class AddGroupComponent implements OnInit {
       _sortDir: 'asc'
     };
     this.api.Employees.getList(opt).subscribe((d:any)=>{
+      this.show_employee = false;
       this.employees = d;
       const id:any = this.route.snapshot.paramMap.get('id');
       if(id !== undefined && id != null){
         this.getGroup(parseInt(id));
       }
+    }, (e:any)=>{
+      console.log(e);
+      this.show_employee = false;
     })
   }
 
@@ -169,4 +187,48 @@ export class AddGroupComponent implements OnInit {
     e.check = !e.check;
   }
 
+  checkForm(){
+    if(this.name==undefined || this.name==null || this.name==""){
+      this.message_toast = "Nom absent";
+      this.show = true;
+      return false;
+    } else if(this.description==undefined || this.description==null || this.description==""){
+      this.message_toast = "Description absente";
+      this.show = true;
+      return false;
+    } else if(this.owner==undefined || this.owner==null || this.owner==""){
+      this.message_toast = "Proprietaire absent";
+      this.show = true;
+      return false;
+    } else {
+      this.show = false;
+      return true;
+    }
+  }
+
+  openModal(title:string){
+    this.show_loading = false;
+    this.success_title = title;
+    // @ts-ignore
+    document.getElementById('btnModal').click();
+  }
+
+  open(content:any) {
+    this.modalService.open(content, {size: 'sm', centered: true}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    this.router.navigate(['/admin/list-group']);
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 }

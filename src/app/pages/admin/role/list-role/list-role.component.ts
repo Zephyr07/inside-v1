@@ -2,19 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import {ApiProvider} from "../../../../providers/api/api";
 
 @Component({
-  selector: 'app-list-group',
-  templateUrl: './list-group.component.html',
-  styleUrls: ['./list-group.component.scss']
+  selector: 'app-list-role',
+  templateUrl: './list-role.component.html',
+  styleUrls: ['./list-role.component.scss']
 })
-export class ListGroupComponent implements OnInit {
-
-  public groups : any = [];
+export class ListRoleComponent implements OnInit {
+  public load = false;
+  public roles : any = [];
   public search_text = "";
   public show = true;
   constructor(
     private api : ApiProvider
   ) {
-    this.getGroups();
+    this.getRoles();
   }
 
   ngOnInit(): void {
@@ -24,31 +24,34 @@ export class ListGroupComponent implements OnInit {
 
   }
 
-  getGroups(){
+  getRoles(){
     const opt = {
       should_paginate: false,
       _sort: 'name',
       _sortDir: 'asc',
-      _includes: 'members'
     };
-
-    this.api.Groups.getList(opt).subscribe((d:any)=>{
+    this.api.Roles.getList(opt).subscribe((d:any)=>{
+      this.roles = d;
       this.show = false;
-      this.groups = d;
-    }, (e: any) => {
-      this.show = false;
+    }, (e:any)=>{
       console.log(e);
+      this.show = false;
     })
   }
 
-  deleteGroup(id:number){
-    this.api.Groups.get(id).subscribe((d:any)=>{
+  deleteRole(id:number){
+    this.show = true;
+    this.api.Roles.get(id).subscribe((d:any)=>{
       d.id=d.body.id;
       d.remove().subscribe((a:any)=>{
-        alert('Groupe supprimé');
+        alert('Rôle supprimé');
+        this.getRoles();
       }, (e:any) => {
+        this.show = false;
         console.log(e);
       })
     })
   }
+
+
 }

@@ -9,6 +9,7 @@ import {ApiProvider} from "../../../../providers/api/api";
 export class ListUserComponent implements OnInit {
   public users : any = [];
   public search_text = "";
+  public show = true;
   constructor(
     private api : ApiProvider
   ) {
@@ -31,8 +32,16 @@ export class ListUserComponent implements OnInit {
     };
 
     this.api.Users.getList(opt).subscribe((d:any)=>{
-      console.log(d);
+      this.show = false;
+      d.forEach((v:any)=>{
+        v.first_name = v.employee.first_name;
+        v.last_name = v.employee.last_name;
+        v.title = v.employee.title;
+      })
       this.users = d;
+    }, (e: any) => {
+      this.show = false;
+      console.log(e);
     })
   }
 

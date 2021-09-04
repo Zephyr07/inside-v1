@@ -10,6 +10,7 @@ export class ListManagementComponent implements OnInit {
 
   public managements : any = [];
   public search_text = "";
+  public show = false;
   constructor(
     private api : ApiProvider
   ) {
@@ -24,6 +25,7 @@ export class ListManagementComponent implements OnInit {
   }
 
   getManagements(){
+    this.show = true;
     const opt = {
       should_paginate: false,
       _sort: 'name',
@@ -32,8 +34,11 @@ export class ListManagementComponent implements OnInit {
     };
 
     this.api.Managements.getList(opt).subscribe((d:any)=>{
-      console.log(d);
       this.managements = d;
+      this.show = false;
+    }, (e: any) => {
+      this.show = false;
+      console.log(e);
     })
   }
 

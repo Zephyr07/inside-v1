@@ -1,0 +1,367 @@
+import { Component, OnInit } from '@angular/core';
+import {ApiProvider} from "../../../../providers/api/api";
+import {ModalDismissReasons, NgbCalendar, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ActivatedRoute, Router} from "@angular/router";
+import * as _ from "lodash";
+
+@Component({
+  selector: 'app-add-newsletter',
+  templateUrl: './add-newsletter.component.html',
+  styleUrls: ['./add-newsletter.component.scss']
+})
+export class AddNewsletterComponent implements OnInit {
+  show = false;
+  show_spinnner = false;
+  show_loading = false;
+  show_group = true;
+  show_direction = true;
+  show_entity = true;
+  public message_toast = "";
+  public success_title = "";
+  closeResult = '';
+  public titre ="Nouvelle note";
+  public title ="";
+  public description ="";
+  public location ="";
+  private file_selected = false;
+  public today = this.calendar.getToday();
+  public date:any;
+  public type ="";
+  public fichier ="";
+  public file = new FormData();
+  public directions:any = [];
+  public entities:any = [];
+  public groups:any = [];
+  public newsletter:any;
+  constructor(
+    private api: ApiProvider,
+    public route: ActivatedRoute,
+    private router: Router,
+    private modalService: NgbModal,
+    private calendar: NgbCalendar
+  ) {
+    const id:any = this.route.snapshot.paramMap.get('id');
+    if(id !== undefined && id != null){
+      this.getNewsletter(parseInt(id));
+      this.show_spinnner = true;
+      this.titre = "Modification";
+    } else {
+      this.getManagements();
+      this.getEntities();
+      this.getGroups();
+    }
+  }
+
+  ngOnInit(): void {}
+
+  saveNewsletter(){
+    if(this.checkForm()){
+      this.show_loading = true;
+      if(this.newsletter!=null && this.newsletter!=undefined){
+        // update
+        this.newsletter.id = this.newsletter.body.id;
+        this.newsletter.name = this.title;
+        this.newsletter.description = this.description;
+        this.newsletter.type = this.type;
+        this.newsletter.date = this.date.year+'-'+this.date.month+"-"+this.date.day+' 00:00:00';
+        this.newsletter.put().subscribe((n:any)=>{
+          // traitement du fichier
+          if(this.file_selected){
+            // update du fichier
+            this.file.append('_method', 'PUT');
+            this.api.restangular.all('newsletters/' + n.body.id).customPOST(this.file, undefined, undefined, {'Content-Type': undefined}).subscribe((d:any) => {
+              //console.log('ok', d);
+              this.openModal("Evènement "+this.title + " mis à jour");
+            }, (e:any)=>{
+              console.log(e);
+            });
+          }
+          // traitement des appartenance
+          // traitement des entities
+          this.entities.forEach((v:any)=>{
+            // ajout
+            if(v.check){
+              // verification si l'entitié n'est pas déjà membre
+              if(_.find(this.newsletter.body.newsletter_entities,{entity_id:v.id})== undefined) {
+                this.api.NewsletterEntities.post({entity_id:v.id,newsletter_id:n.body.id}).subscribe(()=>{
+                  console.log("entitié", v.id, 'créé');
+                }, (e:any)=>{
+                  console.log(e);
+                })
+              }
+
+            } else {
+              // suppremssion
+              const x = _.find(this.newsletter.body.newsletter_entities,{entity_id:v.id});
+              if(x!=undefined){
+                this.api.NewsletterEntities.get(x.id).subscribe((a:any)=>{
+                  a.id = a.body.id;
+                  a.remove().subscribe((b:any)=>{
+                    console.log(b);
+                  }, (e:any)=>{
+                    console.log(e);
+                  })
+                })
+              }
+            }
+          });
+          // traitement des direction
+          this.directions.forEach((v:any)=>{
+            // ajout
+            if(v.check){
+              // verification si l'entitié n'est pas déjà membre
+              if(_.find(this.newsletter.body.newsletter_directions,{direction_id:v.id})== undefined) {
+                this.api.NewsletterDirections.post({direction_id:v.id,newsletter_id:n.body.id}).subscribe(()=>{
+                  console.log("direction", v.id, 'créé');
+                }, (e:any)=>{
+                  console.log(e);
+                })
+              }
+
+            } else {
+              // suppremssion
+              const x = _.find(this.newsletter.body.newsletter_directions,{direction_id:v.id});
+              if(x!=undefined){
+                this.api.NewsletterDirections.get(x.id).subscribe((a:any)=>{
+                  a.id = a.body.id;
+                  a.remove().subscribe((b:any)=>{
+                    console.log(b);
+                  }, (e:any)=>{
+                    console.log(e);
+                  })
+                })
+              }
+            }
+          });
+          // traitement des group
+          this.groups.forEach((v:any)=>{
+            // ajout
+            if(v.check){
+              // verification si l'entitié n'est pas déjà membre
+              if(_.find(this.newsletter.body.newsletter_groups,{group_id:v.id})== undefined) {
+                this.api.NewsletterGroups.post({group_id:v.id,newsletter_id:n.body.id}).subscribe(()=>{
+                  console.log("group", v.id, 'créé');
+                }, (e:any)=>{
+                  console.log(e);
+                })
+              }
+
+            } else {
+              // suppremssion
+              const x = _.find(this.newsletter.body.newsletter_groups,{group_id:v.id});
+              if(x!=undefined){
+                this.api.NewsletterGroups.get(x.id).subscribe((a:any)=>{
+                  a.id = a.body.id;
+                  a.remove().subscribe((b:any)=>{
+                    console.log(b);
+                  }, (e:any)=>{
+                    console.log(e);
+                  })
+                })
+              }
+            }
+          });
+        })
+      } else {
+        // creation
+        const opt = {
+          title:this.title,
+          description:this.description,
+          type:this.type,
+          date:this.date.year+'-'+this.date.month+"-"+this.date.day+' 00:00:00'
+        };
+        this.api.Newsletters.post(opt).subscribe((n:any)=>{
+          // enregistremnt du fichier
+          this.file.append('_method', 'PUT');
+          this.api.restangular.all('newsletters/' + n.body.id).customPOST(this.file, undefined, undefined, {'Content-Type': undefined}).subscribe((d:any) => {
+            //console.log('ok', d);
+            this.openModal("Note "+this.title +" créée");
+          }, (e:any)=>{
+            console.log(e);
+          });
+          // affectation entité
+          this.entities.forEach((e:any)=>{
+            if(e.check){
+              this.api.NewsletterEntities.post({entity_id:e.id,newsletter_id:n.body.id});
+              e.check = false;
+            }
+          });
+          // affectation direction
+          this.directions.forEach((e:any)=>{
+            if(e.check){
+              this.api.NewsletterDirections.post({direction_id:e.id,newsletter_id:n.body.id});
+              e.check = false;
+            }
+          });
+          // affectation group
+          this.groups.forEach((e:any)=>{
+            if(e.check){
+              this.api.NewsletterGroups.post({group_id:e.id,newsletter_id:n.body.id});
+              e.check = false;
+            }
+          });
+
+        })
+      }
+    }
+  }
+
+  getNewsletter(id:number){
+    const opt = {
+      _includes: "newsletter_directions.direction,newsletter_groups.group,newsletter_entities.entity"
+    };
+    this.api.Newsletters.get(id,opt).subscribe((d:any)=>{
+      this.newsletter = d;
+      this.title = d.body.title;
+      this.description = d.body.description;
+      this.type = d.body.type;
+      this.fichier = d.body.file;
+      const x = d.body.date.split(" ")[0];
+      this.date = {
+        year: parseInt(x.split("-")[0]),
+        month: parseInt(x.split("-")[1]),
+        day: parseInt(x.split("-")[2]),
+      };
+      this.show_spinnner = false;
+      this.getManagements();
+      this.getEntities();
+      this.getGroups();
+    })
+  }
+
+  getManagements(){
+    const opt = {
+      should_paginate : false,
+      _sort:'name',
+      _sortDir: 'asc'
+    };
+    this.api.Managements.getList(opt).subscribe((d:any)=>{
+      this.directions = d;
+      this.show_direction = false;
+      const id:any = this.route.snapshot.paramMap.get('id');
+      if(id !== undefined && id != null){
+        this.newsletter.body.newsletter_directions.forEach((v:any)=>{
+          if(_.find(this.directions,{id:v.direction_id})!= undefined) {
+            let x = _.find(this.directions,{id:v.direction_id});
+            x.check = true;
+            x.checked = true;
+          }
+        });
+      }
+    }, (e:any)=>{
+      console.log(e);
+    })
+  }
+
+  getGroups(){
+    const opt = {
+      should_paginate : false,
+      _sort:'name',
+      _sortDir: 'asc'
+    };
+    this.api.Groups.getList(opt).subscribe((d:any)=>{
+      this.groups = d;
+      this.show_group = false;
+      const id:any = this.route.snapshot.paramMap.get('id');
+      if(id !== undefined && id != null){
+        this.newsletter.body.newsletter_groups.forEach((v:any)=>{
+          if(_.find(this.groups,{id:v.group_id})!= undefined) {
+            let x = _.find(this.groups,{id:v.group_id});
+            x.check = true;
+            x.checked = true;
+          }
+        });
+      }
+    }, (e:any)=>{
+      console.log(e);
+    })
+  }
+  
+  getEntities(){
+    const opt = {
+      should_paginate : false,
+      _sort:'name',
+      _sortDir: 'asc'
+    };
+    this.api.Entities.getList(opt).subscribe((d:any)=>{
+      this.entities = d;
+      this.show_entity = false;
+      const id:any = this.route.snapshot.paramMap.get('id');
+      if(id !== undefined && id != null){
+        this.newsletter.body.newsletter_entities.forEach((v:any)=>{
+          if(_.find(this.entities,{id:v.entity_id})!= undefined) {
+            let x = _.find(this.entities,{id:v.entity_id});
+            x.check = true;
+            x.checked = true;
+          }
+        });
+      }
+    }, (e:any)=>{
+      console.log(e);
+    })
+  }
+
+  test(e:any){
+    e.check = !e.check;
+  }
+
+  onSelectFile(event:any) {
+    this.file_selected = true;
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    //this.imageSrc = reader.result as string;
+    this.file.append('file', event.target.files[0], event.target.files[0].name);
+    /*reader.onload = () => {
+      this.fichier = reader.result as string;
+    };*/
+  }
+
+  checkForm() {
+    if(this.title==undefined || this.title==null || this.title==""){
+      this.message_toast = "Titre absent";
+      this.show = true;
+      return false;
+    } else if(this.date==undefined || this.date==null || this.date == ""){
+      this.message_toast = "Date absente";
+      this.show = true;
+      return false;
+    } else if(this.description==undefined || this.description==null || this.description==""){
+      this.message_toast = "Description absente";
+      this.show = true;
+      return false;
+    } else if(this.type==undefined || this.type==null || this.type==""){
+      this.message_toast = "type absent";
+      this.show = true;
+      return false;
+    } else {
+      this.show = false;
+      return true;
+    }
+  }
+
+  openModal(title:string){
+    this.show_loading = false;
+    this.success_title = title;
+    // @ts-ignore
+    document.getElementById('btnModal').click();
+  }
+
+  open(content:any) {
+    this.modalService.open(content, {size: 'sm', centered: true}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    this.router.navigate(['/admin/list-newsletter']);
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+}
