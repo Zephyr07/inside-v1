@@ -144,9 +144,12 @@ export class AuthProvider {
   getContext() {
     return   new Promise((resolve, reject) => {
       if (this.isLogged()) {
-        resolve(localStorage.getItem('user'));
+        console.log("a");
+        // @ts-ignore
+        resolve(JSON.parse(localStorage.getItem('user')));
 
       } else {
+        console.log("e");
         reject('not logged');
       }
     });

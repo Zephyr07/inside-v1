@@ -1,0 +1,57 @@
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Liste des suggestions
+            </h3>
+
+            <div class="card-tools">
+              <div class="input-group input-group-sm" style="width: 300px;">
+                <input type="text" name="table_search" [(ngModel)]="search_text" class="form-control float-right" placeholder="Recherche">
+              </div>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body table-responsive p-0" style="max-height: 650px">
+            <div class="progress" *ngIf="show">
+              <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+            </div>
+            <table class="table table-head-fixed text-nowrap">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Employé</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let u of suggestions| filter:{ id:search_text, title: search_text, description: search_text, employee: search_text}: false">
+                <td>{{u.id}}</td>
+                <td>{{u.title}}</td>
+                <td>{{u.description}}</td>
+                <td>{{u.employee}}</td>
+                <td>
+                  <button (click)="deleteSuggestion(u.id)" class="btn btn-danger btn-sm">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
