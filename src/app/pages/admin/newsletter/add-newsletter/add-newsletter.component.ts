@@ -1,13 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {ApiProvider} from "../../../../providers/api/api";
-import {ModalDismissReasons, NgbCalendar, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ModalDismissReasons, NgbCalendar, NgbDatepickerI18n, NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ActivatedRoute, Router} from "@angular/router";
 import * as _ from "lodash";
 
+
+const I18N_VALUES = {
+  'fr': {
+    weekdays: ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di'],
+    months: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Déc'],
+    weekLabel: 'sem'
+  }
+  // other languages you would support
+};
+
+// Define a service holding the language. You probably already have one if your app is i18ned. Or you could also
+// use the Angular LOCALE_ID value
+@Injectable()
+export class I18n {
+  language = 'fr';
+}
+
+// Define custom service providing the months and weekdays translations
+@Injectable()
+export class CustomDatepickerI18n extends NgbDatepickerI18n {
+  constructor(private _i18n: I18n) { super(); }
+
+  getWeekdayLabel(weekday: number): string { // @ts-ignore
+    return I18N_VALUES[this._i18n.language].weekdays[weekday - 1]; }
+  getWeekLabel(): string { // @ts-ignore
+    return I18N_VALUES[this._i18n.language].weekLabel; }
+  getMonthShortName(month: number): string { // @ts-ignore
+    return I18N_VALUES[this._i18n.language].months[month - 1]; }
+  getMonthFullName(month: number): string { return this.getMonthShortName(month); }
+  getDayAriaLabel(date: NgbDateStruct): string { return `${date.day}-${date.month}-${date.year}`; }
+}
 @Component({
   selector: 'app-add-newsletter',
   templateUrl: './add-newsletter.component.html',
-  styleUrls: ['./add-newsletter.component.scss']
+  styleUrls: ['./add-newsletter.component.scss'],
+  providers:
+    [I18n, {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}]  // define custom NgbDatepickerI18n provider
 })
 export class AddNewsletterComponent implements OnInit {
   show = false;

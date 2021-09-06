@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import {RestangularModule} from 'ngx-restangular';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgxPermissionsModule, NgxPermissionsService, NgxRolesService} from 'ngx-permissions';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {API_ENDPOINT} from './services/contants';
 import {ApiProvider} from './providers/api/api';
 import {AuthProvider} from './providers/auth/auth';
@@ -37,6 +38,9 @@ import { SuggestionComponent } from './pages/admin/suggestion/suggestion.compone
 import { ListRoleComponent } from './pages/admin/role/list-role/list-role.component';
 import { AddRoleComponent } from './pages/admin/role/add-role/add-role.component';
 import {PriceFormatPipe} from "./pipe/price-format";
+import {DateFormatPipe} from "./pipe/date-format";
+import { ListNoteComponent } from './pages/list-note/list-note.component';
+import { AnniversaireComponent } from './pages/anniversaire/anniversaire.component';
 
 export function RestangularConfigFactory(RestangularProvider:any) {
   RestangularProvider
@@ -107,12 +111,15 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     ListEventComponent,
     AddEventComponent,
     SuggestionComponent,
+    DateFormatPipe,
     FilterPipe,
     StatutPipe,
     LimitToPipe,
     PriceFormatPipe,
     ListRoleComponent,
-    AddRoleComponent
+    AddRoleComponent,
+    ListNoteComponent,
+    AnniversaireComponent,
   ],
   imports: [
     BrowserModule,
@@ -120,6 +127,7 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     NgxPermissionsModule.forRoot(),
     AppRoutingModule,
     NgbModule,
+    InfiniteScrollModule,
     NgbPaginationModule,
     NgbAlertModule,
     ReactiveFormsModule,

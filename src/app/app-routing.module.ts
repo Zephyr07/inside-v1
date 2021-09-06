@@ -22,6 +22,8 @@ import {AddEventComponent} from "./pages/admin/event/add-event/add-event.compone
 import {SuggestionComponent} from "./pages/admin/suggestion/suggestion.component";
 import {ListRoleComponent} from "./pages/admin/role/list-role/list-role.component";
 import {AddRoleComponent} from "./pages/admin/role/add-role/add-role.component";
+import {ListNoteComponent} from "./pages/list-note/list-note.component";
+import {AnniversaireComponent} from "./pages/anniversaire/anniversaire.component";
 
 const routes: Routes = [
   {
@@ -39,6 +41,14 @@ const routes: Routes = [
       {
         path : 'home',
         component : HomeComponent,
+      },
+      {
+        path : 'note',
+        component : ListNoteComponent,
+      },
+      {
+        path : 'anniversaire',
+        component : AnniversaireComponent,
       },
       {
         path : 'profile',

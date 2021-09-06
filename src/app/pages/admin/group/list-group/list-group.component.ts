@@ -29,11 +29,18 @@ export class ListGroupComponent implements OnInit {
       should_paginate: false,
       _sort: 'name',
       _sortDir: 'asc',
-      _includes: 'members'
+      _includes: 'members.employee'
     };
 
     this.api.Groups.getList(opt).subscribe((d:any)=>{
       this.show = false;
+      d.forEach((g:any)=>{
+        g.members.forEach((v:any)=>{
+          if(v.profile == 'owner'){
+            g.proprio = v.employee.first_name + " " + v.employee.last_name;
+          }
+        })
+      });
       this.groups = d;
     }, (e: any) => {
       this.show = false;

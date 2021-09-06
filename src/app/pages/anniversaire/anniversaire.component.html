@@ -1,0 +1,114 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Anniversaires du personnel
+          <span class="spinner-grow spinner-grow-sm"
+                style="vertical-align: inherit"
+                *ngIf="show_anniv"
+                role="status" aria-hidden="true"></span>
+        </h1>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+  <div class="row">
+    <!-- /.col -->
+    <div class="col-4" *ngFor="let a of anniv">
+      <div class="card shadow">
+        <div class="card-header">
+          <h5 class="card-title">{{a.mois}}</h5>
+          <div class="card-tools">
+            <span class="badge badge-dark">{{a.employee.length}}</span>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body" style="max-height: 300px; overflow-y: auto">
+          <ul class="users-list clearfix">
+            <li *ngFor="let e of a.employee">
+              <img src="{{e.image}}" alt="User Image">
+              <a class="users-list-name" (click)="openModal(e)">{{e.last_name}}</a>
+              <span class="users-list-date">le {{e.jour}}</span>
+            </li>
+          </ul>
+          <!-- /.users-list -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #content let-modal>
+  <div class="card card-widget widget-user shadow">
+    <!-- Add the bg color to the header using any of the bg-* classes -->
+    <div class="widget-user-header bg-info">
+      <h3 class="widget-user-username">{{employee.last_name}} {{employee.first_name}}</h3>
+      <h5 class="widget-user-desc">{{employee.title}}</h5>
+    </div>
+    <div class="widget-user-image">
+      <img class="img-circle elevation-2" src="{{employee.image}}" alt="User Avatar">
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-4 border-right">
+          <div class="description-block">
+            <h5 class="description-header">Poste</h5>
+            <span class="description-text">{{employee.ip_phone |priceFormat}}</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4 border-right">
+          <div class="description-block">
+            <h5 class="description-header">Flotte</h5>
+            <span class="description-text">{{employee.phone |priceFormat}}</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4">
+          <div class="description-block">
+            <h5 class="description-header">Localisation</h5>
+            <span class="description-text">{{employee.location}}</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <div class="card-footer" style="padding-top: 0">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+              <span class="nav-link">
+                Date d'anniversaire <strong><span class="float-right">{{employee.jour}} {{MOIS[employee.mois -1]}}</span></strong>
+              </span>
+        </li>
+        <li class="nav-item">
+              <span class="nav-link">
+                Email <strong><span class="float-right">{{employee.email}}</span></strong>
+              </span>
+        </li>
+        <li class="nav-item">
+              <span class="nav-link">
+                Supérieur <strong><span class="float-right">{{employee.superieur.last_name}} {{employee.superieur.first_name}}</span></strong>
+              </span>
+        </li>
+        <li class="nav-item">
+              <span class="nav-link">
+                Direction <strong><span class="float-right">{{employee.direction.name}}</span></strong>
+              </span>
+        </li>
+        <li class="nav-item">
+              <span class="nav-link">
+                Entité <strong><span class="float-right">{{employee.direction.entity.name}}</span></strong>
+              </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(content)">Launch demo modal</button>

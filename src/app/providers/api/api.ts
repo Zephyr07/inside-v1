@@ -24,6 +24,7 @@ export class ApiProvider {
   public Roles: any = this.restangular.service('roles');
   public Users: any = this.restangular.service('users');
   public Permissions: any = this.restangular.service('permissions');
+  public Posts: any = this.restangular.service('posts');
   public PermissionRoles: any = this.restangular.service('permission_roles');
   public RoleUsers: any = this.restangular.service('role_users');
   public me: any = this.restangular.one('auth/me');

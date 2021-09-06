@@ -55,7 +55,7 @@ export class AddGroupComponent implements OnInit {
       if(this.group.body !== undefined && this.group.body !== null){
         this.group.id = this.group.body.id;
         this.group.name = this.name;
-        this.group.acronym = this.description;
+        this.group.description = this.description;
         //this.group.entity_id = this.des;
         this.group.put().subscribe((d:any)=>{
           // traitement du proprietaire

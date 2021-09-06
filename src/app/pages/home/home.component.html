@@ -1,30 +1,149 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-8">
-      <div class="card">
-        <div class="row">
-          <div class="col-4">
-            <img src="../../../assets/img/logo_bvs.png" style="width: 100%">
-          </div>
-          <div class="col-8">
-            <div class="card-body">
-              <h5 class="card-title">Fils d'actualité</h5>
-              <p class="card-text">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda debitis dolorem dolores eos facere in quia, recusandae repudiandae sint sit. Distinctio dolor hic molestias numquam officiis quibusdam recusandae, rerum voluptatem?
-              </p>
+
+    <div class="col-md-4"
+         infinite-scroll
+         [infiniteScrollDistance]="scrollDistance"
+         [infiniteScrollUpDistance]="scrollUpDistance"
+         [infiniteScrollThrottle]="throttle"
+         (scrolled)="onScrollDown($event)"
+         (scrolledUp)="onUp($event)"
+         [infiniteScrollContainer]="'.main-panel'"
+         [alwaysCallback]="true"
+    >
+      <div class="main-panel" style="max-height: 650px; overflow-y: auto">
+
+        <!-- Box Comment -->
+        <div class="card card-widget shadow" *ngFor="let p of post;trackBy:trackByIndex">
+          <div class="card-header">
+            <div class="user-block">
+              <img class="img-circle" src="{{p.employee.image}}" alt="User Image">
+              <span class="username"><a href="#">{{p.employee.last_name}} {{p.employee.first_name}}</a></span>
+              <span class="description">Publié le {{p.created_at|dateFormat:true}}</span>
             </div>
+            <!-- /.user-block -->
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+            <!-- /.card-tools -->
           </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <img class="img-fluid pad" src="{{p.image}}" alt="Photo">
+
+            <p>{{p.content}}</p>
+            <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
+            <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>
+            <span class="float-right text-muted">127 likes - 3 comments</span>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+    <!-- /.col -->
+    <div class="col-sm-4">
+      <ngb-carousel class="shadow newsletter carousel-fade carousel-dark" [interval]="10000">
+        <ng-template ngbSlide *ngFor="let e of events">
+          <div class="picsum-img-wrapper">
+            <img src="{{e.newsletter.image}}" alt="e.newsletter.title">
+          </div>
+          <div class="carousel-caption" hidden>
+            <h3>{{e.newsletter.title}}</h3>
+            <p>{{e.newsletter.description |limitTo:20}}</p>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+      <div class="card shadow">
+        <div class="card-header">
+          <h5 class="card-title">Anniversaires du mois<span class="spinner-grow spinner-grow-sm"
+                                                            style="vertical-align: inherit"
+                                                            *ngIf="show_anniv"
+                                                            role="status" aria-hidden="true"></span></h5>
+          <div class="card-tools">
+            <span class="badge badge-dark">{{anniv.length}}</span>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body" style="max-height: 250px; overflow-y: auto">
+          <ul class="users-list clearfix">
+            <li *ngFor="let e of anniv">
+              <img src="{{e.image}}" alt="User Image">
+              <a class="users-list-name" href="#">{{e.last_name}}</a>
+              <span class="users-list-date">le {{e.anniv}}</span>
+            </li>
+          </ul>
+          <!-- /.users-list -->
+        </div>
+      </div>
+      <div class="card shadow">
+        <div class="card-header">
+          <h5 class="card-title">Vos groupes <span class="spinner-grow spinner-grow-sm"
+                                                  style="vertical-align: inherit"
+                                                  *ngIf="show_group"
+                                                  role="status" aria-hidden="true"></span></h5>
+          <div class="card-tools">
+            <span class="badge badge-dark">{{group.length}}</span>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body" style="max-height: 250px; overflow-y: auto">
+          <ul class="products-list product-list-in-card pl-2 pr-2">
+            <li class="item" *ngFor="let g of group">
+              <div class="sproduct-info">
+                <a href="javascript:void(0)" class="product-title">{{g.group.name}}</a>
+                <span class="product-description">
+                        {{g.group.description}}
+                      </span>
+              </div>
+            </li>
+          </ul>
+          <!-- /.users-list -->
         </div>
       </div>
     </div>
+
     <div class="col-sm-4">
-      <div class="card">
+      <div class="card shadow">
         <div class="card-body">
           <h5 class="card-title">Mot du CEO</h5>
           <p class="card-text">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda debitis dolorem dolores eos facere in quia, recusandae repudiandae sint sit. Distinctio dolor hic molestias numquam officiis quibusdam recusandae, rerum voluptatem?
           </p>
           <small>-Guillaume SARRA</small>
+        </div>
+      </div>
+      <div class="card shadow">
+        <div class="card-header">
+          <h5 class="card-title">Notes {{entity}} <span class="spinner-grow spinner-grow-sm"
+                                                        style="vertical-align: inherit"
+                                                        *ngIf="show_note"
+                                                        role="status" aria-hidden="true"></span></h5>
+          <div class="card-tools">
+            <span class="badge badge-dark">{{note.length}}</span>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body" style="max-height: 250px; overflow-y: auto">
+          <ul class="products-list product-list-in-card pl-2 pr-2">
+            <li class="item" *ngFor="let n of note">
+              <div class="sproduct-info">
+                <a href="javascript:void(0)" class="product-title">{{n.newsletter.title}}</a>
+                <span class="product-description">
+                        Publié le {{n.newsletter.date |dateFormat:false}}
+                      </span>
+              </div>
+            </li>
+          </ul>
+          <!-- /.users-list -->
         </div>
       </div>
     </div>

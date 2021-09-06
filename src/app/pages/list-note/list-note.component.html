@@ -5,20 +5,12 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Liste des groupes
-
+            <h3 class="card-title">Notes d'informations et de services
             </h3>
 
             <div class="card-tools">
               <div class="input-group input-group-sm" style="width: 300px;">
                 <input type="text" name="table_search" [(ngModel)]="search_text" class="form-control float-right" placeholder="Recherche">
-
-
-                <div class="input-group-append">
-                  <button routerLink="/admin/add-group" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Ajouter
-                  </button>
-                </div>
               </div>
             </div>
           </div>
@@ -33,24 +25,21 @@
                 <th>ID</th>
                 <th>Nom</th>
                 <th>Description</th>
-                <th>Proprietaire</th>
-                <th>Nombre de membre</th>
+                <th>Type</th>
+                <th>Publié le</th>
                 <th>Action</th>
               </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let u of groups| filter:{ id:search_text, name: search_text, description: search_text, proprio: search_text}: false">
+              <tr *ngFor="let u of note| filter:{ id:search_text, title: search_text, description: search_text, type: search_text}: false">
                 <td>{{u.id}}</td>
-                <td>{{u.name}}</td>
-                <td>{{u.description |limitTo:100}}</td>
-                <td>{{u.proprio}}</td>
-                <td>{{u.members.length}}</td>
+                <td>{{u.newsletter.title}}</td>
+                <td>{{u.newsletter.description | limitTo:30}}</td>
+                <td>Note de {{u.newsletter.type}}</td>
+                <td>{{u.newsletter.date|dateFormat:true}}</td>
                 <td>
-                  <button routerLink="/admin/add-group/{{u.id}}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button (click)="deleteGroup(u.id)" class="btn btn-danger btn-sm">
-                    <i class="fas fa-trash"></i>
+                  <button (click)="openModal(u)" class="btn btn-primary btn-sm">
+                    <i class="fas fa-eye"></i>
                   </button>
                 </td>
               </tr>
@@ -68,3 +57,21 @@
   <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Détails de la note</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p><strong>{{detail.newsletter.title}} <br></strong>
+      <small>Publié le {{detail.newsletter.date|dateFormat:true}}</small>
+    </p>
+    <p>{{detail.newsletter.description}}</p>
+    <p>
+      <iframe [src]="detail.fichier" width="100%" height="400px"></iframe>
+    </p>
+  </div>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(content)">Launch demo modal</button>

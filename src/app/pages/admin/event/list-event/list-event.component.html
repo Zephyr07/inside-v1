@@ -42,7 +42,7 @@
               <tr *ngFor="let u of newsletters| filter:{ id:search_text, title: search_text, description: search_text}: false">
                 <td>{{u.id}}</td>
                 <td>{{u.title}}</td>
-                <td>{{u.description}}</td>
+                <td>{{u.description | limitTo:100}}</td>
                 <td>{{u.newsletter_entities.length}}</td>
                 <td>{{u.newsletter_directions.length}}</td>
                 <td>{{u.newsletter_groups.length}}</td>
