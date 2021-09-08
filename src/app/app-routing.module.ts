@@ -24,6 +24,9 @@ import {ListRoleComponent} from "./pages/admin/role/list-role/list-role.componen
 import {AddRoleComponent} from "./pages/admin/role/add-role/add-role.component";
 import {ListNoteComponent} from "./pages/list-note/list-note.component";
 import {AnniversaireComponent} from "./pages/anniversaire/anniversaire.component";
+import {EvenementComponent} from "./pages/evenement/evenement.component";
+import {OrganigrammeComponent} from "./pages/bvs/organigramme/organigramme.component";
+import {GroupeComponent} from "./pages/groupe/groupe.component";
 
 const routes: Routes = [
   {
@@ -39,6 +42,15 @@ const routes: Routes = [
     component : SidemenuComponent,
     children : [
       {
+        path : 'bvs',
+        children: [
+          {
+            path : 'organigramme',
+            component : OrganigrammeComponent
+          }
+        ]
+      },
+      {
         path : 'home',
         component : HomeComponent,
       },
@@ -47,8 +59,16 @@ const routes: Routes = [
         component : ListNoteComponent,
       },
       {
+        path : 'group',
+        component : GroupeComponent,
+      },
+      {
         path : 'anniversaire',
         component : AnniversaireComponent,
+      },
+      {
+        path : 'event',
+        component : EvenementComponent,
       },
       {
         path : 'profile',

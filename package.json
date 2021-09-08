@@ -22,6 +22,8 @@
     "@ng-bootstrap/ng-bootstrap": "~10.0.0",
     "admin-lte": "3.1",
     "bootstrap": "^4.6.0",
+    "highcharts": "^9.2.2",
+    "highcharts-angular": "^2.10.0",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
     "ngx-infinite-scroll": "^10.0.1",

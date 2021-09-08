@@ -1,0 +1,133 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Groupes
+          <span class="spinner-grow spinner-grow-sm"
+                style="vertical-align: inherit"
+                *ngIf="show_group"
+                role="status" aria-hidden="true"></span>
+        </h1>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-12 col-sm-6 col-md-3" *ngFor="let g of group" (click)="openModal(g)">
+      <div class="info-box">
+        <div class="info-box-content">
+        <span class="info-box-text">{{g.name}}</span>
+          <span class="info-box-number">{{g.description |limitTo : 50}}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{detail.name}}</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="nav nav-pills">
+      <li class="nav-item" (click)="state = 'description'"><a class="nav-link" [ngClass]="{'active': state == 'description'}" href="#activity" data-toggle="tab">Description</a></li>
+      <li class="nav-item" (click)="state = 'note'"><a class="nav-link" [ngClass]="{'active': state == 'note'}"  href="#timeline" data-toggle="tab">Notes/Evènements</a></li>
+      <li class="nav-item" (click)="state = 'membre'"><a class="nav-link" [ngClass]="{'active': state == 'membre'}"  href="#settings" data-toggle="tab">Membres</a></li>
+    </ul>
+
+    <div class="modal-body">
+      <div class="tab-content">
+        <div class="active tab-pane" id="activity">
+          {{detail.description}}
+        </div>
+        <!-- /.tab-pane -->
+        <div class="tab-pane" id="timeline">
+          <div class="row">
+            <div class="row">
+              <div class="input-group input-group-sm" style="width: 300px;">
+                <input type="text" name="table_search" [(ngModel)]="search_text" class="form-control float-right" placeholder="Recherche">
+              </div>
+            </div>
+            <table class="table table-head-fixed text-nowrap">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Publié le</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let u of note| filter:{ id:search_text, title: search_text, description: search_text, type: search_text}: false">
+                <td>{{u.id}}</td>
+                <td>{{u.newsletter.title}}</td>
+                <td>{{u.newsletter.description | limitTo:30}}</td>
+                <td>Note de {{u.newsletter.type}}</td>
+                <td>{{u.newsletter.date|dateFormat:true}}</td>
+                <td>
+                  <button (click)="openModal2(u)" class="btn btn-primary btn-sm">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- /.tab-pane -->
+
+        <div class="tab-pane" id="settings">
+          <div class="row">
+            <div class="col-12 col-sm-6" *ngFor="let e of detail.members">
+              <div class="ribbon-wrapper" *ngIf="e.profile == 'owner'">
+                <div class="ribbon bg-primary">
+                  Proprietaire
+                </div>
+              </div>
+              <div class="info-box" style="box-shadow: none">
+                <span class="info-box-icon">
+                  <img src="{{e.employee.image}}" alt="">
+                </span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">{{e.employee.first_name}} {{e.employee.last_name}}</span>
+                  <span class="info-box-number">{{e.employee.title}}</span>
+                </div>
+                <!-- /.info-box-content -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.tab-pane -->
+      </div>
+    </div>
+  </div>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(content)">Launch demo modal</button>
+
+<ng-template #content2 let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title2">Détails de la note</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p><strong>{{news.newsletter.title}} <br></strong>
+      <small>Publié le {{news.newsletter.date|dateFormat:true}}</small>
+    </p>
+    <p>{{news.newsletter.description}}</p>
+    <p>
+      <iframe [src]="news.fichier" width="100%" height="400px"></iframe>
+    </p>
+  </div>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal2" (click)="open(content2)">Launch demo modal</button>

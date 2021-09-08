@@ -27,7 +27,12 @@
           </div>
           <div class="row">
             <div class="col-6 offset-6">
-              <button type="submit" class="btn btn-primary btn-block" (click)="login()">Me connecter</button>
+              <button type="submit" class="btn btn-primary btn-block" (click)="login()">Me connecter
+                <span class="spinner-grow spinner-grow-sm"
+                      style="vertical-align: inherit"
+                      *ngIf="show"
+                      role="status" aria-hidden="true"></span>
+              </button>
             </div>
             <!-- /.col -->
           </div>

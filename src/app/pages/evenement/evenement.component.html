@@ -1,0 +1,52 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Evènements
+          <span class="spinner-grow spinner-grow-sm"
+                style="vertical-align: inherit"
+                *ngIf="show_event"
+                role="status" aria-hidden="true"></span>
+        </h1>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+  <div class="row">
+    <!-- /.col -->
+    <div class="col-4" *ngFor="let e of events">
+      <div class="card shadow-sm" (click)="openModal(e)">
+        <img class="bd-placeholder-img card-img-top" [src]="e.newsletter.image"  width="100%" height="225"  aria-label="Placeholder: Thumbnail">
+
+        <div class="card-body">
+          <p>{{e.newsletter.title}}</p>
+          <p class="card-text">{{e.newsletter.description|limitTo:100}} <span *ngIf="e.newsletter.description.length>100">...</span></p>
+          <div class="d-flex justify-content-between align-items-center">
+            <small class="text-muted">Le {{e.newsletter.date | dateFormat:false}}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Détails de l'évènement</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p><strong>{{detail.newsletter.title}} <br></strong>
+      <small>Le {{detail.newsletter.date|dateFormat:false}}</small>
+    </p>
+    <p>{{detail.newsletter.description}}</p>
+    <p>
+      <img [src]="detail.newsletter.image" width="100%" height="400px">
+    </p>
+  </div>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(content)">Launch demo modal</button>
+
