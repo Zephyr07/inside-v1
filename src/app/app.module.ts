@@ -46,6 +46,7 @@ import { OrganigrammeComponent } from './pages/bvs/organigramme/organigramme.com
 import { HighchartsChartModule } from 'highcharts-angular';
 import { OutputGraphComponent } from './components/output-graph/output-graph.component';
 import { GroupeComponent } from './pages/groupe/groupe.component';
+import { PostComponent } from './pages/post/post.component';
 
 export function RestangularConfigFactory(RestangularProvider:any) {
   RestangularProvider
@@ -129,6 +130,7 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     OrganigrammeComponent,
     OutputGraphComponent,
     GroupeComponent,
+    PostComponent,
   ],
   imports: [
     BrowserModule,

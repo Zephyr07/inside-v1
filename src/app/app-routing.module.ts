@@ -27,6 +27,7 @@ import {AnniversaireComponent} from "./pages/anniversaire/anniversaire.component
 import {EvenementComponent} from "./pages/evenement/evenement.component";
 import {OrganigrammeComponent} from "./pages/bvs/organigramme/organigramme.component";
 import {GroupeComponent} from "./pages/groupe/groupe.component";
+import {PostComponent} from "./pages/post/post.component";
 
 const routes: Routes = [
   {
@@ -53,6 +54,10 @@ const routes: Routes = [
       {
         path : 'home',
         component : HomeComponent,
+      },
+      {
+        path : 'post/:id',
+        component : PostComponent,
       },
       {
         path : 'note',

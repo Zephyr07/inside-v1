@@ -1,47 +1,49 @@
 <div class="container-fluid">
   <div class="row">
 
-    <div class="col-md-4"
-         infinite-scroll
-         [infiniteScrollDistance]="scrollDistance"
-         [infiniteScrollUpDistance]="scrollUpDistance"
-         [infiniteScrollThrottle]="throttle"
-         (scrolled)="onScrollDown($event)"
-         (scrolledUp)="onUp($event)"
-         [infiniteScrollContainer]="'.main-panel'"
-         [alwaysCallback]="true"
-    >
-      <div class="main-panel" style="max-height: 700px; overflow-y: auto; overflow-x: hidden">
-
-        <!-- Box Comment -->
-        <div class="card card-widget shadow" *ngFor="let p of post;trackBy:trackByIndex">
-          <div class="card-header">
-            <div class="user-block">
-              <img class="img-circle" src="{{p.employee.image}}" alt="User Image">
-              <span class="username"><a href="#">{{p.employee.last_name}} {{p.employee.first_name}}</a></span>
-              <span class="description">Publié le {{p.created_at|dateFormat:true}}</span>
-            </div>
-            <!-- /.user-block -->
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-              </button>
-            </div>
-            <!-- /.card-tools -->
+    <div class="col-md-4">
+      <div class="card shadow">
+        <div class="card-header">
+          <h5 class="card-title">Fil d'actualité<span class="spinner-grow spinner-grow-sm"
+                                                            style="vertical-align: inherit"
+                                                            *ngIf="show_post"
+                                                            role="status" aria-hidden="true"></span></h5>
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool">
+              <i class="fas fa-pen"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
           </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-            <img class="img-fluid pad" src="{{p.image}}" alt="Photo">
-
-            <p>{{p.content}}</p>
-            <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
-            <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>
-            <span class="float-right text-muted">127 likes - 3 comments</span>
-          </div>
-          <!-- /.card-body -->
         </div>
-        <!-- /.card -->
+        <div class="card-body" style="max-height: 700px; overflow-y: auto; overflow-x: hidden; padding: 5px">
+          <!-- Box Comment -->
+          <div class="card card-widget" style="box-shadow: none" *ngFor="let p of post;trackBy:trackByIndex" routerLink="/inside/post/{{p.id}}">
+            <div class="card-header">
+              <div class="user-block">
+                <img class="img-circle" src="{{p.employee.image}}" alt="User Image">
+                <span class="username"><a href="#">{{p.employee.last_name}} {{p.employee.first_name}}</a></span>
+                <span class="description">Publié le {{p.created_at|dateFormat:true}}</span>
+              </div>
+              <!-- /.user-block -->
+              <!-- /.card-tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <img class="img-fluid pad" src="{{p.image}}" alt="Photo">
+
+              <p>{{p.content}}</p>
+              <button type="button" class="btn btn-default btn-sm"><i class="fas fa-thumbs-up"></i></button>
+              <span class="float-right text-muted">{{p.comment}} commentaire(s)</span>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+          <button class="btn btn-block btn-outline-primary">Afficher plus</button>
+        </div>
       </div>
+
     </div>
     <!-- /.col -->
     <div class="col-sm-4">
@@ -147,9 +149,5 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="row">
-
   </div>
 </div>

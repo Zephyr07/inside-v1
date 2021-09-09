@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   scrollUpDistance = 2;
   page = 1;
   public post :any = [];
+  public show_post = true;
   public anniv :any = [];
   public show_anniv = true;
   public group :any = [];
@@ -99,11 +100,21 @@ export class HomeComponent implements OnInit {
 
   getPost(){
     const opt = {
+      per_page:10,
+      _sort:'created_at',
+      _sortDir:'desc',
       _includes:'employee'
-    }
+    };
     this.api.Posts.getList(opt).subscribe((p:any)=>{
-      console.log(p);
-      this.post = p;
+      p.forEach((v:any)=>{
+        if(v.post_id==undefined || v.post_id==null){
+          this.post.push(v);
+        }
+        v.comment = _.filter(p,{post_id:v.id}).length;
+      });
+      this.show_post = false;
+      //console.log(p);
+      //this.post = p;
     })
   }
 
