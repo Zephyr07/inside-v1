@@ -1,11 +1,28 @@
 .newsletter{
   img{
     width: 100%;
-    height: 300px;
+    height: 244px;
   }
-  margin-bottom: 1rem;
+  margin-bottom: 0rem;
 }
 
 .item{
   padding: 0;
+}
+
+.bg-bvs{
+  background: url("../../../assets/img/bg_bvs.png") no-repeat center;
+}
+
+.widget-user-2 .widget-user-image > img{
+  height: 65px;
+}
+
+.carousel-control-prev, .carousel-control-next{
+  display: none;
+}
+
+.pad{
+  width: 100%;
+  height: 300px;
 }

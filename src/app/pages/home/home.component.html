@@ -1,77 +1,198 @@
 <div class="container-fluid">
   <div class="row">
+    <div class="col-md-3">
+      <div class="card bg-bvs shadow">
+        <img src="../../../assets/img/logo_03.png" alt="" style="width: 70%; margin:15%">
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8 card-widget widget-user-2">
+              <div class="widget-user-header" style="padding: 0">
+                <div class="widget-user-image">
+                  <img class="img-circle" src="../../../assets/img/EDWARD.jpg" alt="User Avatar">
+                </div>
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username">Name</h3>
+                <h5 class="widget-user-desc">Title</h5>
+              </div>
+              <p class="card-text">
+                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque commodi consequatur distinctio eos,
+                  fugit nihil quam? Debitis deserunt quam repellat tempore veniam. Adipisci aspernatur ipsam ipsum, molestias
+                  fugit nihil quam? Debitis deserunt quam repellat tempore veniam. Adipisci aspernatur ipsam ipsum, molestias
+                  nemo quod recusandae.</span>
+              </p>
+              <button class="btn small btn-outline-primary">Voir plus</button>
+            </div>
+
+            <div class="col-md-4">
+              <ngb-carousel class="shadow newsletter carousel-fade carousel-dark" [interval]="10000">
+                <ng-template ngbSlide *ngFor="let e of events">
+                  <div class="picsum-img-wrapper">
+                    <img src="{{e.newsletter.image}}" alt="e.newsletter.title">
+                  </div>
+                </ng-template>
+              </ngb-carousel>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
 
     <div class="col-md-4">
       <div class="card shadow">
         <div class="card-header">
-          <h5 class="card-title">Fil d'actualité<span class="spinner-grow spinner-grow-sm"
-                                                            style="vertical-align: inherit"
-                                                            *ngIf="show_post"
-                                                            role="status" aria-hidden="true"></span></h5>
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool">
-              <i class="fas fa-pen"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-              <i class="fas fa-minus"></i>
-            </button>
-          </div>
+          <h5 class="card-title">Fil d'actualité <span class="spinner-grow spinner-grow-sm"
+                                                      style="vertical-align: inherit"
+                                                      *ngIf="show_post"
+                                                      role="status" aria-hidden="true"></span></h5>
         </div>
-        <div class="card-body" style="max-height: 700px; overflow-y: auto; overflow-x: hidden; padding: 5px">
-          <!-- Box Comment -->
-          <div class="card card-widget" style="box-shadow: none" *ngFor="let p of post;trackBy:trackByIndex" routerLink="/inside/post/{{p.id}}">
-            <div class="card-header">
-              <div class="user-block">
-                <img class="img-circle" src="{{p.employee.image}}" alt="User Image">
-                <span class="username"><a href="#">{{p.employee.last_name}} {{p.employee.first_name}}</a></span>
-                <span class="description">Publié le {{p.created_at|dateFormat:true}}</span>
-              </div>
-              <!-- /.user-block -->
-              <!-- /.card-tools -->
+        <div class="card-body">
+          <img class="img-fluid img-circle img-sm" src="{{user.employee.image}}" alt="Alt Text">
+          <!-- .img-push is used to add margin to elements next to floating images -->
+          <div class="img-push">
+            <div class="input-group">
+              <input type="text" name="message" placeholder="Quoi de neuf, {{user.employee.last_name}}?"
+                     (click)="openModal()" class="form-control bg-light" >
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-              <img class="img-fluid pad" src="{{p.image}}" alt="Photo">
-
-              <p>{{p.content}}</p>
-              <button type="button" class="btn btn-default btn-sm"><i class="fas fa-thumbs-up"></i></button>
-              <span class="float-right text-muted">{{p.comment}} commentaire(s)</span>
-            </div>
-            <!-- /.card-body -->
           </div>
-          <!-- /.card -->
-          <button class="btn btn-block btn-outline-primary">Afficher plus</button>
         </div>
       </div>
+      <!-- Box Comment -->
+      <div class="main-panel" style="max-height: 600px; overflow-y: auto">
+        <div class="card card-widget shadow" *ngFor="let p of posts">
+          <div class="card-header">
+            <div class="user-block">
+              <img class="img-circle" src="{{p.employee.image}}" alt="User Image">
+              <span class="username"><a href="#">{{p.employee.last_name}} {{p.employee.first_name}}</a></span>
+              <span class="description">Publié le {{p.created_at |dateFormat:true}}</span>
+            </div>
+            <!-- /.user-block -->
+
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <img class="img-fluid pad" *ngIf="p.image!=undefined" src="{{p.image}}" alt="Photo">
+
+            <p>{{p.content}}</p>
+            <button type="button" [ngClass]="{'btn-primary':p.like,'btn-default':!p.like}" class="btn btn-sm" (click)="saveRating(p)"><i class="fas fa-thumbs-up"></i> {{p.ratings.length}}</button>
+            <span class="float-right text-muted"> {{p.posts.length}} commentaire(s)</span>
+          </div>
+          <div class="card-footer card-comments" *ngIf="p.posts.length>0" style="max-height: 200px; overflow-y: auto">
+            <div class="card-comment" *ngFor="let c of p.posts">
+              <!-- User image -->
+              <img class="img-circle img-sm" src="{{c.employee.image}}" alt="User Image">
+
+              <div class="comment-text">
+                    <span class="username">
+                      {{c.employee.last_name}} {{c.employee.first_name}}
+                      <span class="float-right" *ngIf="c.employee.id == user.employee.id" (click)="deleteComment(p,c)">
+                        &nbsp;<i class="fas fa-trash danger"></i>
+                      </span>
+                      <span class="text-muted float-right">{{c.created_at|dateFormat:true}}</span>
+                    </span><!-- /.username -->
+                {{c.content}}
+              </div>
+              <!-- /.comment-text -->
+            </div>
+            <!-- /.card-comment -->
+          </div>
+          <div class="card-footer">
+            <form action="#" method="post">
+              <img class="img-fluid img-circle img-sm" src="{{user.employee.image}}" alt="Alt Text">
+              <!-- .img-push is used to add margin to elements next to floating images -->
+              <div class="img-push">
+                <div class="input-group">
+                  <input type="text" name="message" placeholder="Votre commentaire..." [(ngModel)]="p.commentaire" class="form-control">
+                  <span class="input-group-append">
+                      <button (click)="saveComment(p)" class="btn btn-primary">Envoyer<span class="spinner-grow spinner-grow-sm"
+                                                                                            style="vertical-align: inherit"
+                                                                                            *ngIf="p.show"
+                                                                                            role="status" aria-hidden="true"></span> </button>
+                    </span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card" *ngIf="posts.length>0 && this.page <= this.last_page">
+          <button class="btn btn-block btn-secondary" (click)="getPosts(false)">
+            Afficher plus <span class="spinner-grow spinner-grow-sm"
+                               style="vertical-align: inherit"
+                               *ngIf="show_more_post"
+                               role="status" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <!-- /.card -->
 
     </div>
     <!-- /.col -->
     <div class="col-sm-4">
-      <ngb-carousel class="shadow newsletter carousel-fade carousel-dark" [interval]="10000">
-        <ng-template ngbSlide *ngFor="let e of events">
-          <div class="picsum-img-wrapper">
-            <img src="{{e.newsletter.image}}" alt="e.newsletter.title">
-          </div>
-          <div class="carousel-caption" hidden>
-            <h3>{{e.newsletter.title}}</h3>
-            <p>{{e.newsletter.description |limitTo:20}}</p>
-          </div>
-        </ng-template>
-      </ngb-carousel>
       <div class="card shadow">
         <div class="card-header">
-          <h5 class="card-title">Anniversaires du mois<span class="spinner-grow spinner-grow-sm"
+          <h5 class="card-title">Nouveautés et évènements <span class="spinner-grow spinner-grow-sm"
+                                             style="vertical-align: inherit"
+                                             *ngIf="show_note"
+                                             role="status" aria-hidden="true"></span></h5>
+          <div class="card-tools">
+            <div class="btn btn-outline-primary btn-sm" routerLink="/inside/event">Voir tout</div>
+          </div>
+        </div>
+        <div class="card-body" *ngFor="let e of events" style="padding: 10px;border-bottom: 1px solid #eee; cursor: pointer">
+          <h6 class="card-subtitle text-muted">{{e.newsletter.date|dateFormat:false}}</h6>
+          <p class="card-text">{{e.newsletter.title}}</p>
+        </div>
+      </div>
+      <div class="card shadow">
+        <div class="card-header">
+          <h5 class="card-title">Vos groupes <span class="spinner-grow spinner-grow-sm"
+                                                  style="vertical-align: inherit"
+                                                  *ngIf="show_group"
+                                                  role="status" aria-hidden="true"></span></h5>
+          <div class="card-tools">
+            <div class="btn btn-outline-primary btn-sm">Voir tout</div>
+          </div>
+        </div>
+        <div class="card-body" *ngFor="let g of group" style="padding: 10px;border-bottom: 1px solid #eee; cursor: pointer">
+          <p class="card-text">{{g.group.name}}</p>
+          <h6 class="card-subtitle text-muted">{{g.group.description |limitTo: 100}} <span *ngIf="g.group.description.length>100">...</span></h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="card shadow">
+        <div class="card-header">
+          <h5 class="card-title">Documents <span class="spinner-grow spinner-grow-sm"
+                                                        style="vertical-align: inherit"
+                                                        *ngIf="show_note"
+                                                        role="status" aria-hidden="true"></span></h5>
+          <div class="card-tools">
+            <div class="btn btn-outline-primary btn-sm">Voir tout</div>
+          </div>
+        </div>
+        <div class="card-body" *ngFor="let n of note" style="padding: 10px;border-bottom: 1px solid #eee; cursor: pointer">
+          <p class="card-text">{{n.newsletter.title}}</p>
+          <h6 class="card-subtitle text-muted">Publié le {{n.newsletter.date |dateFormat:false}}</h6>
+        </div>
+      </div>
+      <div class="card shadow bg-gradient-warning">
+        <div class="card-header">
+          <h5 class="card-title">Anniversaires du mois <span class="spinner-grow spinner-grow-sm"
                                                             style="vertical-align: inherit"
                                                             *ngIf="show_anniv"
                                                             role="status" aria-hidden="true"></span></h5>
           <div class="card-tools">
-            <span class="badge badge-dark">{{anniv.length}}</span>
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-              <i class="fas fa-minus"></i>
-            </button>
+            <div class="btn btn-outline-dark btn-sm">Voir tout</div>
           </div>
         </div>
-        <div class="card-body" style="max-height: 250px; overflow-y: auto">
+        <div class="card-body" *ngIf="anniv.length>0" style="max-height: 250px; overflow-y: auto">
           <ul class="users-list clearfix">
             <li *ngFor="let e of anniv">
               <img src="{{e.image}}" alt="User Image">
@@ -82,72 +203,45 @@
           <!-- /.users-list -->
         </div>
       </div>
-      <div class="card shadow">
-        <div class="card-header">
-          <h5 class="card-title">Vos groupes <span class="spinner-grow spinner-grow-sm"
-                                                  style="vertical-align: inherit"
-                                                  *ngIf="show_group"
-                                                  role="status" aria-hidden="true"></span></h5>
-          <div class="card-tools">
-            <span class="badge badge-dark">{{group.length}}</span>
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-              <i class="fas fa-minus"></i>
-            </button>
-          </div>
-        </div>
-        <div class="card-body" style="max-height: 250px; overflow-y: auto">
-          <ul class="products-list product-list-in-card pl-2 pr-2">
-            <li class="item" *ngFor="let g of group">
-              <div class="sproduct-info">
-                <a href="javascript:void(0)" class="product-title">{{g.group.name}}</a>
-                <span class="product-description">
-                        {{g.group.description}}
-                      </span>
-              </div>
-            </li>
-          </ul>
-          <!-- /.users-list -->
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-4">
-      <div class="card shadow">
-        <div class="card-body">
-          <h5 class="card-title">Mot du CEO</h5>
-          <p class="card-text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda debitis dolorem dolores eos facere in quia, recusandae repudiandae sint sit. Distinctio dolor hic molestias numquam officiis quibusdam recusandae, rerum voluptatem?
-          </p>
-          <small>-Guillaume SARRA</small>
-        </div>
-      </div>
-      <div class="card shadow">
-        <div class="card-header">
-          <h5 class="card-title">Notes {{entity}} <span class="spinner-grow spinner-grow-sm"
-                                                        style="vertical-align: inherit"
-                                                        *ngIf="show_note"
-                                                        role="status" aria-hidden="true"></span></h5>
-          <div class="card-tools">
-            <span class="badge badge-dark">{{note.length}}</span>
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-              <i class="fas fa-minus"></i>
-            </button>
-          </div>
-        </div>
-        <div class="card-body" style="max-height: 250px; overflow-y: auto">
-          <ul class="products-list product-list-in-card pl-2 pr-2">
-            <li class="item" *ngFor="let n of note">
-              <div class="sproduct-info">
-                <a href="javascript:void(0)" class="product-title">{{n.newsletter.title}}</a>
-                <span class="product-description">
-                        Publié le {{n.newsletter.date |dateFormat:false}}
-                      </span>
-              </div>
-            </li>
-          </ul>
-          <!-- /.users-list -->
-        </div>
-      </div>
     </div>
   </div>
 </div>
+<ng-template #modalPost let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Nouvelle publication</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-8">
+          <label for="image">Image</label>
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" (change)="onSelectFile($event)" class="custom-file-input" id="image"
+                     accept="image/*"
+              >
+              <label class="custom-file-label">Choisir une image</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <img [src]="imageSrc" *ngIf="imageSrc" style="width:100%; max-height: 200px">
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="name">Contenu</label>
+      <textarea [(ngModel)]="content" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="name" placeholder="Description"></textarea>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="savePost()">Publier <span class="spinner-grow spinner-grow-sm"
+                                                                       style="vertical-align: inherit"
+                                                                       *ngIf="show"
+                                                                       role="status" aria-hidden="true"></span></button>
+  </div>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(modalPost)">Launch demo modal</button>
