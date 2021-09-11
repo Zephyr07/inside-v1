@@ -50,6 +50,8 @@ import { PostComponent } from './pages/post/post.component';
 import { PartenaireComponent } from './pages/bvs/partenaire/partenaire.component';
 import { ListPartnerComponent } from './pages/admin/partner/list-partner/list-partner.component';
 import { AddPartnerComponent } from './pages/admin/partner/add-partner/add-partner.component';
+import { ProduitComponent } from './pages/bvs/produit/produit.component';
+import { DirectionComponent } from './pages/bvs/direction/direction.component';
 
 export function RestangularConfigFactory(RestangularProvider:any) {
   RestangularProvider
@@ -137,6 +139,8 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     PartenaireComponent,
     ListPartnerComponent,
     AddPartnerComponent,
+    ProduitComponent,
+    DirectionComponent,
   ],
   imports: [
     BrowserModule,

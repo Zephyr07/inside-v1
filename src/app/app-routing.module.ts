@@ -31,6 +31,8 @@ import {PostComponent} from "./pages/post/post.component";
 import {PartenaireComponent} from "./pages/bvs/partenaire/partenaire.component";
 import {ListPartnerComponent} from "./pages/admin/partner/list-partner/list-partner.component";
 import {AddPartnerComponent} from "./pages/admin/partner/add-partner/add-partner.component";
+import {ProduitComponent} from "./pages/bvs/produit/produit.component";
+import {DirectionComponent} from "./pages/bvs/direction/direction.component";
 
 const routes: Routes = [
   {
@@ -53,8 +55,16 @@ const routes: Routes = [
             component : OrganigrammeComponent
           },
           {
+            path : 'direction',
+            component : DirectionComponent
+          },
+          {
             path : 'partenaire',
             component : PartenaireComponent
+          },
+          {
+            path : 'produit',
+            component : ProduitComponent
           }
         ]
       },
