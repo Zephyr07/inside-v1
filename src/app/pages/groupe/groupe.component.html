@@ -35,7 +35,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <ul class="nav nav-pills">
+    <ul class="nav nav-tabs">
       <li class="nav-item" (click)="state = 'description'"><a class="nav-link" [ngClass]="{'active': state == 'description'}" href="#activity" data-toggle="tab">Description</a></li>
       <li class="nav-item" (click)="state = 'note'"><a class="nav-link" [ngClass]="{'active': state == 'note'}"  href="#timeline" data-toggle="tab">Notes/Evènements</a></li>
       <li class="nav-item" (click)="state = 'membre'"><a class="nav-link" [ngClass]="{'active': state == 'membre'}"  href="#settings" data-toggle="tab">Membres</a></li>
@@ -49,9 +49,14 @@
         <!-- /.tab-pane -->
         <div class="tab-pane" id="timeline">
           <div class="row">
-            <div class="row">
-              <div class="input-group input-group-sm" style="width: 300px;">
+            <div class="col-12" style="margin-bottom: 5px;">
+              <div class="input-group input-group-sm float-right" style="width: 300px;">
                 <input type="text" name="table_search" [(ngModel)]="search_text" class="form-control float-right" placeholder="Recherche">
+                <div class="input-group-append" *ngIf="detail.owner">
+                  <button (click)="openModal3()" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Ajouter
+                  </button>
+                </div>
               </div>
             </div>
             <table class="table table-head-fixed text-nowrap">
@@ -70,7 +75,9 @@
                 <td>{{u.id}}</td>
                 <td>{{u.newsletter.title}}</td>
                 <td>{{u.newsletter.description | limitTo:30}}</td>
-                <td>Note de {{u.newsletter.type}}</td>
+                <td *ngIf="u.newsletter.type=='information'">Note d'information</td>
+                <td *ngIf="u.newsletter.type=='service'">Note de service</td>
+                <td *ngIf="u.newsletter.type=='event'">Evènement</td>
                 <td>{{u.newsletter.date|dateFormat:true}}</td>
                 <td>
                   <button (click)="openModal2(u)" class="btn btn-primary btn-sm">
@@ -125,9 +132,102 @@
       <small>Publié le {{news.newsletter.date|dateFormat:true}}</small>
     </p>
     <p>{{news.newsletter.description}}</p>
-    <p>
+    <p *ngIf="news.newsletter.type !='event'">
       <iframe [src]="news.fichier" width="100%" height="400px"></iframe>
+    </p>
+    <p *ngIf="news.newsletter.type =='event'">
+      <img [src]="news.newsletter.image" width="100%" height="400px">
     </p>
   </div>
 </ng-template>
 <button hidden class="btn btn-lg btn-outline-primary" id="btnModal2" (click)="open(content2)">Launch demo modal</button>
+
+<ng-template #content3 let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title3">Nouvel évènement/note</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <ngb-toast *ngIf="show" class="bg-danger" [autohide]="false" (hidden)="show=false">
+        <ng-template ngbToastHeader>
+          <strong class="mx-1">Erreur lors de l'enreigstrement</strong>
+        </ng-template>
+        {{message_toast}}
+      </ngb-toast>
+    </div>
+    <div class="form-group">
+      <label for="type">Type</label>
+      <select class="custom-select form-control-border" [(ngModel)]="type" [ngModelOptions]="{standalone: true}" id="type">
+        <option value="event">Evènement</option>
+        <option value="information">Note d'information</option>
+        <option value="service">Note de service</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="username">Titre</label>
+      <input type="text" [(ngModel)]="title" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="username" placeholder="Nom">
+    </div>
+    <div class="form-group">
+      <label for="name">Description</label>
+      <textarea [(ngModel)]="description" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="name" placeholder="Description"></textarea>
+    </div>
+    <div class="form-group" *ngIf="type == 'event'">
+      <label for="location">Lieu</label>
+      <input type="text" [(ngModel)]="location" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="location" placeholder="Lieu">
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <input class="form-control" placeholder="Date de publication"
+               name="dp" [(ngModel)]="date" [ngModelOptions]="{standalone: true}" ngbDatepicker #d="ngbDatepicker"
+               [footerTemplate]="footerTemplate"
+               (click)="d.toggle()">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+            <i class="nav-icon fas fa-calendar"></i>
+          </button>
+        </div>
+        <ng-template #footerTemplate>
+          <hr class="my-0">
+          <button class="btn btn-primary btn-sm m-2 float-left" (click)="date = today; d.close()">Aujourd'hui</button>
+          <button class="btn btn-secondary btn-sm m-2 float-right" (click)="d.close()">Fermer</button>
+        </ng-template>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="type != 'event'">
+      <label for="file">Fichier</label>
+      <br>
+      <label *ngIf="fichier!=''">{{fichier}}</label>
+      <div class="input-group">
+        <input type="file" placeholder="Selectionner un fichicer" (change)="onSelectFile($event)" id="file" accept="image/*, .pdf,.docx,.doc">
+      </div>
+    </div>
+    <div class="form-group"  *ngIf="type == 'event'">
+      <div class="row">
+        <div class="col-4">
+          <img [src]="imageSrc" *ngIf="imageSrc" style="width:100%">
+        </div>
+        <div class="col-8">
+          <label for="image">Image</label>
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" (change)="onSelectImage($event)" class="custom-file-input" id="image"
+                     accept="image/*"
+              >
+              <label class="custom-file-label">Choisir une image</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="btn btn-primary" (click)="saveNewsletter()">Enregistrer <span class="spinner-grow spinner-grow-sm"
+                                                                             style="vertical-align: inherit"
+                                                                             *ngIf="show_loading"
+                                                                             role="status" aria-hidden="true"></span></div>
+  </div>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal3" (click)="open(content3)">Launch demo modal</button>

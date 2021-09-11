@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ApiProvider} from "../../providers/api/api";
 import * as _ from "lodash";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-home',
@@ -10,13 +11,13 @@ import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class HomeComponent implements OnInit {
   public user :any;
-  throttle = 30;
-  scrollDistance = 1;
-  scrollUpDistance = 2;
   page = 1;
   max_length = 0;
   old_max_length = 0;
   last_page = 10000000;
+  public detail : any;
+  public news : any;
+  public state = "description";
   public post :any = [];
   public posts :any = [];
   public show_more_post = false;
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
   public group :any = [];
   public show_group = true;
   public events :any = [];
+  public note_group :any = [];
   public note :any = [];
   public show_note = true;
   public entity = "";
@@ -33,10 +35,12 @@ export class HomeComponent implements OnInit {
   public imageSrc ="";
   public closeResult ="";
   public content ="";
+  public search_text ="";
   private file_selected = false;
   public image = new FormData();
   constructor(
     private modalService: NgbModal,
+    private sanitizer: DomSanitizer,
     private api : ApiProvider
   ) {
     // @ts-ignore
@@ -72,7 +76,7 @@ export class HomeComponent implements OnInit {
       should_paginate: false,
       employee_id : this.user.employee.id,
       profile: 'owner',
-      _includes:'group'
+      _includes:'group.members.employee'
     };
     this.api.Members.getList(opt).subscribe((d:any)=>{
       this.group = d;
@@ -251,8 +255,46 @@ export class HomeComponent implements OnInit {
     document.getElementById('btnModal').click();
   }
 
+  openEvent(n:any){
+    this.detail = n;
+    // @ts-ignore
+    document.getElementById('btnModalEvent').click();
+  }
+
+  openGroup(n:any){
+    this.detail = n;
+    // recupération des notes du groupe d'appartenance
+    let opt = {
+      should_paginate: false,
+      _sort:'updated_at',
+      group_id: n.group.id,
+      _includes: 'newsletter'
+    };
+    this.api.NewsletterGroups.getList(opt).subscribe((e:any)=>{
+      this.note_group = e;
+    }, (e:any)=>{
+      console.log(e);
+    });
+    // @ts-ignore
+    document.getElementById('btnModalGroup').click();
+  }
+
+  openNote(n:any){
+    this.detail = n;
+    this.detail.fichier = this.sanitizer.bypassSecurityTrustResourceUrl(n.newsletter.file);
+    // @ts-ignore
+    document.getElementById('btnModalNote').click();
+  }
+
+  openModal2(n:any){
+    this.news = n;
+    this.news.fichier = this.sanitizer.bypassSecurityTrustResourceUrl(n.newsletter.file);
+    // @ts-ignore
+    document.getElementById('btnModal2').click();
+  }
+
   open(content:any) {
-    this.modalService.open(content, {centered: true,scrollable: true}).result.then((result) => {
+    this.modalService.open(content, {centered: true,scrollable: true,size: 'xl'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

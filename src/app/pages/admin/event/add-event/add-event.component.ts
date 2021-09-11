@@ -211,7 +211,7 @@ export class AddEventComponent implements OnInit {
           this.image.append('_method', 'PUT');
           this.api.restangular.all('newsletters/' + n.body.id).customPOST(this.image, undefined, undefined, {'Content-Type': undefined}).subscribe((d:any) => {
             //console.log('ok', d);
-            this.openModal("Evènement "+this.title +" créée");
+            this.openModal("Evènement "+this.title +" créé");
           }, (e:any)=>{
             console.log(e);
           });
