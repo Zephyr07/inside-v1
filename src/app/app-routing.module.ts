@@ -28,6 +28,9 @@ import {EvenementComponent} from "./pages/evenement/evenement.component";
 import {OrganigrammeComponent} from "./pages/bvs/organigramme/organigramme.component";
 import {GroupeComponent} from "./pages/groupe/groupe.component";
 import {PostComponent} from "./pages/post/post.component";
+import {PartenaireComponent} from "./pages/bvs/partenaire/partenaire.component";
+import {ListPartnerComponent} from "./pages/admin/partner/list-partner/list-partner.component";
+import {AddPartnerComponent} from "./pages/admin/partner/add-partner/add-partner.component";
 
 const routes: Routes = [
   {
@@ -48,6 +51,10 @@ const routes: Routes = [
           {
             path : 'organigramme',
             component : OrganigrammeComponent
+          },
+          {
+            path : 'partenaire',
+            component : PartenaireComponent
           }
         ]
       },
@@ -108,6 +115,18 @@ const routes: Routes = [
       {
         path : 'add-user',
         component : AddUserComponent,
+      },
+      {
+        path : 'list-partner',
+        component : ListPartnerComponent,
+      },
+      {
+        path : 'add-partner/:id',
+        component : AddPartnerComponent,
+      },
+      {
+        path : 'add-partner',
+        component : AddPartnerComponent,
       },
       {
         path : 'list-entity',

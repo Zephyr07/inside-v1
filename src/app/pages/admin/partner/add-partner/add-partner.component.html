@@ -12,7 +12,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a routerLink="/admin/list-management">Liste des directions</a></li>
+          <li class="breadcrumb-item"><a routerLink="/admin/list-partner">Liste des partenaires</a></li>
           <li class="breadcrumb-item active">{{title}}</li>
         </ol>
       </div>
@@ -47,8 +47,16 @@
                 <input type="text" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="username" placeholder="Nom">
               </div>
               <div class="form-group">
-                <label for="name">Sigle</label>
-                <input type="text" [(ngModel)]="acronym" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="name" placeholder="Sigle">
+                <label for="address">Adresse</label>
+                <input type="text" [(ngModel)]="address" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="address" placeholder="Adresse">
+              </div>
+              <div class="form-group">
+                <label for="manager">Responsable</label>
+                <input type="text" [(ngModel)]="manager" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="manager" placeholder="Responsable">
+              </div>
+              <div class="form-group">
+                <label for="phone">Téléphone du responsable</label>
+                <input type="text" [(ngModel)]="phone" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="phone" placeholder="Téléphone">
               </div>
               <div class="form-group">
                 <label for="direction">Entité
@@ -64,7 +72,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-              <button (click)="saveManagement()" class="btn btn-primary">Enregistrer
+              <button (click)="savePartner()" class="btn btn-primary">Enregistrer
                 <span class="spinner-grow spinner-grow-sm"
                       style="vertical-align: inherit"
                       *ngIf="show_loading"

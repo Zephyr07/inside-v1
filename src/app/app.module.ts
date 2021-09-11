@@ -47,6 +47,9 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { OutputGraphComponent } from './components/output-graph/output-graph.component';
 import { GroupeComponent } from './pages/groupe/groupe.component';
 import { PostComponent } from './pages/post/post.component';
+import { PartenaireComponent } from './pages/bvs/partenaire/partenaire.component';
+import { ListPartnerComponent } from './pages/admin/partner/list-partner/list-partner.component';
+import { AddPartnerComponent } from './pages/admin/partner/add-partner/add-partner.component';
 
 export function RestangularConfigFactory(RestangularProvider:any) {
   RestangularProvider
@@ -131,6 +134,9 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     OutputGraphComponent,
     GroupeComponent,
     PostComponent,
+    PartenaireComponent,
+    ListPartnerComponent,
+    AddPartnerComponent,
   ],
   imports: [
     BrowserModule,
