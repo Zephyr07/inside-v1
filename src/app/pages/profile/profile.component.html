@@ -2,44 +2,51 @@
 <section class="content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-4">
 
         <!-- Profile Image -->
         <div class="card card-primary card-outline">
           <div class="card-body box-profile">
             <div class="text-center">
               <img class="profile-user-img img-fluid"
-                   src="../../../assets/img/EDWARD.jpg"
+                   src="{{user.employee.image}}"
                    alt="Edward">
             </div>
 
-            <h3 class="profile-username text-center">Edward NANDA</h3>
+            <h3 class="profile-username text-center">{{user.employee.last_name}} {{user.employee.first_name}}</h3>
 
-            <p class="text-muted text-center">Responsable des Systèmes d'Informatins</p>
+            <p class="text-muted text-center">{{user.employee.title}}</p>
 
             <ul class="list-group list-group-unbordered mb-3">
               <li class="list-group-item">
-                <b>Email</b> <a class="float-right">1,322</a>
+                <b>Email</b> <a class="float-right">{{user.employee.email}}</a>
               </li>
               <li class="list-group-item">
-                <b>Téléphone</b> <a class="float-right">543</a>
+                <b>Téléphone</b> <a class="float-right">{{user.employee.phone|priceFormat}}</a>
               </li>
               <li class="list-group-item">
-                <b>Fixe</b> <a class="float-right">13,287</a>
+                <b>Fixe</b> <a class="float-right">{{user.employee.ip_phone|priceFormat}}</a>
               </li>
               <li class="list-group-item">
-                <b>Entité</b> <a class="float-right">13,287</a>
+                <b>Date de naissance</b> <a class="float-right">{{user.employee.birthday|dateFormat:false|limitTo:(user.employee.birthday|dateFormat:false).length-4}}</a>
+              </li>
+              <li class="list-group-item">
+                <b>Localisation</b> <a class="float-right">{{user.employee.location}}</a>
+              </li>
+              <li class="list-group-item">
+                <b>Supérieur Hiérachique</b> <a class="float-right">{{user.employee.sup.first_name}} {{user.employee.sup.last_name}}</a>
+              </li>
+              <li class="list-group-item">
+                <b>Direction</b> <a class="float-right">{{user.employee.direction.name}}</a>
               </li>
             </ul>
-
-            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
           </div>
           <!-- /.card-body -->
         </div>
         <!-- /.card -->
       </div>
       <!-- /.col -->
-      <div class="col-md-9">
+      <div class="col-md-8" hidden>
         <div class="card">
           <div class="card-header p-2">
             <ul class="nav nav-pills">

@@ -36,7 +36,6 @@ export class DirectionComponent implements OnInit {
     };
 
     this.api.Managements.getList(opt).subscribe((d:any)=>{
-      console.log(d);
       d.forEach((v:any)=>{
         v.employees = _.orderBy(v.employees, 'first_name');
       });

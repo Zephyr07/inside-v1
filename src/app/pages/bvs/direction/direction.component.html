@@ -66,15 +66,16 @@
   </div>
   <div class="modal-body">
     <div class="row">
-      <div class="col-12 col-sm-6" *ngFor="let e of detail.employees">
+      <div class="col-4 col-sm-4" *ngFor="let e of detail.employees">
         <div class="info-box" style="box-shadow: none">
                 <span class="info-box-icon">
                   <img src="{{e.image}}" alt="">
                 </span>
 
-          <div class="info-box-content">
+          <div class="info-box-content" style="line-height: 1.2">
             <span class="info-box-text">{{e.first_name}} {{e.last_name}}</span>
             <span class="info-box-number">{{e.title}}</span>
+            <span class="info-box-number"><i class="fas fa-phone"></i> {{e.ip_phone|priceFormat}} |{{e.phone|priceFormat}}</span>
           </div>
           <!-- /.info-box-content -->
         </div>
