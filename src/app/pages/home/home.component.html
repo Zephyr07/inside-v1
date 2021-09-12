@@ -12,19 +12,16 @@
             <div class="col-md-8 card-widget widget-user-2">
               <div class="widget-user-header" style="padding: 0">
                 <div class="widget-user-image">
-                  <img class="img-circle" src="../../../assets/img/EDWARD.jpg" alt="User Avatar">
+                  <img class="img-circle" src="{{ceo.image}}" alt="User Avatar">
                 </div>
                 <!-- /.widget-user-image -->
                 <h3 class="widget-user-username">Name</h3>
-                <h5 class="widget-user-desc">Title</h5>
+                <h5 class="widget-user-desc">Chief Executor Officer</h5>
               </div>
               <p class="card-text">
-                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque commodi consequatur distinctio eos,
-                  fugit nihil quam? Debitis deserunt quam repellat tempore veniam. Adipisci aspernatur ipsam ipsum, molestias
-                  fugit nihil quam? Debitis deserunt quam repellat tempore veniam. Adipisci aspernatur ipsam ipsum, molestias
-                  nemo quod recusandae.</span>
+                {{ceo.description | limitTo:390}}
               </p>
-              <button class="btn small btn-outline-primary">Voir plus</button>
+              <button class="btn small btn-outline-primary" routerLink="/inside/bvs/ceo">Voir plus</button>
             </div>
 
             <div class="col-md-4">
@@ -135,13 +132,13 @@
     <!-- /.col -->
     <div class="col-sm-4">
       <div class="card shadow">
-        <div class="card-header">
+        <div class="card-header bg-gradient-dark">
           <h5 class="card-title">Nouveautés et évènements <span class="spinner-grow spinner-grow-sm"
                                              style="vertical-align: inherit"
                                              *ngIf="show_note"
                                              role="status" aria-hidden="true"></span></h5>
           <div class="card-tools">
-            <div class="btn btn-outline-primary btn-sm" routerLink="/inside/event">Voir tout</div>
+            <div class="btn btn-outline-light btn-sm" routerLink="/inside/event">Voir tout</div>
           </div>
         </div>
         <div class="card-body" *ngFor="let e of events" style="padding: 10px;border-bottom: 1px solid #eee; cursor: pointer" (click)="openEvent(e)">
@@ -184,8 +181,9 @@
           <h6 class="card-subtitle text-muted">Publié le {{n.newsletter.date |dateFormat:false}}</h6>
         </div>
       </div>
-      <div class="card shadow bg-gradient-warning">
-        <div class="card-header">
+
+      <div class="card shadow">
+        <div class="card-header bg-gradient-warning">
           <h5 class="card-title">Anniversaires du mois <span class="spinner-grow spinner-grow-sm"
                                                             style="vertical-align: inherit"
                                                             *ngIf="show_anniv"
@@ -208,6 +206,10 @@
     </div>
   </div>
 </div>
+
+
+
+<!-- Modal -->
 <ng-template #modalPost let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="modal-basic-title">Nouvelle publication</h5>
@@ -373,7 +375,6 @@
   </div>
 </ng-template>
 <button hidden class="btn btn-lg btn-outline-primary" id="btnModalGroup" (click)="open(modalGroup)">Launch demo modal</button>
-
 
 <ng-template #content2 let-modal>
   <div class="modal-header">

@@ -74,9 +74,6 @@
               </div>
               <div class="form-group">
                 <div class="row">
-                  <div class="col-4">
-                    <img [src]="imageSrc" *ngIf="imageSrc" style="width:100%">
-                  </div>
                   <div class="col-8">
                     <label for="image">Image</label>
                     <div class="input-group">
@@ -87,6 +84,9 @@
                         <label class="custom-file-label">Choisir une image</label>
                       </div>
                     </div>
+                  </div>
+                  <div class="col-4">
+                    <img [src]="imageSrc" *ngIf="imageSrc" style="width:100%">
                   </div>
                 </div>
               </div>

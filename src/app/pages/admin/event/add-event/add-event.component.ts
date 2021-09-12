@@ -251,7 +251,7 @@ export class AddEventComponent implements OnInit {
       this.title = d.body.title;
       this.description = d.body.description;
       this.location = d.body.location;
-      this.fichier = d.body.file;
+      this.imageSrc = d.body.image;
       const x = d.body.date.split(" ")[0];
       this.date = {
         year: parseInt(x.split("-")[0]),

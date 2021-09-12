@@ -52,6 +52,10 @@ import { ListPartnerComponent } from './pages/admin/partner/list-partner/list-pa
 import { AddPartnerComponent } from './pages/admin/partner/add-partner/add-partner.component';
 import { ProduitComponent } from './pages/bvs/produit/produit.component';
 import { DirectionComponent } from './pages/bvs/direction/direction.component';
+import { ListContentComponent } from './pages/admin/content/list-content/list-content.component';
+import { AddContentComponent } from './pages/admin/content/add-content/add-content.component';
+import { HistoireComponent } from './pages/bvs/histoire/histoire.component';
+import { CeoComponent } from './pages/bvs/ceo/ceo.component';
 
 export function RestangularConfigFactory(RestangularProvider:any) {
   RestangularProvider
@@ -141,6 +145,10 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     AddPartnerComponent,
     ProduitComponent,
     DirectionComponent,
+    ListContentComponent,
+    AddContentComponent,
+    HistoireComponent,
+    CeoComponent,
   ],
   imports: [
     BrowserModule,

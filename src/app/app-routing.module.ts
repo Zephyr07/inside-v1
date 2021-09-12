@@ -33,6 +33,10 @@ import {ListPartnerComponent} from "./pages/admin/partner/list-partner/list-part
 import {AddPartnerComponent} from "./pages/admin/partner/add-partner/add-partner.component";
 import {ProduitComponent} from "./pages/bvs/produit/produit.component";
 import {DirectionComponent} from "./pages/bvs/direction/direction.component";
+import {ListContentComponent} from "./pages/admin/content/list-content/list-content.component";
+import {AddContentComponent} from "./pages/admin/content/add-content/add-content.component";
+import {HistoireComponent} from "./pages/bvs/histoire/histoire.component";
+import {CeoComponent} from "./pages/bvs/ceo/ceo.component";
 
 const routes: Routes = [
   {
@@ -53,6 +57,14 @@ const routes: Routes = [
           {
             path : 'organigramme',
             component : OrganigrammeComponent
+          },
+          {
+            path : 'ceo',
+            component : CeoComponent
+          },
+          {
+            path : 'histoire',
+            component : HistoireComponent
           },
           {
             path : 'direction',
@@ -125,6 +137,18 @@ const routes: Routes = [
       {
         path : 'add-user',
         component : AddUserComponent,
+      },
+      {
+        path : 'list-content',
+        component : ListContentComponent,
+      },
+      {
+        path : 'add-content/:id',
+        component : AddContentComponent,
+      },
+      {
+        path : 'add-content',
+        component : AddContentComponent,
       },
       {
         path : 'list-partner',

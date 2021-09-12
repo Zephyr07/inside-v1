@@ -1,0 +1,109 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>{{title}}
+          <span class="spinner-grow spinner-grow-sm"
+                style="vertical-align: inherit"
+                *ngIf="show_spinnner"
+                role="status" aria-hidden="true"></span>
+        </h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/admin/list-content">Liste des contenus</a></li>
+          <li class="breadcrumb-item active">{{titre}}</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form>
+            <div class="card-body">
+              <div>
+                <ngb-toast *ngIf="show" class="bg-danger" [autohide]="false" (hidden)="show=false">
+                  <ng-template ngbToastHeader>
+                    <strong class="mx-1">Erreur lors de l'enreigstrement</strong>
+                  </ng-template>
+                  {{message_toast}}
+                </ngb-toast>
+              </div>
+              <div class="form-group">
+                <label for="title">Titre</label>
+                <input type="text" [(ngModel)]="title" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="title" placeholder="Nom">
+              </div>
+              <div class="form-group">
+                <label for="description">Description</label>
+                <textarea [(ngModel)]="description" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="description" placeholder="Adresse"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="type">Type</label>
+                <select class="custom-select form-control-border" [(ngModel)]="type" [ngModelOptions]="{standalone: true}" id="type">
+                  <option value="ceo">Mot du CEO</option>
+                  <option value="history">Histoire</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-8">
+                    <label for="image">Image</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" (change)="onSelectFile($event)" class="custom-file-input" id="image"
+                               accept="image/*"
+                        >
+                        <label class="custom-file-label">Choisir une image</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <img [src]="imageSrc" *ngIf="imageSrc" style="width:100%">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <button (click)="saveContent()" class="btn btn-primary">Enregistrer
+                <span class="spinner-grow spinner-grow-sm"
+                      style="vertical-align: inherit"
+                      *ngIf="show_loading"
+                      role="status" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!--/.col (left) -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Succès</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{success_title}}.</p>
+  </div>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(content)">Launch demo modal</button>

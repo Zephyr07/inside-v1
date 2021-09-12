@@ -16,6 +16,7 @@ export class ApiProvider {
   public Entities: any = this.restangular.service('entities');
   public Groups: any = this.restangular.service('groups');
   public Members: any = this.restangular.service('members');
+  public Contents: any = this.restangular.service('contents');
   public Newsletters: any = this.restangular.service('newsletters');
   public NewsletterEntities: any = this.restangular.service('newsletter_entities');
   public NewsletterGroups: any = this.restangular.service('newsletter_groups');

@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   public detail : any;
   public news : any;
   public state = "description";
+  public ceo :any = [];
   public post :any = [];
   public posts :any = [];
   public show_more_post = false;
@@ -48,12 +49,18 @@ export class HomeComponent implements OnInit {
     this.getBirthday();
     this.getGroup();
     this.getNote();
+    this.getCeoMessage();
     this.getPosts(true);
   }
 
   ngOnInit(): void {
   }
 
+  getCeoMessage(){
+    this.api.Contents.getList({type:'ceo'}).subscribe((v:any)=>{
+      this.ceo = v[0];
+    })
+  }
   getBirthday(){
     const opt = {
       should_paginate: false,
