@@ -1,0 +1,12 @@
+<div class="info-box" style="box-shadow: none">
+                <span class="info-box-icon">
+                  <img src="{{employee.image}}" alt="">
+                </span>
+
+  <div class="info-box-content" style="line-height: 1.2">
+    <span class="info-box-text">{{employee.first_name}} {{employee.last_name}}</span>
+    <span class="info-box-number">{{employee.title}}</span>
+    <span class="info-box-number"><i class="fas fa-phone"></i> {{employee.ip_phone|priceFormat}} |{{employee.phone|priceFormat}}</span>
+  </div>
+  <!-- /.info-box-content -->
+</div>

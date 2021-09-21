@@ -56,6 +56,9 @@ import { ListContentComponent } from './pages/admin/content/list-content/list-co
 import { AddContentComponent } from './pages/admin/content/add-content/add-content.component';
 import { HistoireComponent } from './pages/bvs/histoire/histoire.component';
 import { CeoComponent } from './pages/bvs/ceo/ceo.component';
+import { EmployeeInfoBoxComponent } from './components/employee-info-box/employee-info-box.component';
+import { EmptyDataComponent } from './components/empty-data/empty-data.component';
+import { EmployeeModalComponent } from './components/employee-modal/employee-modal.component';
 
 export function RestangularConfigFactory(RestangularProvider:any) {
   RestangularProvider
@@ -149,6 +152,9 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     AddContentComponent,
     HistoireComponent,
     CeoComponent,
+    EmployeeInfoBoxComponent,
+    EmptyDataComponent,
+    EmployeeModalComponent,
   ],
   imports: [
     BrowserModule,

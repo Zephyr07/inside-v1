@@ -9,6 +9,11 @@
                 role="status" aria-hidden="true"></span>
         </h1>
       </div>
+      <div class="col-sm-6 text-right">
+        <button routerLink="/admin/add-entity" class="btn btn-outline-dark">
+          <i class="fas fa-plus"></i> Créer un groupe
+        </button>
+      </div>
     </div>
   </div><!-- /.container-fluid -->
 </section>
@@ -99,17 +104,7 @@
                   Proprietaire
                 </div>
               </div>
-              <div class="info-box" style="box-shadow: none">
-                <span class="info-box-icon">
-                  <img src="{{e.employee.image}}" alt="">
-                </span>
-
-                <div class="info-box-content">
-                  <span class="info-box-text">{{e.employee.first_name}} {{e.employee.last_name}}</span>
-                  <span class="info-box-number">{{e.employee.title}}</span>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
+              <app-employee-info-box [employee]="e.employee"></app-employee-info-box>
             </div>
           </div>
         </div>

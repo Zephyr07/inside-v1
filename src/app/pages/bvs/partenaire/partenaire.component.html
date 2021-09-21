@@ -19,7 +19,7 @@
             <div class="progress" *ngIf="show">
               <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
             </div>
-            <table class="table table-head-fixed text-nowrap">
+            <table class="table table-head-fixed text-nowrap" *ngIf="partners.length>0">
               <thead>
               <tr>
                 <th>ID</th>
@@ -41,6 +41,9 @@
               </tr>
               </tbody>
             </table>
+            <app-empty-data
+              *ngIf="partners.length==0 && !show"
+              title="aucun Spiders Lions"></app-empty-data>
           </div>
           <!-- /.card-body -->
         </div>

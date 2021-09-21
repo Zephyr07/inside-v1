@@ -19,7 +19,8 @@
             <div class="progress" *ngIf="show">
               <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
             </div>
-            <table class="table table-head-fixed text-nowrap">
+            <table class="table table-head-fixed text-nowrap"
+            *ngIf="managements.length>0">
               <thead>
               <tr>
                 <th>ID</th>
@@ -45,6 +46,9 @@
               </tr>
               </tbody>
             </table>
+            <app-empty-data
+              *ngIf="managements.length==0 && !show"
+              title="aucune Direction"></app-empty-data>
           </div>
           <!-- /.card-body -->
         </div>
@@ -67,20 +71,9 @@
   <div class="modal-body">
     <div class="row">
       <div class="col-4 col-sm-4" *ngFor="let e of detail.employees">
-        <div class="info-box" style="box-shadow: none">
-                <span class="info-box-icon">
-                  <img src="{{e.image}}" alt="">
-                </span>
-
-          <div class="info-box-content" style="line-height: 1.2">
-            <span class="info-box-text">{{e.first_name}} {{e.last_name}}</span>
-            <span class="info-box-number">{{e.title}}</span>
-            <span class="info-box-number"><i class="fas fa-phone"></i> {{e.ip_phone|priceFormat}} |{{e.phone|priceFormat}}</span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
+        <app-employee-info-box [employee]="e"></app-employee-info-box>
       </div>
     </div>
   </div>
 </ng-template>
-<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(content)">Launch demo modal</button>
+<button hidden class="btn btn-lg btn-outline-dark" id="btnModal" (click)="open(content)">Launch demo modal</button>

@@ -16,11 +16,13 @@ export class HomeComponent implements OnInit {
   old_max_length = 0;
   last_page = 10000000;
   public detail : any;
+  public employee : any;
   public news : any;
   public state = "description";
   public ceo :any = [];
   public post :any = [];
   public posts :any = [];
+  public employees :any = [];
   public show_more_post = false;
   public show_post = true;
   public anniv :any = [];
@@ -54,6 +56,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getEmployees();
   }
 
   getCeoMessage(){
@@ -61,6 +64,27 @@ export class HomeComponent implements OnInit {
       this.ceo = v[0];
     })
   }
+
+  getEmployees(){
+    const opt = {
+      should_paginate:false,
+      _includes:'direction.entity'
+    };
+    this.api.Employees.getList(opt).subscribe((e:any)=>{
+      e.forEach((v:any)=>{
+        if(_.find(e, {id:v.sup_id})!=undefined){
+          v.superieur = _.find(e, {id:v.sup_id});
+        } else {
+          v.superieur = {first_name : 'supérieur hiérachique',
+            last_name:'Aucun'}
+        }
+        v.mois = parseInt(v.birthday.split('-')[1]);
+        v.jour = parseInt(v.birthday.split('-')[2])
+      });
+      this.employees = e;
+    })
+  }
+
   getBirthday(){
     const opt = {
       should_paginate: false,
@@ -83,7 +107,7 @@ export class HomeComponent implements OnInit {
       should_paginate: false,
       employee_id : this.user.employee.id,
       profile: 'owner',
-      _includes:'group.members.employee'
+      _includes:'group.members.employee.direction.entity'
     };
     this.api.Members.getList(opt).subscribe((d:any)=>{
       this.group = d;
@@ -129,6 +153,8 @@ export class HomeComponent implements OnInit {
     if(s){
       // première requète
       this.page = 1;
+      this.posts = [];
+      this.show_post = true;
     } else {
       this.show_more_post = true;
     }
@@ -138,7 +164,7 @@ export class HomeComponent implements OnInit {
         'post_id-nl':true,
         _sort:'created_at',
         _sortDir:'desc',
-        _includes:'employee,posts.employee,ratings',
+        _includes:'employee,posts.employee.direction.entity,ratings',
         page: this.page
       };
       this.api.Posts.getList(opt).subscribe((p:any)=>{
@@ -257,9 +283,15 @@ export class HomeComponent implements OnInit {
     };
   }
 
-  openModal(){
-    // @ts-ignore
-    document.getElementById('btnModal').click();
+  openModal(id?:any,e?:any){
+    if(id){
+      this.employee = _.find(this.employees,{id:e.id});
+      // @ts-ignore
+      document.getElementById(id).click();
+    } else {
+      // @ts-ignore
+      document.getElementById('btnModal').click();
+    }
   }
 
   openEvent(n:any){
@@ -300,12 +332,21 @@ export class HomeComponent implements OnInit {
     document.getElementById('btnModal2').click();
   }
 
-  open(content:any) {
-    this.modalService.open(content, {centered: true,scrollable: true,size: 'xl'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+  open(content:any, size?:any) {
+    if(size){
+      this.modalService.open(content, {centered: true,scrollable: true,size}).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+    } else {
+      this.modalService.open(content, {centered: true,scrollable: true,size: 'xl'}).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+    }
+
   }
 
   private getDismissReason(reason: any): string {

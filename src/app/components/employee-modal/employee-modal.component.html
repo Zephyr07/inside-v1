@@ -1,0 +1,68 @@
+<div class="card card-widget widget-user shadow">
+  <!-- Add the bg color to the header using any of the bg-* classes -->
+  <div class="widget-user-header bg-yellow">
+    <h3 class="widget-user-username">{{employee.last_name}} {{employee.first_name}}</h3>
+    <h5 class="widget-user-desc">{{employee.title}}</h5>
+  </div>
+  <div class="widget-user-image">
+    <img class="img-circle elevation-2" src="{{employee.image}}" alt="User Avatar">
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-4 border-right">
+        <div class="description-block">
+          <h5 class="description-header">Poste</h5>
+          <span class="description-text">{{employee.ip_phone |priceFormat}}</span>
+        </div>
+        <!-- /.description-block -->
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-4 border-right">
+        <div class="description-block">
+          <h5 class="description-header">Flotte</h5>
+          <span class="description-text">{{employee.phone |priceFormat}}</span>
+        </div>
+        <!-- /.description-block -->
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-4">
+        <div class="description-block">
+          <h5 class="description-header">Localisation</h5>
+          <span class="description-text">{{employee.location}}</span>
+        </div>
+        <!-- /.description-block -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <div class="card-footer" style="padding-top: 0">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+              <span class="nav-link">
+                Date d'anniversaire <strong><span class="float-right">{{employee.jour}} {{MOIS[employee.mois -1]}}</span></strong>
+              </span>
+      </li>
+      <li class="nav-item">
+              <span class="nav-link">
+                Email <strong><span class="float-right">{{employee.email}}</span></strong>
+              </span>
+      </li>
+      <li class="nav-item">
+              <span class="nav-link">
+                Supérieur <strong><span class="float-right">{{employee.superieur.last_name}} {{employee.superieur.first_name}}</span></strong>
+              </span>
+      </li>
+      <li class="nav-item">
+              <span class="nav-link">
+                Direction <strong><span class="float-right">{{employee.direction.name}}</span></strong>
+              </span>
+      </li>
+      <li class="nav-item">
+              <span class="nav-link">
+                Entité <strong><span class="float-right">{{employee.direction.entity.name}}</span></strong>
+              </span>
+      </li>
+    </ul>
+  </div>
+</div>

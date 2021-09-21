@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as _ from "lodash";
 import {ApiProvider} from "../../providers/api/api";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {MOIS} from "../../services/contants";
 
 @Component({
   selector: 'app-anniversaire',
@@ -9,7 +10,6 @@ import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./anniversaire.component.scss']
 })
 export class AnniversaireComponent implements OnInit {
-  public MOIS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin','Juillet','Août', 'Septembre','Octobre','Novembre','Decembre'];
   public anniv : any;
   public show_anniv =true;
   public employee:any;
@@ -44,7 +44,7 @@ export class AnniversaireComponent implements OnInit {
       e = _.groupBy(e,'mois');
       for(let x in e){
         this.anniv.push({
-          mois: this.MOIS[parseInt(x)-1],
+          mois: MOIS[parseInt(x)-1],
           employee: e[x]
         })
       }

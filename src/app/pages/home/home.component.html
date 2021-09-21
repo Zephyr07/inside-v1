@@ -21,7 +21,7 @@
               <p class="card-text">
                 {{ceo.description | limitTo:390}}
               </p>
-              <button class="btn small btn-outline-primary" routerLink="/inside/bvs/ceo">Voir plus</button>
+              <button class="btn small btn-outline-dark" routerLink="/inside/bvs/ceo">Voir plus</button>
             </div>
 
             <div class="col-md-4">
@@ -44,10 +44,14 @@
     <div class="col-md-4">
       <div class="card shadow">
         <div class="card-header">
-          <h5 class="card-title">Fils d'actualité <span class="spinner-grow spinner-grow-sm"
-                                                      style="vertical-align: inherit"
-                                                      *ngIf="show_post"
-                                                      role="status" aria-hidden="true"></span></h5>
+          <h5 class="card-title">Fils d'actualité
+            <span (click)="getPosts(true)">
+              <i class="fas fa-sync-alt"></i>
+            </span> &nbsp;
+            <span class="spinner-grow spinner-grow-sm"
+                  style="vertical-align: inherit"
+                  *ngIf="show_post"
+                  role="status" aria-hidden="true"></span></h5>
         </div>
         <div class="card-body">
           <img class="img-fluid img-circle img-sm" src="{{user.employee.image}}" alt="Alt Text">
@@ -66,7 +70,7 @@
           <div class="card-header">
             <div class="user-block">
               <img class="img-circle" src="{{p.employee.image}}" alt="User Image">
-              <span class="username"><a href="#">{{p.employee.last_name}} {{p.employee.first_name}}</a></span>
+              <span class="username"><a class="text-yellow" (click)="openModal('btnModalUser',p.employee)">{{p.employee.last_name}} {{p.employee.first_name}}</a></span>
               <span class="description">Publié le {{p.created_at |dateFormat:true}}</span>
             </div>
             <!-- /.user-block -->
@@ -107,7 +111,7 @@
                 <div class="input-group">
                   <input type="text" name="message" placeholder="Votre commentaire..." [(ngModel)]="p.commentaire" class="form-control">
                   <span class="input-group-append">
-                      <button (click)="saveComment(p)" class="btn btn-primary">Envoyer<span class="spinner-grow spinner-grow-sm"
+                      <button (click)="saveComment(p)" class="btn btn-dark">Envoyer<span class="spinner-grow spinner-grow-sm"
                                                                                             style="vertical-align: inherit"
                                                                                             *ngIf="p.show"
                                                                                             role="status" aria-hidden="true"></span> </button>
@@ -153,7 +157,7 @@
                                                   *ngIf="show_group"
                                                   role="status" aria-hidden="true"></span></h5>
           <div class="card-tools">
-            <div class="btn btn-outline-primary btn-sm" routerLink="/inside/group">Voir tout</div>
+            <div class="btn btn-outline-warning btn-sm" routerLink="/inside/group">Voir tout</div>
           </div>
         </div>
         <div class="card-body" *ngFor="let g of group" style="padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
@@ -172,7 +176,7 @@
                                                         *ngIf="show_note"
                                                         role="status" aria-hidden="true"></span></h5>
           <div class="card-tools">
-            <div class="btn btn-outline-primary btn-sm" routerLink="/inside/note">Voir tout</div>
+            <div class="btn btn-outline-warning btn-sm" routerLink="/inside/note">Voir tout</div>
           </div>
         </div>
         <div class="card-body" *ngFor="let n of note" style="padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
@@ -194,9 +198,9 @@
         </div>
         <div class="card-body" *ngIf="anniv.length>0" style="max-height: 250px; overflow-y: auto">
           <ul class="users-list clearfix">
-            <li *ngFor="let e of anniv">
+            <li *ngFor="let e of anniv" (click)="openModal('btnModalUser',e)">
               <img src="{{e.image}}" alt="User Image">
-              <a class="users-list-name" href="#">{{e.last_name}}</a>
+              <a class="users-list-name">{{e.last_name}}</a>
               <span class="users-list-date">le {{e.anniv}}</span>
             </li>
           </ul>
@@ -242,13 +246,13 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" (click)="savePost()">Publier <span class="spinner-grow spinner-grow-sm"
+    <button class="btn btn-warning" (click)="savePost()">Publier <span class="spinner-grow spinner-grow-sm"
                                                                        style="vertical-align: inherit"
                                                                        *ngIf="show"
                                                                        role="status" aria-hidden="true"></span></button>
   </div>
 </ng-template>
-<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(modalPost)">Launch demo modal</button>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(modalPost,'md')">Launch demo modal</button>
 
 <ng-template #modalEvent let-modal>
   <div class="modal-header">
@@ -297,9 +301,9 @@
   </div>
   <div class="modal-body">
     <ul class="nav nav-tabs">
-      <li class="nav-item" (click)="state = 'description'"><a class="nav-link" [ngClass]="{'active': state == 'description'}" href="#activity" data-toggle="tab">Description</a></li>
-      <li class="nav-item" (click)="state = 'note'"><a class="nav-link" [ngClass]="{'active': state == 'note'}"  href="#timeline" data-toggle="tab">Notes/Evènements</a></li>
-      <li class="nav-item" (click)="state = 'membre'"><a class="nav-link" [ngClass]="{'active': state == 'membre'}"  href="#settings" data-toggle="tab">Membres</a></li>
+      <li class="nav-item" (click)="state = 'description'"><a class="nav-link text-yellow" [ngClass]="{'active': state == 'description'}" href="#activity" data-toggle="tab">Description</a></li>
+      <li class="nav-item" (click)="state = 'note'"><a class="nav-link text-yellow" [ngClass]="{'active': state == 'note'}"  href="#timeline" data-toggle="tab">Notes/Evènements</a></li>
+      <li class="nav-item" (click)="state = 'membre'"><a class="nav-link text-yellow" [ngClass]="{'active': state == 'membre'}"  href="#settings" data-toggle="tab">Membres</a></li>
     </ul>
 
     <div class="modal-body">
@@ -336,7 +340,7 @@
                 <td *ngIf="u.newsletter.type=='event'">Evènement</td>
                 <td>{{u.newsletter.date|dateFormat:true}}</td>
                 <td>
-                  <button (click)="openModal2(u)" class="btn btn-primary btn-sm">
+                  <button (click)="openModal2(u)" class="btn btn-dark btn-sm">
                     <i class="fas fa-eye"></i>
                   </button>
                 </td>
@@ -351,21 +355,11 @@
           <div class="row">
             <div class="col-12 col-sm-6" *ngFor="let e of detail.group.members">
               <div class="ribbon-wrapper" *ngIf="e.profile == 'owner'">
-                <div class="ribbon bg-primary">
+                <div class="ribbon bg-dark">
                   Proprietaire
                 </div>
               </div>
-              <div class="info-box" style="box-shadow: none">
-                <span class="info-box-icon">
-                  <img src="{{e.employee.image}}" alt="">
-                </span>
-
-                <div class="info-box-content">
-                  <span class="info-box-text">{{e.employee.first_name}} {{e.employee.last_name}}</span>
-                  <span class="info-box-number">{{e.employee.title}}</span>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
+              <app-employee-info-box [employee]="e.employee"  (click)="openModal('btnModalUser',e.employee)"></app-employee-info-box>
             </div>
           </div>
         </div>
@@ -397,3 +391,8 @@
   </div>
 </ng-template>
 <button hidden class="btn btn-lg btn-outline-primary" id="btnModal2" (click)="open(content2)">Launch demo modal</button>
+
+<ng-template #modalUser let-modal>
+  <app-employee-modal [employee]="employee"></app-employee-modal>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModalUser" (click)="open(modalUser,'md')">Launch demo modal</button>

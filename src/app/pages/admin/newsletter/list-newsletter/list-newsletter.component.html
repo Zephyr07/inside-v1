@@ -42,13 +42,14 @@
               <tr *ngFor="let u of newsletters| filter:{ id:search_text, title: search_text, description: search_text, type: search_text}: false">
                 <td>{{u.id}}</td>
                 <td>{{u.title}}</td>
-                <td>{{u.description | limitTo:100}}</td>
-                <td>Note de {{u.type}}</td>
+                <td>{{u.description | limitTo:50}}</td>
+                <td *ngIf="u.newsletter.type == 'information'">Note d'information</td>
+                <td *ngIf="u.newsletter.type == 'service'">Note de service</td>
                 <td>{{u.newsletter_entities.length}}</td>
                 <td>{{u.newsletter_directions.length}}</td>
                 <td>{{u.newsletter_groups.length}}</td>
                 <td>
-                  <button routerLink="/admin/add-event/{{u.id}}" class="btn btn-primary btn-sm">
+                  <button routerLink="/admin/add-newsletter/{{u.id}}" class="btn btn-primary btn-sm">
                     <i class="fas fa-edit"></i>
                   </button>
                   <button (click)="deleteNewsletter(u.id)" class="btn btn-danger btn-sm">
