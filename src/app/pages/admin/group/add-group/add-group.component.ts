@@ -20,12 +20,14 @@ export class AddGroupComponent implements OnInit {
   public message_toast = "";
   public success_title = "";
   closeResult = '';
+  public show_bread = true;
   public employees:any = [];
   public members:any = [];
   public old_members:any = [];
   public name = "";
   public description = "";
   public owner = "";
+  public search_text = "";
   public title = "Nouveau groupe";
   private group:any;
   constructor(
@@ -35,6 +37,12 @@ export class AddGroupComponent implements OnInit {
     private api:ApiProvider
   ) {
     const id:any = this.route.snapshot.paramMap.get('id');
+    router.events.subscribe((val:any) => {
+      // see also
+      if(val.url =='/inside/group/edit' || val.url =='/inside/group/edit/'+id){
+        this.show_bread = false;
+      }
+    });
     if(id !== undefined && id != null){
       this.title = "Modification";
       this.show_spinnner = true;
@@ -43,6 +51,7 @@ export class AddGroupComponent implements OnInit {
     this.group = {
       members :[]
     };
+
   }
 
   ngOnInit(): void {
@@ -167,7 +176,7 @@ export class AddGroupComponent implements OnInit {
   async getEmployees(){
     const opt = {
       should_paginate : false,
-      _sort:'last_name',
+      _sort:'first_name',
       _sortDir: 'asc'
     };
     this.api.Employees.getList(opt).subscribe((d:any)=>{

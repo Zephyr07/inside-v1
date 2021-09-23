@@ -10,9 +10,9 @@
                 role="status" aria-hidden="true"></span>
         </h1>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-6" *ngIf="show_bread">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a routerLink="/admin/list-group">Liste des groupes</a></li>
+          <li class="breadcrumb-item"><a routerLink="/admin/list-group" class="text-dark">Liste des groupes</a></li>
           <li class="breadcrumb-item active">{{title}}</li>
         </ol>
       </div>
@@ -27,9 +27,7 @@
       <!-- left column -->
       <div class="col-md-6">
         <!-- general form elements -->
-        <div class="card card-primary">
-          <div class="card-header">
-          </div>
+        <div class="card card-outline card-yellow">
           <!-- /.card-header -->
           <!-- form start -->
           <form>
@@ -50,7 +48,7 @@
                 <label for="name">Description</label>
                 <textarea [(ngModel)]="description" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="name" placeholder="Description"></textarea>
               </div>
-              <div class="form-group">
+              <div class="form-group" *ngIf="show_bread">
                 <label for="direction">Proprietaire
                   <span class="spinner-grow spinner-grow-sm"
                         style="vertical-align: inherit"
@@ -64,7 +62,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-              <button (click)="saveGroup()" class="btn btn-primary">Enregistrer
+              <button (click)="saveGroup()" class="btn btn-warning">Enregistrer
                 <span class="spinner-grow spinner-grow-sm"
                       style="vertical-align: inherit"
                       *ngIf="show_loading"
@@ -79,23 +77,31 @@
       <!-- right column -->
       <div class="col-md-6">
         <!-- general form elements -->
-        <div class="card card-primary">
-          <div class="card-header">
-          </div>
+        <div class="card card-outline card-yellow">
           <!-- /.card-header -->
           <!-- form start -->
           <form>
             <div class="card-body">
               <div class="form-group">
-                <h5>Membres
-                  <span class="spinner-grow spinner-grow-sm"
-                        style="vertical-align: inherit"
-                        *ngIf="show_employee"
-                        role="status" aria-hidden="true"></span>
-                </h5>
-                <div class="custom-control custom-checkbox" *ngFor="let e of employees">
-                  <input class="custom-control-input" [disabled]="owner==e.id" type="checkbox" id="customCheckbox{{e.id}}" checked="{{e.checked}}" (change)="test(e)" value="{{e.check}}">
-                  <label for="customCheckbox{{e.id}}" class="custom-control-label">{{e.first_name}} {{e.last_name}} - {{e.title}}</label>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <h5>Membres
+                      <span class="spinner-grow spinner-grow-sm"
+                            style="vertical-align: inherit"
+                            *ngIf="show_employee"
+                            role="status" aria-hidden="true"></span>
+                    </h5>
+                  </div>
+                  <div class="col-sm-4 offset-2">
+                    <input type="text" name="table_search" [(ngModel)]="search_text" class="form-control float-right" placeholder="Recherche">
+                  </div>
+                </div>
+                <div style="max-height: 450px; overflow-y: scroll">
+                  <div class="custom-control custom-checkbox"
+                       *ngFor="let e of employees| filter:{ id:search_text, last_name: search_text, first_name: search_text}: false">
+                    <input class="custom-control-input" [disabled]="owner==e.id" type="checkbox" id="customCheckbox{{e.id}}" checked="{{e.checked}}" (change)="test(e)" value="{{e.check}}">
+                    <label for="customCheckbox{{e.id}}" class="custom-control-label">{{e.first_name}} {{e.last_name}} - {{e.title}}</label>
+                  </div>
                 </div>
               </div>
             </div>

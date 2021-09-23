@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <div class="card">
+        <div class="card card-outline card-yellow shadow">
           <div class="card-header">
             <h3 class="card-title">Liste des directions
             </h3>
@@ -13,7 +13,7 @@
                 <input type="text" name="table_search" [(ngModel)]="search_text" class="form-control float-right" placeholder="Recherche">
 
                 <div class="input-group-append">
-                  <button routerLink="/admin/add-management" class="btn btn-primary">
+                  <button routerLink="/admin/add-management" class="btn btn-warning">
                     <i class="fas fa-plus"></i> Ajouter
                   </button>
                 </div>
@@ -46,7 +46,7 @@
                 <td>{{e.created_at}}</td>
                 <td>{{e.updated_at}}</td>
                 <td>
-                  <button routerLink="/admin/add-management/{{e.id}}" class="btn btn-primary btn-sm">
+                  <button routerLink="/admin/add-management/{{e.id}}" class="btn btn-dark btn-sm">
                     <i class="fas fa-edit"></i>
                   </button>
                   <button (click)="deleteManagement(e.id)" class="btn btn-danger btn-sm">

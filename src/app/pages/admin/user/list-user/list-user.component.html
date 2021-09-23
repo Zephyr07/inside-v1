@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <div class="card">
+        <div class="card card-outline card-yellow shadow">
           <div class="card-header">
             <h3 class="card-title">Liste des utilisateurs
 
@@ -15,7 +15,7 @@
 
 
                 <div class="input-group-append">
-                  <button routerLink="/admin/add-user" class="btn btn-primary">
+                  <button routerLink="/admin/add-user" class="btn btn-warning">
                     <i class="fas fa-plus"></i> Ajouter
                   </button>
                 </div>
@@ -45,13 +45,13 @@
                 <td>{{u.username}}</td>
                 <td>{{u.first_name}}</td>
                 <td>{{u.last_name}}</td>
-                <td>{{u.title}}</td>
+                <td>{{u.title|limitTo:30}}</td>
                 <td>{{u.status |status}}</td>
                 <td>
                   <button (click)="resetPassword(u)" class="btn btn-warning btn-sm">
                     <i class="fas fa-key"></i>
                   </button>
-                  <button routerLink="/admin/add-user/{{u.id}}" class="btn btn-primary btn-sm">
+                  <button routerLink="/admin/add-user/{{u.id}}" class="btn btn-dark btn-sm">
                     <i class="fas fa-edit"></i>
                   </button>
                   <button [disabled]="u.username == 'bvnand01'" (click)="deleteUser(u.id)" class="btn btn-danger btn-sm">

@@ -9,6 +9,9 @@
                 role="status" aria-hidden="true"></span>
         </h1>
       </div>
+      <div class="col-sm-3 offset-3">
+        <input type="text" name="table_search" [(ngModel)]="search_text" class="form-control float-right" placeholder="Recherche">
+      </div>
     </div>
   </div><!-- /.container-fluid -->
 </section>
@@ -17,9 +20,9 @@
   <div class="row">
     <!-- /.col -->
     <div class="col-4" *ngFor="let a of anniv">
-      <div class="card shadow">
+      <div class="card shadow card-outline card-yellow">
         <div class="card-header">
-          <h5 class="card-title">{{a.mois}}</h5>
+          <h5 class="card-title text-yellow">{{a.mois}}</h5>
           <div class="card-tools">
             <span class="badge badge-dark">{{a.employee.length}}</span>
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -27,11 +30,11 @@
             </button>
           </div>
         </div>
-        <div class="card-body" style="max-height: 300px; overflow-y: auto">
-          <ul class="users-list clearfix">
-            <li *ngFor="let e of a.employee" (click)="openModal(e)">
+        <div class="card-body" style="max-height: 370px; overflow-y: auto">
+          <ul class="users-list clearfix row">
+            <li *ngFor="let e of a.employee| filter:{ id:search_text, nom: search_text, last_name: search_text, first_name: search_text}: false" (click)="openModal(e)">
               <img src="{{e.image}}" alt="User Image">
-              <a class="users-list-name">{{e.last_name}}</a>
+              <a class="users-list-name">{{e.nom}}</a>
               <span class="users-list-date">le {{e.jour}}</span>
             </li>
           </ul>

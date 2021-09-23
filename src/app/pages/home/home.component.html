@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="col-md-9">
-      <div class="card shadow">
+      <div class="card card-outline card-yellow shadow">
         <div class="card-body">
           <div class="row">
             <div class="col-md-8 card-widget widget-user-2">
@@ -15,13 +15,13 @@
                   <img class="img-circle" src="{{ceo.image}}" alt="User Avatar">
                 </div>
                 <!-- /.widget-user-image -->
-                <h3 class="widget-user-username">Name</h3>
+                <h3 class="widget-user-username">Guillaume SARRA</h3>
                 <h5 class="widget-user-desc">Chief Executor Officer</h5>
               </div>
               <p class="card-text">
                 {{ceo.description | limitTo:390}}
               </p>
-              <button class="btn small btn-outline-dark" routerLink="/inside/bvs/ceo">Voir plus</button>
+              <button class="btn small btn-outline-dark btn-sm" routerLink="/inside/bvs/ceo">Voir plus</button>
             </div>
 
             <div class="col-md-4">
@@ -42,7 +42,7 @@
   <div class="row">
 
     <div class="col-md-4">
-      <div class="card shadow">
+      <div class="card card-outline card-yellow shadow">
         <div class="card-header">
           <h5 class="card-title">Fils d'actualité
             <span (click)="getPosts(true)">
@@ -81,7 +81,7 @@
             <img class="img-fluid pad" *ngIf="p.image!=undefined" src="{{p.image}}" alt="Photo">
 
             <p>{{p.content}}</p>
-            <button type="button" [ngClass]="{'btn-primary':p.like,'btn-default':!p.like}" class="btn btn-sm" (click)="saveRating(p)"><i class="fas fa-thumbs-up"></i> {{p.ratings.length}}</button>
+            <button type="button" [ngClass]="{'btn-warning':p.like,'btn-default':!p.like}" class="btn btn-sm" (click)="saveRating(p)"><i class="fas fa-thumbs-up"></i> {{p.ratings.length}}</button>
             <span class="float-right text-muted"> {{p.posts.length}} commentaire(s)</span>
           </div>
           <div class="card-footer card-comments" *ngIf="p.posts.length>0" style="max-height: 200px; overflow-y: auto">
@@ -135,32 +135,32 @@
     </div>
     <!-- /.col -->
     <div class="col-sm-4">
-      <div class="card shadow">
+      <div class="card card-outline card-yellow shadow">
         <div class="card-header bg-gradient-dark">
           <h5 class="card-title">Nouveautés et évènements <span class="spinner-grow spinner-grow-sm"
                                              style="vertical-align: inherit"
                                              *ngIf="show_note"
                                              role="status" aria-hidden="true"></span></h5>
           <div class="card-tools">
-            <div class="btn btn-outline-light btn-sm" routerLink="/inside/event">Voir tout</div>
+            <div class="btn btn-warning btn-sm" routerLink="/inside/event">Voir tout</div>
           </div>
         </div>
-        <div class="card-body" *ngFor="let e of events" style="padding: 10px;border-bottom: 1px solid #eee; cursor: pointer" (click)="openEvent(e)">
+        <div class="card-body" *ngFor="let e of events" style="max-height: 3700px; overflow-y: auto;padding: 10px;border-bottom: 1px solid #eee; cursor: pointer" (click)="openEvent(e)">
           <h6 class="card-subtitle text-muted">{{e.newsletter.date|dateFormat:false}}</h6>
           <p class="card-text">{{e.newsletter.title}}</p>
         </div>
       </div>
-      <div class="card shadow">
+      <div class="card card-outline card-yellow shadow">
         <div class="card-header">
           <h5 class="card-title">Vos groupes <span class="spinner-grow spinner-grow-sm"
                                                   style="vertical-align: inherit"
                                                   *ngIf="show_group"
                                                   role="status" aria-hidden="true"></span></h5>
           <div class="card-tools">
-            <div class="btn btn-outline-warning btn-sm" routerLink="/inside/group">Voir tout</div>
+            <div class="btn btn-dark btn-sm" routerLink="/inside/group">Voir tout</div>
           </div>
         </div>
-        <div class="card-body" *ngFor="let g of group" style="padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
+        <div class="card-body" *ngFor="let g of group" style="max-height: 3700px; overflow-y: auto;padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
         (click)="openGroup(g)">
           <p class="card-text">{{g.group.name}}</p>
           <h6 class="card-subtitle text-muted">{{g.group.description |limitTo: 100}} <span *ngIf="g.group.description.length>100">...</span></h6>
@@ -169,35 +169,35 @@
     </div>
 
     <div class="col-sm-4">
-      <div class="card shadow">
+      <div class="card card-outline card-yellow shadow">
         <div class="card-header">
           <h5 class="card-title">Documents <span class="spinner-grow spinner-grow-sm"
                                                         style="vertical-align: inherit"
                                                         *ngIf="show_note"
                                                         role="status" aria-hidden="true"></span></h5>
           <div class="card-tools">
-            <div class="btn btn-outline-warning btn-sm" routerLink="/inside/note">Voir tout</div>
+            <div class="btn btn-dark btn-sm" routerLink="/inside/note">Voir tout</div>
           </div>
         </div>
-        <div class="card-body" *ngFor="let n of note" style="padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
+        <div class="card-body" *ngFor="let n of note" style="max-height: 3700px; overflow-y: auto;padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
         (click)="openNote(n)">
           <p class="card-text">{{n.newsletter.title}}</p>
           <h6 class="card-subtitle text-muted">Publié le {{n.newsletter.date |dateFormat:false}}</h6>
         </div>
       </div>
 
-      <div class="card shadow">
+      <div class="card card-outline card-dark shadow">
         <div class="card-header bg-gradient-warning">
           <h5 class="card-title">Anniversaires du mois <span class="spinner-grow spinner-grow-sm"
                                                             style="vertical-align: inherit"
                                                             *ngIf="show_anniv"
                                                             role="status" aria-hidden="true"></span></h5>
           <div class="card-tools">
-            <div class="btn btn-outline-dark btn-sm" routerLink="/inside/anniversaire">Voir tout</div>
+            <div class="btn btn-dark btn-sm" routerLink="/inside/anniversaire">Voir tout</div>
           </div>
         </div>
-        <div class="card-body" *ngIf="anniv.length>0" style="max-height: 250px; overflow-y: auto">
-          <ul class="users-list clearfix">
+        <div class="card-body" *ngIf="anniv.length>0" style="max-height: 3700px; overflow-y: auto">
+          <ul class="users-list clearfix row">
             <li *ngFor="let e of anniv" (click)="openModal('btnModalUser',e)">
               <img src="{{e.image}}" alt="User Image">
               <a class="users-list-name">{{e.last_name}}</a>
@@ -217,7 +217,7 @@
 <ng-template #modalPost let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="modal-basic-title">Nouvelle publication</h5>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <button type="button" class="close" id="closePost" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -246,7 +246,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-warning" (click)="savePost()">Publier <span class="spinner-grow spinner-grow-sm"
+    <button class="btn btn-warning" (click)="savePost()" [disabled]="content==''">Publier <span class="spinner-grow spinner-grow-sm"
                                                                        style="vertical-align: inherit"
                                                                        *ngIf="show"
                                                                        role="status" aria-hidden="true"></span></button>
@@ -301,9 +301,9 @@
   </div>
   <div class="modal-body">
     <ul class="nav nav-tabs">
-      <li class="nav-item" (click)="state = 'description'"><a class="nav-link text-yellow" [ngClass]="{'active': state == 'description'}" href="#activity" data-toggle="tab">Description</a></li>
-      <li class="nav-item" (click)="state = 'note'"><a class="nav-link text-yellow" [ngClass]="{'active': state == 'note'}"  href="#timeline" data-toggle="tab">Notes/Evènements</a></li>
-      <li class="nav-item" (click)="state = 'membre'"><a class="nav-link text-yellow" [ngClass]="{'active': state == 'membre'}"  href="#settings" data-toggle="tab">Membres</a></li>
+      <li class="nav-item" (click)="state = 'description'"><a class="nav-link text-dark" [ngClass]="{' bg-yellow': state == 'description'}" href="#activity" data-toggle="tab">Description</a></li>
+      <li class="nav-item" (click)="state = 'note'"><a class="nav-link text-dark" [ngClass]="{' bg-yellow': state == 'note'}"  href="#timeline" data-toggle="tab">Notes/Evènements</a></li>
+      <li class="nav-item" (click)="state = 'membre'"><a class="nav-link text-dark" [ngClass]="{' bg-yellow': state == 'membre'}"  href="#settings" data-toggle="tab">Membres</a></li>
     </ul>
 
     <div class="modal-body">
@@ -353,7 +353,7 @@
 
         <div class="tab-pane" id="settings">
           <div class="row">
-            <div class="col-12 col-sm-6" *ngFor="let e of detail.group.members">
+            <div class="col-12 col-sm-4" *ngFor="let e of detail.group.members">
               <div class="ribbon-wrapper" *ngIf="e.profile == 'owner'">
                 <div class="ribbon bg-dark">
                   Proprietaire

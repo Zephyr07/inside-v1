@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthProvider} from "../../../providers/auth/auth";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-menu',
@@ -9,10 +9,15 @@ import {Router} from "@angular/router";
 })
 export class MenuComponent implements OnInit {
   public user:any;
+  public current_url = "";
   constructor(
     private auth: AuthProvider,
     private router: Router,
   ) {
+    router.events.subscribe((val:any) => {
+      // see also
+      this.current_url = val.url;
+    });
     this.auth.getContext().then((d:any)=>{
       this.user = d;
     }, (e:any)=>{

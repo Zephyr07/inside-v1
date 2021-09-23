@@ -43,8 +43,6 @@ import { ListNoteComponent } from './pages/list-note/list-note.component';
 import { AnniversaireComponent } from './pages/anniversaire/anniversaire.component';
 import { EvenementComponent } from './pages/evenement/evenement.component';
 import { OrganigrammeComponent } from './pages/bvs/organigramme/organigramme.component';
-import { HighchartsChartModule } from 'highcharts-angular';
-import { OutputGraphComponent } from './components/output-graph/output-graph.component';
 import { GroupeComponent } from './pages/groupe/groupe.component';
 import { PostComponent } from './pages/post/post.component';
 import { PartenaireComponent } from './pages/bvs/partenaire/partenaire.component';
@@ -59,6 +57,8 @@ import { CeoComponent } from './pages/bvs/ceo/ceo.component';
 import { EmployeeInfoBoxComponent } from './components/employee-info-box/employee-info-box.component';
 import { EmptyDataComponent } from './components/empty-data/empty-data.component';
 import { EmployeeModalComponent } from './components/employee-modal/employee-modal.component';
+import { AnnuaireComponent } from './pages/bvs/annuaire/annuaire.component';
+import { SearchComponent } from './pages/search/search.component';
 
 export function RestangularConfigFactory(RestangularProvider:any) {
   RestangularProvider
@@ -140,7 +140,6 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     AnniversaireComponent,
     EvenementComponent,
     OrganigrammeComponent,
-    OutputGraphComponent,
     GroupeComponent,
     PostComponent,
     PartenaireComponent,
@@ -155,6 +154,8 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     EmployeeInfoBoxComponent,
     EmptyDataComponent,
     EmployeeModalComponent,
+    AnnuaireComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -164,7 +165,6 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     NgbModule,
     InfiniteScrollModule,
     NgbPaginationModule,
-    HighchartsChartModule,
     NgbAlertModule,
     ReactiveFormsModule,
     FormsModule

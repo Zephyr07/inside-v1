@@ -7,3 +7,14 @@
 body{
   background: #343a40;
 }
+
+.content-wrapper{
+  background: url(assets/img/bg_inside_low.png) no-repeat;
+  background-size: cover;
+}
+.custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before,
+.custom-control-input:checked ~ .custom-control-label::before{
+  border-color: #000;
+  background-color: #000;
+
+}

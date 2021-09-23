@@ -12,7 +12,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a routerLink="/admin/list-management">Liste des directions</a></li>
+          <li class="breadcrumb-item"><a routerLink="/admin/list-management" class="text-dark">Liste des directions</a></li>
           <li class="breadcrumb-item active">{{title}}</li>
         </ol>
       </div>
@@ -27,9 +27,7 @@
       <!-- left column -->
       <div class="col-md-6">
         <!-- general form elements -->
-        <div class="card card-primary">
-          <div class="card-header">
-          </div>
+        <div class="card card-outline card-yellow shadow">
           <!-- /.card-header -->
           <!-- form start -->
           <form>
@@ -64,7 +62,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-              <button (click)="saveManagement()" class="btn btn-primary">Enregistrer
+              <button (click)="saveManagement()" class="btn btn-warning">Enregistrer
                 <span class="spinner-grow spinner-grow-sm"
                       style="vertical-align: inherit"
                       *ngIf="show_loading"

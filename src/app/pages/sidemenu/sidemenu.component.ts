@@ -9,10 +9,15 @@ import {Router} from "@angular/router";
 })
 export class SidemenuComponent implements OnInit {
   public user:any;
+  public current_url = "";
   constructor(
     private auth: AuthProvider,
     private router: Router,
   ) {
+    router.events.subscribe((val:any) => {
+      // see also
+      this.current_url = val.url;
+    });
     this.auth.getContext().then((d:any)=>{
       this.user = d;
     }, (e:any)=>{

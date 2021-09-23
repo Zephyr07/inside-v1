@@ -106,96 +106,15 @@ export class AddEventComponent implements OnInit {
             this.image.append('_method', 'PUT');
             this.api.restangular.all('newsletters/' + n.body.id).customPOST(this.image, undefined, undefined, {'Content-Type': undefined}).subscribe((d:any) => {
               //console.log('ok', d);
-              this.openModal("Evènement "+this.title + " mis à jour");
+              this.handleBelong(n);
+              //this.openModal("Evènement "+this.title + " mis à jour");
             }, (e:any)=>{
               console.log(e);
             });
+          } else {
+            this.handleBelong(n);
           }
           // traitement des appartenance
-          // traitement des entities
-          this.entities.forEach((v:any)=>{
-            // ajout
-            if(v.check){
-              // verification si l'entitié n'est pas déjà membre
-              if(_.find(this.newsletter.body.newsletter_entities,{entity_id:v.id})== undefined) {
-                this.api.NewsletterEntities.post({entity_id:v.id,newsletter_id:n.body.id}).subscribe(()=>{
-                  console.log("entitié", v.id, 'créé');
-                }, (e:any)=>{
-                  console.log(e);
-                })
-              }
-
-            } else {
-              // suppremssion
-              const x = _.find(this.newsletter.body.newsletter_entities,{entity_id:v.id});
-              if(x!=undefined){
-                this.api.NewsletterEntities.get(x.id).subscribe((a:any)=>{
-                  a.id = a.body.id;
-                  a.remove().subscribe((b:any)=>{
-                    console.log(b);
-                  }, (e:any)=>{
-                    console.log(e);
-                  })
-                })
-              }
-            }
-          });
-          // traitement des direction
-          this.directions.forEach((v:any)=>{
-            // ajout
-            if(v.check){
-              // verification si l'entitié n'est pas déjà membre
-              if(_.find(this.newsletter.body.newsletter_directions,{direction_id:v.id})== undefined) {
-                this.api.NewsletterDirections.post({direction_id:v.id,newsletter_id:n.body.id}).subscribe(()=>{
-                  console.log("direction", v.id, 'créé');
-                }, (e:any)=>{
-                  console.log(e);
-                })
-              }
-
-            } else {
-              // suppremssion
-              const x = _.find(this.newsletter.body.newsletter_directions,{direction_id:v.id});
-              if(x!=undefined){
-                this.api.NewsletterDirections.get(x.id).subscribe((a:any)=>{
-                  a.id = a.body.id;
-                  a.remove().subscribe((b:any)=>{
-                    console.log(b);
-                  }, (e:any)=>{
-                    console.log(e);
-                  })
-                })
-              }
-            }
-          });
-          // traitement des group
-          this.groups.forEach((v:any)=>{
-            // ajout
-            if(v.check){
-              // verification si l'entitié n'est pas déjà membre
-              if(_.find(this.newsletter.body.newsletter_groups,{group_id:v.id})== undefined) {
-                this.api.NewsletterGroups.post({group_id:v.id,newsletter_id:n.body.id}).subscribe(()=>{
-                  console.log("group", v.id, 'créé');
-                }, (e:any)=>{
-                  console.log(e);
-                })
-              }
-
-            } else {
-              // suppremssion
-              const x = _.find(this.newsletter.body.newsletter_groups,{group_id:v.id});
-              if(x!=undefined){
-                this.api.NewsletterGroups.get(x.id).subscribe((a:any)=>{
-                  a.id = a.body.id;
-                  a.remove().subscribe((b:any)=>{
-                    console.log(b);
-                  }, (e:any)=>{
-                    console.log(e);
-                  })
-                })
-              }
-            }
-          });
         })
       } else {
         // creation
@@ -240,6 +159,94 @@ export class AddEventComponent implements OnInit {
         })
       }
     }
+  }
+
+  handleBelong(n:any){
+    // traitement des entities
+    this.entities.forEach((v:any)=>{
+      // ajout
+      if(v.check){
+        // verification si l'entitié n'est pas déjà membre
+        if(_.find(this.newsletter.body.newsletter_entities,{entity_id:v.id})== undefined) {
+          this.api.NewsletterEntities.post({entity_id:v.id,newsletter_id:n.body.id}).subscribe(()=>{
+            console.log("entitié", v.id, 'créé');
+          }, (e:any)=>{
+            console.log(e);
+          })
+        }
+
+      } else {
+        // suppremssion
+        const x = _.find(this.newsletter.body.newsletter_entities,{entity_id:v.id});
+        if(x!=undefined){
+          this.api.NewsletterEntities.get(x.id).subscribe((a:any)=>{
+            a.id = a.body.id;
+            a.remove().subscribe((b:any)=>{
+              console.log(b);
+            }, (e:any)=>{
+              console.log(e);
+            })
+          })
+        }
+      }
+    });
+    // traitement des direction
+    this.directions.forEach((v:any)=>{
+      // ajout
+      if(v.check){
+        // verification si l'entitié n'est pas déjà membre
+        if(_.find(this.newsletter.body.newsletter_directions,{direction_id:v.id})== undefined) {
+          this.api.NewsletterDirections.post({direction_id:v.id,newsletter_id:n.body.id}).subscribe(()=>{
+            console.log("direction", v.id, 'créé');
+          }, (e:any)=>{
+            console.log(e);
+          })
+        }
+
+      } else {
+        // suppremssion
+        const x = _.find(this.newsletter.body.newsletter_directions,{direction_id:v.id});
+        if(x!=undefined){
+          this.api.NewsletterDirections.get(x.id).subscribe((a:any)=>{
+            a.id = a.body.id;
+            a.remove().subscribe((b:any)=>{
+              console.log(b);
+            }, (e:any)=>{
+              console.log(e);
+            })
+          })
+        }
+      }
+    });
+    // traitement des group
+    this.groups.forEach((v:any)=>{
+      // ajout
+      if(v.check){
+        // verification si l'entitié n'est pas déjà membre
+        if(_.find(this.newsletter.body.newsletter_groups,{group_id:v.id})== undefined) {
+          this.api.NewsletterGroups.post({group_id:v.id,newsletter_id:n.body.id}).subscribe(()=>{
+            console.log("group", v.id, 'créé');
+          }, (e:any)=>{
+            console.log(e);
+          })
+        }
+
+      } else {
+        // suppremssion
+        const x = _.find(this.newsletter.body.newsletter_groups,{group_id:v.id});
+        if(x!=undefined){
+          this.api.NewsletterGroups.get(x.id).subscribe((a:any)=>{
+            a.id = a.body.id;
+            a.remove().subscribe((b:any)=>{
+              console.log(b);
+            }, (e:any)=>{
+              console.log(e);
+            })
+          })
+        }
+      }
+    });
+    this.openModal("Evènement "+this.title + " mis à jour");
   }
 
   getNewsletter(id:number){

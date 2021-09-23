@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
       alert('Mot de passe absent');
     } else {
       this.auth.login({username: this.username, password: this.password}).then((rep:any) => {
-        this.router.navigate(['/inside']);
+        this.router.navigate(['/inside/home']);
       }).catch((err) => {
         // console(err);
         this.show = false;

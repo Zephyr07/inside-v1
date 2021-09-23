@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <div class="card">
+        <div class="card card-outline card-yellow shadow">
           <div class="card-header">
             <h3 class="card-title">Liste des groupes
 
@@ -15,7 +15,7 @@
 
 
                 <div class="input-group-append">
-                  <button routerLink="/admin/add-group" class="btn btn-primary">
+                  <button routerLink="/admin/add-group" class="btn btn-warning">
                     <i class="fas fa-plus"></i> Ajouter
                   </button>
                 </div>
@@ -46,7 +46,7 @@
                 <td>{{u.proprio}}</td>
                 <td>{{u.members.length}}</td>
                 <td>
-                  <button routerLink="/admin/add-group/{{u.id}}" class="btn btn-primary btn-sm">
+                  <button routerLink="/admin/add-group/{{u.id}}" class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i>
                   </button>
                   <button (click)="deleteGroup(u.id)" class="btn btn-danger btn-sm">

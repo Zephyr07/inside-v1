@@ -3,6 +3,7 @@ import {ApiProvider} from "../../providers/api/api";
 import {ModalDismissReasons, NgbCalendar, NgbDatepickerI18n, NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import * as _ from "lodash";
 import {DomSanitizer} from "@angular/platform-browser";
+import {Router} from "@angular/router";
 
 const I18N_VALUES = {
   'fr': {
@@ -46,7 +47,9 @@ export class GroupeComponent implements OnInit {
   public user:any;
   public group:any =[];
   public note:any =[];
+  public employees:any =[];
   public title ="";
+  public name ="";
   public description ="";
   public location ="";
   public type ="event";
@@ -60,6 +63,7 @@ export class GroupeComponent implements OnInit {
   public file = new FormData();
   public show_group = true;
   public show = false;
+  public show_employee = false;
   public show_loading = false;
   closeResult = '';
   public search_text = "";
@@ -71,6 +75,7 @@ export class GroupeComponent implements OnInit {
     private modalService: NgbModal,
     private sanitizer: DomSanitizer,
     private calendar: NgbCalendar,
+    private router : Router,
     private api:ApiProvider
   ) {
     // @ts-ignore
@@ -85,12 +90,13 @@ export class GroupeComponent implements OnInit {
   getGroup(){
     const o = {
       _includes:"members.employee",
+      _sort:'name',
+      _sortDir:'asc',
       'members-fk':'employee_id='+this.user.employee.id
     };
     this.api.Groups.getList(o).subscribe((d:any)=>{
       d.forEach((v:any)=>{
-        const x = _.find(v.members,{profile:'owner'});
-        v.owner = !!(x.employee_id = this.user.employee.id);
+        v.members = _.orderBy(v.members, 'employee.first_name');
       });
       this.group = d;
       this.show_group = false;
@@ -110,6 +116,17 @@ export class GroupeComponent implements OnInit {
     }, (e:any)=>{
       console.log(e);
     })
+  }
+
+  editGroup(id?:any){
+    // @ts-ignore
+    document.getElementById('closeGroup').click();
+    if(id){
+      this.router.navigate(['/inside/group/edit/'+id]);
+    } else {
+      this.router.navigate(['/inside/group/edit']);
+    }
+
   }
 
   saveNewsletter(){
@@ -171,9 +188,10 @@ export class GroupeComponent implements OnInit {
       this.fichier = reader.result as string;
     };*/
   }
-  
+
   reset(){
     this.title ="";
+    this.name ="";
     this.description ="";
     this.location ="";
     this.type ="event";
@@ -212,14 +230,16 @@ export class GroupeComponent implements OnInit {
 
   openModal(n:any){
     this.state = 'description';
+    const x = _.find(n.members,{profile:'owner'});
+    n.owner =  x.employee_id == this.user.employee.id;
     this.detail = n;
     // @ts-ignore
     document.getElementById('btnModal').click();
     this.getNote(n.id);
   }
 
-  open(content:any) {
-    this.modalService.open(content, {size: 'xl',scrollable: true}).result.then((result) => {
+  open(content:any,size:any) {
+    this.modalService.open(content, {size,scrollable: true}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -227,6 +247,7 @@ export class GroupeComponent implements OnInit {
   }
 
   private getDismissReason(reason: any): string {
+    this.detail = undefined;
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {

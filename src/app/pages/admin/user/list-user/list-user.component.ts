@@ -45,7 +45,7 @@ export class ListUserComponent implements OnInit {
         v.first_name = v.employee.first_name;
         v.last_name = v.employee.last_name;
         v.title = v.employee.title;
-      })
+      });
       this.users = d;
     }, (e: any) => {
       this.show = false;

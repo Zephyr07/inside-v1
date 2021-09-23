@@ -78,8 +78,14 @@ export class HomeComponent implements OnInit {
           v.superieur = {first_name : 'supérieur hiérachique',
             last_name:'Aucun'}
         }
-        v.mois = parseInt(v.birthday.split('-')[1]);
-        v.jour = parseInt(v.birthday.split('-')[2])
+        if(v.birthday){
+          v.mois = parseInt(v.birthday.split('-')[1]);
+          v.jour = parseInt(v.birthday.split('-')[2])
+        } else {
+          v.mois = 'Inconnu';
+          v.jour = 'Inconnu';
+        }
+
       });
       this.employees = e;
     })
@@ -92,7 +98,9 @@ export class HomeComponent implements OnInit {
     };
     this.api.Employees.getList(opt).subscribe((e:any)=>{
       e.forEach((v:any)=>{
-        v.anniv = v.birthday.split('-')[2];
+        if(v.birthday){
+          v.anniv = v.birthday.split('-')[2];
+        }
       });
       e = _.orderBy(e,'anniv');
       this.anniv = e;
@@ -106,10 +114,13 @@ export class HomeComponent implements OnInit {
     const opt = {
       should_paginate: false,
       employee_id : this.user.employee.id,
-      profile: 'owner',
       _includes:'group.members.employee.direction.entity'
     };
     this.api.Members.getList(opt).subscribe((d:any)=>{
+      d.forEach((v:any)=>{
+        v.group.members = _.orderBy(v.group.members, 'employee.first_name');
+      });
+      d = _.orderBy(d,'group.name');
       this.group = d;
       this.show_group = false;
     }, (e:any)=>{
@@ -131,15 +142,14 @@ export class HomeComponent implements OnInit {
       };
       this.api.NewsletterEntities.getList(opt).subscribe((d:any)=>{
         d.forEach((v:any)=>{
-          console.log(v.newsletter.type);
           if(v.newsletter.type == 'event'){
             this.events.push(v);
           } else {
             this.note.push(v);
           }
         });
-        this.events = _.orderBy(this.events,'date').reverse();
-        this.note = _.orderBy(this.note,'date').reverse();
+        //this.events = _.orderBy(this.events,'date').reverse();
+        //this.note = _.orderBy(this.note,'date').reverse();
         this.show_note = false;
       }, (e:any)=>{
         console.log(e);
@@ -210,30 +220,34 @@ export class HomeComponent implements OnInit {
           this.show = false;
         });
       } else {
-        // pas d'image on ne fait rien
+        alert("Publié");
         this.show = false;
+        this.content = "";
       }
+      // @ts-ignore
+      document.getElementById('closePost').click();
     })
   }
 
   saveComment(p:any){
-    p.show = true;
-    const opt = {
-      content : p.commentaire,
-      employee_id: this.user.employee.id,
-      post_id: p.id
-    };
-    this.api.Posts.post(opt).subscribe((d:any)=>{
-      d.body.employee = this.user.employee;
-      p.posts.push(d.body);
-      p.posts = _.orderBy(p.posts,'updated_at').reverse();
-      p.commentaire = "";
-      p.show = false;
-    }, (e:any)=>{
-      console.log(e);
-      p.show = false;
-    })
-
+   if(p!=''){
+     p.show = true;
+     const opt = {
+       content : p.commentaire,
+       employee_id: this.user.employee.id,
+       post_id: p.id
+     };
+     this.api.Posts.post(opt).subscribe((d:any)=>{
+       d.body.employee = this.user.employee;
+       p.posts.push(d.body);
+       p.posts = _.orderBy(p.posts,'updated_at').reverse();
+       p.commentaire = "";
+       p.show = false;
+     }, (e:any)=>{
+       console.log(e);
+       p.show = false;
+     })
+   }
   }
 
   deleteComment(post:any,p:any){

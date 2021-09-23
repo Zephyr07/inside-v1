@@ -21,102 +21,14 @@
         </div>
       </form>
 
-      <!-- Right navbar links -->
-      <ul class="navbar-nav ml-auto">
-        <!-- Messages Dropdown Menu -->
-        <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="fas fa-comments"></i>
-            <span class="badge badge-danger navbar-badge">3</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <a href="#" class="dropdown-item">
-              <!-- Message Start -->
-              <div class="media">
-                <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                <div class="media-body">
-                  <h3 class="dropdown-item-title">
-                    Brad Diesel
-                    <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                  </h3>
-                  <p class="text-sm">Call me whenever you can...</p>
-                  <p class="text-sm text-muted"><i class="fas fa-clock mr-1"></i> 4 Hours Ago</p>
-                </div>
-              </div>
-              <!-- Message End -->
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <!-- Message Start -->
-              <div class="media">
-                <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                <div class="media-body">
-                  <h3 class="dropdown-item-title">
-                    John Pierce
-                    <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                  </h3>
-                  <p class="text-sm">I got your message bro</p>
-                  <p class="text-sm text-muted"><i class="fas fa-clock mr-1"></i> 4 Hours Ago</p>
-                </div>
-              </div>
-              <!-- Message End -->
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <!-- Message Start -->
-              <div class="media">
-                <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                <div class="media-body">
-                  <h3 class="dropdown-item-title">
-                    Nora Silvester
-                    <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                  </h3>
-                  <p class="text-sm">The subject goes here</p>
-                  <p class="text-sm text-muted"><i class="fas fa-clock mr-1"></i> 4 Hours Ago</p>
-                </div>
-              </div>
-              <!-- Message End -->
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-          </div>
-        </li>
-        <!-- Notifications Dropdown Menu -->
-        <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="fas fa-bell"></i>
-            <span class="badge badge-warning navbar-badge">15</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-header">15 Notifications</span>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-envelope mr-2"></i> 4 new messages
-              <span class="float-right text-muted text-sm">3 mins</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-users mr-2"></i> 8 friend requests
-              <span class="float-right text-muted text-sm">12 hours</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-file mr-2"></i> 3 new reports
-              <span class="float-right text-muted text-sm">2 days</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-          </div>
-        </li>
-      </ul>
     </nav>
     <!-- /.navbar -->
   </div>
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary">
     <!-- Brand Logo -->
-    <div class="brand-link">
-      <span class="brand-text font-weight-light">Inside</span>
+    <div class="brand-link text-center">
+      <img src="../../../assets/img/logo_bvs.png" style="width: 25%" alt=""><span class="brand-text font-weight-bold text-yellow">Inside</span>
     </div>
 
     <!-- Sidebar -->
@@ -138,7 +50,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a routerLink="/inside" class="nav-link">
+            <a routerLink="/inside/home" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/home'}">
               <i class="nav-icon fas fa-home"></i>
               <p>
                 Acceuil
@@ -146,7 +58,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">
+            <a class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/ceo' || current_url == '/inside/bvs/histoire'
+            ||current_url == '/inside/bvs/direction' || current_url == '/inside/bvs/organigramme' || current_url == '/inside/bvs/annuaire'
+            ||current_url == '/inside/bvs/partenaire'}">
               <i class="nav-icon fas fa-star"></i>
               <p>
                 BVS
@@ -155,39 +69,44 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a routerLink="/inside/bvs/ceo" class="nav-link">
+                <a routerLink="/inside/bvs/ceo" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/ceo'}">
                   <p>Mot du CEO</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a routerLink="/inside/bvs/histoire" class="nav-link">
+                <a routerLink="/inside/bvs/histoire" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/histoire'}">
                   <p>Histoire</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a routerLink="/inside/bvs/direction" class="nav-link">
+                <a routerLink="/inside/bvs/direction" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/direction'}">
                   <p>Direction</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a routerLink="/inside/bvs/organigramme" class="nav-link">
+                <a routerLink="/inside/bvs/organigramme" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/organigramme'}">
                   <p>Organigramme</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="http://www.bvs-sas.com" target="_blank" class="nav-link">
+                <a routerLink="/inside/bvs/annuaire" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/annuaire'}">
+                  <p>Annuaire</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="https://bvs-sas.com/cameroun/33-tous-les-produits" target="_blank" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside'}">
                   <p>Produits</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a routerLink="/inside/bvs/partenaire" class="nav-link">
+                <a routerLink="/inside/bvs/partenaire" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/partenaire'}">
                   <p>Spiders Lions</p>
                 </a>
               </li>
             </ul>
           </li>
           <li class="nav-item">
-            <a routerLink="/inside/group" class="nav-link">
+            <a routerLink="/inside/group" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/group'}">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Groupes
@@ -195,7 +114,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/inside/note" class="nav-link">
+            <a routerLink="/inside/note" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/note'}">
               <i class="nav-icon fas fa-file-alt"></i>
               <p>
                 Notes
@@ -203,7 +122,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/inside/event" class="nav-link">
+            <a routerLink="/inside/event" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/event'}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Evènements
@@ -211,7 +130,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/inside/anniversaire" class="nav-link">
+            <a routerLink="/inside/anniversaire" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/anniversaire'}">
               <i class="nav-icon fas fa-gifts"></i>
               <p>
                 Anniversaires
@@ -219,7 +138,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/inside/profile" class="nav-link">
+            <a routerLink="/inside/profile" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/profile'}">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Mon compte

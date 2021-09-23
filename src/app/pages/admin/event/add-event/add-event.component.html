@@ -12,7 +12,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a routerLink="/admin/list-event">Liste des évènements</a></li>
+          <li class="breadcrumb-item"><a routerLink="/admin/list-event" class="text-dark">Liste des évènements</a></li>
           <li class="breadcrumb-item active">{{titre}}</li>
         </ol>
       </div>
@@ -27,9 +27,7 @@
       <!-- left column -->
       <div class="col-md-6">
         <!-- general form elements -->
-        <div class="card card-primary">
-          <div class="card-header">
-          </div>
+        <div class="card card-outline card-yellow shadow">
           <!-- /.card-header -->
           <!-- form start -->
           <form>
@@ -61,14 +59,14 @@
                          [footerTemplate]="footerTemplate"
                          (click)="d.toggle()">
                   <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <button class="btn btn-outline-dark" (click)="d.toggle()" type="button">
                       <i class="nav-icon fas fa-calendar"></i>
                     </button>
                   </div>
                   <ng-template #footerTemplate>
                     <hr class="my-0">
-                    <button class="btn btn-primary btn-sm m-2 float-left" (click)="date = today; d.close()">Aujourd'hui</button>
-                    <button class="btn btn-secondary btn-sm m-2 float-right" (click)="d.close()">Fermer</button>
+                    <button class="btn btn-warning btn-sm m-2 float-left" (click)="date = today; d.close()">Aujourd'hui</button>
+                    <button class="btn btn-dark btn-sm m-2 float-right" (click)="d.close()">Fermer</button>
                   </ng-template>
                 </div>
               </div>
@@ -93,7 +91,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-              <button (click)="saveNewsletter()" class="btn btn-primary">Enregistrer
+              <button (click)="saveNewsletter()" class="btn btn-warning">Enregistrer
                 <span class="spinner-grow spinner-grow-sm"
                       style="vertical-align: inherit"
                       *ngIf="show_loading"
@@ -108,9 +106,7 @@
       <!-- right column -->
       <div class="col-md-6">
         <!-- general form elements -->
-        <div class="card card-primary">
-          <div class="card-header">
-          </div>
+        <div class="card card-outline card-yellow shadow">
           <!-- /.card-header -->
           <!-- form start -->
           <form>

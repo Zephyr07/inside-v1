@@ -10,7 +10,7 @@
         </h1>
       </div>
       <div class="col-sm-6 text-right">
-        <button routerLink="/admin/add-entity" class="btn btn-outline-dark">
+        <button routerLink="/inside/group/edit" class="btn btn-warning">
           <i class="fas fa-plus"></i> Créer un groupe
         </button>
       </div>
@@ -34,16 +34,16 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h5 class="modal-title" id="modal-basic-title">{{detail.name}}</h5>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <h5 class="modal-title" id="modal-basic-title">{{detail.name}} &nbsp; <i class="fas fa-edit" (click)="editGroup(detail.id)" *ngIf="detail.owner"></i></h5>
+    <button type="button" class="close" id="closeGroup" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <ul class="nav nav-tabs">
-      <li class="nav-item" (click)="state = 'description'"><a class="nav-link" [ngClass]="{'active': state == 'description'}" href="#activity" data-toggle="tab">Description</a></li>
-      <li class="nav-item" (click)="state = 'note'"><a class="nav-link" [ngClass]="{'active': state == 'note'}"  href="#timeline" data-toggle="tab">Notes/Evènements</a></li>
-      <li class="nav-item" (click)="state = 'membre'"><a class="nav-link" [ngClass]="{'active': state == 'membre'}"  href="#settings" data-toggle="tab">Membres</a></li>
+      <li class="nav-item" (click)="state = 'description'"><a class="nav-link text-dark" [ngClass]="{' bg-yellow': state == 'description'}" href="#activity" data-toggle="tab">Description</a></li>
+      <li class="nav-item" (click)="state = 'note'"><a class="nav-link text-dark" [ngClass]="{' bg-yellow': state == 'note'}"  href="#timeline" data-toggle="tab">Notes/Evènements</a></li>
+      <li class="nav-item" (click)="state = 'membre'"><a class="nav-link text-dark" [ngClass]="{' bg-yellow': state == 'membre'}"  href="#settings" data-toggle="tab">Membres</a></li>
     </ul>
 
     <div class="modal-body">
@@ -58,7 +58,7 @@
               <div class="input-group input-group-sm float-right" style="width: 300px;">
                 <input type="text" name="table_search" [(ngModel)]="search_text" class="form-control float-right" placeholder="Recherche">
                 <div class="input-group-append" *ngIf="detail.owner">
-                  <button (click)="openModal3()" class="btn btn-primary">
+                  <button (click)="openModal3()" class="btn btn-warning">
                     <i class="fas fa-plus"></i> Ajouter
                   </button>
                 </div>
@@ -85,7 +85,7 @@
                 <td *ngIf="u.newsletter.type=='event'">Evènement</td>
                 <td>{{u.newsletter.date|dateFormat:true}}</td>
                 <td>
-                  <button (click)="openModal2(u)" class="btn btn-primary btn-sm">
+                  <button (click)="openModal2(u)" class="btn btn-dark btn-sm">
                     <i class="fas fa-eye"></i>
                   </button>
                 </td>
@@ -98,9 +98,9 @@
 
         <div class="tab-pane" id="settings">
           <div class="row">
-            <div class="col-12 col-sm-6" *ngFor="let e of detail.members">
+            <div class="col-12 col-sm-4" *ngFor="let e of detail.members">
               <div class="ribbon-wrapper" *ngIf="e.profile == 'owner'">
-                <div class="ribbon bg-primary">
+                <div class="ribbon bg-dark">
                   Proprietaire
                 </div>
               </div>
@@ -113,7 +113,7 @@
     </div>
   </div>
 </ng-template>
-<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(content)">Launch demo modal</button>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(content, 'xl')">Launch demo modal</button>
 
 <ng-template #content2 let-modal>
   <div class="modal-header">
@@ -135,7 +135,7 @@
     </p>
   </div>
 </ng-template>
-<button hidden class="btn btn-lg btn-outline-primary" id="btnModal2" (click)="open(content2)">Launch demo modal</button>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal2" (click)="open(content2, 'md')">Launch demo modal</button>
 
 <ng-template #content3 let-modal>
   <div class="modal-header">
@@ -162,12 +162,12 @@
       </select>
     </div>
     <div class="form-group">
-      <label for="username">Titre</label>
-      <input type="text" [(ngModel)]="title" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="username" placeholder="Nom">
+      <label for="usernamea">Titre</label>
+      <input type="text" [(ngModel)]="title" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="usernamea" placeholder="Nom">
     </div>
     <div class="form-group">
-      <label for="name">Description</label>
-      <textarea [(ngModel)]="description" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="name" placeholder="Description"></textarea>
+      <label for="namea">Description</label>
+      <textarea [(ngModel)]="description" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="namea" placeholder="Description"></textarea>
     </div>
     <div class="form-group" *ngIf="type == 'event'">
       <label for="location">Lieu</label>
@@ -180,14 +180,14 @@
                [footerTemplate]="footerTemplate"
                (click)="d.toggle()">
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+          <button class="btn btn-dark" (click)="d.toggle()" type="button">
             <i class="nav-icon fas fa-calendar"></i>
           </button>
         </div>
         <ng-template #footerTemplate>
           <hr class="my-0">
-          <button class="btn btn-primary btn-sm m-2 float-left" (click)="date = today; d.close()">Aujourd'hui</button>
-          <button class="btn btn-secondary btn-sm m-2 float-right" (click)="d.close()">Fermer</button>
+          <button class="btn btn-warning btn-sm m-2 float-left" (click)="date = today; d.close()">Aujourd'hui</button>
+          <button class="btn btn-dark btn-sm m-2 float-right" (click)="d.close()">Fermer</button>
         </ng-template>
       </div>
     </div>
@@ -201,9 +201,6 @@
     </div>
     <div class="form-group"  *ngIf="type == 'event'">
       <div class="row">
-        <div class="col-4">
-          <img [src]="imageSrc" *ngIf="imageSrc" style="width:100%">
-        </div>
         <div class="col-8">
           <label for="image">Image</label>
           <div class="input-group">
@@ -215,14 +212,17 @@
             </div>
           </div>
         </div>
+        <div class="col-4">
+          <img [src]="imageSrc" *ngIf="imageSrc" style="width:100%">
+        </div>
       </div>
     </div>
   </div>
   <div class="modal-footer">
-    <div class="btn btn-primary" (click)="saveNewsletter()">Enregistrer <span class="spinner-grow spinner-grow-sm"
+    <div class="btn btn-warning" (click)="saveNewsletter()">Enregistrer <span class="spinner-grow spinner-grow-sm"
                                                                              style="vertical-align: inherit"
                                                                              *ngIf="show_loading"
                                                                              role="status" aria-hidden="true"></span></div>
   </div>
 </ng-template>
-<button hidden class="btn btn-lg btn-outline-primary" id="btnModal3" (click)="open(content3)">Launch demo modal</button>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal3" (click)="open(content3, 'md')">Launch demo modal</button>

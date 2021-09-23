@@ -37,6 +37,8 @@ import {ListContentComponent} from "./pages/admin/content/list-content/list-cont
 import {AddContentComponent} from "./pages/admin/content/add-content/add-content.component";
 import {HistoireComponent} from "./pages/bvs/histoire/histoire.component";
 import {CeoComponent} from "./pages/bvs/ceo/ceo.component";
+import {AnnuaireComponent} from "./pages/bvs/annuaire/annuaire.component";
+import {SearchComponent} from "./pages/search/search.component";
 
 const routes: Routes = [
   {
@@ -75,10 +77,18 @@ const routes: Routes = [
             component : PartenaireComponent
           },
           {
+            path : 'annuaire',
+            component : AnnuaireComponent
+          },
+          {
             path : 'produit',
             component : ProduitComponent
           }
         ]
+      },
+      {
+        path : 'search',
+        component : SearchComponent,
       },
       {
         path : 'home',
@@ -94,7 +104,21 @@ const routes: Routes = [
       },
       {
         path : 'group',
-        component : GroupeComponent,
+        children : [
+          {
+            path : '',
+            component : GroupeComponent,
+          },
+          {
+            path : 'edit/:id',
+            component : AddGroupComponent,
+          },
+          {
+            path : 'edit',
+            component : AddGroupComponent,
+          },
+
+        ]
       },
       {
         path : 'anniversaire',

@@ -13,21 +13,25 @@ export class AnniversaireComponent implements OnInit {
   public anniv : any;
   public show_anniv =true;
   public employee:any;
+  public search_text = '';
   closeResult = '';
   constructor(
     private modalService: NgbModal,
     private api: ApiProvider
   ) {
-    this.getBirthday();
+
   }
 
   ngOnInit(): void {
+    this.getBirthday();
   }
 
   getBirthday(){
     this.anniv = [];
     const opt = {
       should_paginate: false,
+      _sort:'birthday',
+      _sortDir:'asc',
       _includes:'direction.entity'
     };
     this.api.Employees.getList(opt).subscribe((e:any)=>{
@@ -38,14 +42,25 @@ export class AnniversaireComponent implements OnInit {
           v.superieur = {first_name : 'supérieur hiérachique',
           last_name:'Aucun'}
         }
-        v.mois = parseInt(v.birthday.split('-')[1]);
-        v.jour = parseInt(v.birthday.split('-')[2])
+        if(v.last_name) {
+          v.nom = v.last_name.split(' ')[0];
+        } else {
+          v.nom = v.first_name.split(' ')[0];
+        }
+        if(v.birthday){
+          v.mois = parseInt(v.birthday.split('-')[1]);
+          v.jour = parseInt(v.birthday.split('-')[2])
+        }
       });
       e = _.groupBy(e,'mois');
+      /*for(let x in e){
+        console.log(e[x]);
+        e[x]=_.orderBy(e[x],'jour');
+      }*/
       for(let x in e){
         this.anniv.push({
           mois: MOIS[parseInt(x)-1],
-          employee: e[x]
+          employee:e[x]
         })
       }
       this.show_anniv = false;

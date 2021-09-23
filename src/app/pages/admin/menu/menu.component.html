@@ -26,8 +26,8 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary">
     <!-- Brand Logo -->
-    <div class="brand-link">
-      <span class="brand-text font-weight-light">Inside Admin</span>
+    <div class="brand-link text-center">
+      <span class="brand-text font-weight-bold text-yellow">Inside Admin</span>
     </div>
 
     <!-- Sidebar -->
@@ -49,7 +49,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a routerLink="/admin" class="nav-link">
+            <a routerLink="/admin" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin'}">
               <i class="nav-icon fas fa-home"></i>
               <p>
                 Dashboard
@@ -57,7 +57,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-entity" class="nav-link">
+            <a routerLink="/admin/list-entity" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-entity'}">
               <i class="nav-icon fas fa-hotel"></i>
               <p>
                 Entités
@@ -65,7 +65,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-partner" class="nav-link">
+            <a routerLink="/admin/list-partner" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-partner'}">
               <i class="nav-icon fas fa-handshake"></i>
               <p>
                 Partenaires
@@ -73,7 +73,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-management" class="nav-link">
+            <a routerLink="/admin/list-management" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-management'}">
               <i class="nav-icon fas fa-building"></i>
               <p>
                 Directions
@@ -81,7 +81,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-user" class="nav-link">
+            <a routerLink="/admin/list-user" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-user'}">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Employés
@@ -89,7 +89,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-group" class="nav-link">
+            <a routerLink="/admin/list-group" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-group'}">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Groupes
@@ -97,23 +97,15 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-newsletter" class="nav-link">
+            <a routerLink="/admin/list-newsletter" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-newsletter'}">
               <i class="nav-icon fas fa-file-alt"></i>
               <p>
                 Notes
               </p>
             </a>
           </li>
-          <li class="nav-item" hidden>
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-birthday-cake"></i>
-              <p>
-                Anniversaires
-              </p>
-            </a>
-          </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-event" class="nav-link">
+            <a routerLink="/admin/list-event" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-event'}">
               <i class="nav-icon fas fa-calendar-alt"></i>
               <p>
                 Evènements
@@ -121,7 +113,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/suggestion" class="nav-link">
+            <a routerLink="/admin/suggestion" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/suggestion'}">
               <i class="nav-icon fas fa-comment-dots"></i>
               <p>
                 Suggestions
@@ -129,7 +121,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-role" class="nav-link">
+            <a routerLink="/admin/list-role" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-role'}">
               <i class="nav-icon fas fa-user-tag"></i>
               <p>
                 Rôles
@@ -137,7 +129,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-content" class="nav-link">
+            <a routerLink="/admin/list-content" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-content'}">
               <i class="nav-icon fas fa-sticky-note"></i>
               <p>
                 Contenus
