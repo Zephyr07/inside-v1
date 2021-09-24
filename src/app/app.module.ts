@@ -59,6 +59,8 @@ import { EmptyDataComponent } from './components/empty-data/empty-data.component
 import { EmployeeModalComponent } from './components/employee-modal/employee-modal.component';
 import { AnnuaireComponent } from './pages/bvs/annuaire/annuaire.component';
 import { SearchComponent } from './pages/search/search.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 export function RestangularConfigFactory(RestangularProvider:any) {
   RestangularProvider
@@ -166,6 +168,7 @@ export function RestangularConfigFactory(RestangularProvider:any) {
     InfiniteScrollModule,
     NgbPaginationModule,
     NgbAlertModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule
   ],
