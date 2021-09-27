@@ -10,6 +10,8 @@ import * as _ from "lodash";
 })
 export class DirectionComponent implements OnInit {
 
+  public employee : any = {};
+  public employees : any = [];
   public managements : any = [];
   public search_text = "";
   closeResult = '';
@@ -23,6 +25,7 @@ export class DirectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getEmployees();
   }
 
 
@@ -47,14 +50,48 @@ export class DirectionComponent implements OnInit {
     })
   }
 
+  getEmployees(){
+    const opt = {
+      should_paginate:false,
+      _includes:'direction.entity'
+    };
+    this.api.Employees.getList(opt).subscribe((e:any)=>{
+      e.forEach((v:any)=>{
+        if(_.find(e, {id:v.sup_id})!=undefined){
+          v.superieur = _.find(e, {id:v.sup_id});
+        } else {
+          v.superieur = {first_name : 'supérieur hiérachique',
+            last_name:'Aucun'}
+        }
+        if(v.birthday){
+          v.mois = parseInt(v.birthday.split('-')[1]);
+          v.jour = parseInt(v.birthday.split('-')[2])
+        } else {
+          v.mois = 'Inconnu';
+          v.jour = 'Inconnu';
+        }
+
+      });
+      this.employees = e;
+    })
+  }
+
+  openModalEmployee(e:any){
+    e = _.find(this.employees,{id:e.id});
+    e.superieur = _.find(this.employees,{id:e.sup_id});
+    this.employee = e;
+    // @ts-ignore
+    document.getElementById('btnModalUser').click();
+  }
+
   openModal(n:any){
     this.detail = n;
     // @ts-ignore
     document.getElementById('btnModal').click();
   }
 
-  open(content:any) {
-    this.modalService.open(content, {size: 'xl',scrollable: true}).result.then((result) => {
+  open(content:any,size:any) {
+    this.modalService.open(content, {size,scrollable: true}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {TreeNode} from "primeng/api";
 
 import OrgChart from "@balkangraph/orgchart.js";
 import {ApiProvider} from "../../../providers/api/api";
@@ -23,7 +22,7 @@ export class OrganigrammeComponent implements OnInit {
   getEmployees(){
     const opt = {
       should_paginate: true,
-      per_page:10,
+      per_page:150,
       _includes: 'direction.entity'
     };
 
@@ -33,8 +32,8 @@ export class OrganigrammeComponent implements OnInit {
         // @ts-ignore
         var chart = new OrgChart(tree, {
           nodeBinding: {
-            field_0: "first_name",
-            field_1: "title",
+            field_0: "Nom",
+            field_1: "Fonction",
             img_0: "img"
           },
         });
@@ -42,8 +41,22 @@ export class OrganigrammeComponent implements OnInit {
         d.forEach((v:any)=>{
           v.pid = v.sup_id;
           v.img = v.image;
-          v.direction = v.direction.name;
-          x.push(v)
+          //v.direction = v.direction.name;
+          let a = v.first_name;
+          if(v.last_name!=null){
+            a = v.last_name + ' '+v.first_name
+          }
+          x.push({
+            id:v.id,
+            Nom: a,
+            Fonction:v.title,
+            'Téléphone':this.api.formarPrice(v.phone),
+            'Fixe':this.api.formarPrice(v.ip_phone),
+            img:v.image,
+            pid : v.sup_id,
+            Direction: v.direction.name,
+            'Entité': v.direction.entity.name
+          })
         });
         chart.load(x);
       }

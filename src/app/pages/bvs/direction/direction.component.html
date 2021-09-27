@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <div class="card">
+        <div class="card card-outline card-yellow shadow">
           <div class="card-header">
             <h3 class="card-title">Liste des directions
             </h3>
@@ -70,10 +70,15 @@
   </div>
   <div class="modal-body">
     <div class="row">
-      <div class="col-4 col-sm-4" *ngFor="let e of detail.employees">
+      <div class="col-4 col-sm-4" *ngFor="let e of detail.employees" (click)="openModalEmployee(e)">
         <app-employee-info-box [employee]="e"></app-employee-info-box>
       </div>
     </div>
   </div>
 </ng-template>
-<button hidden class="btn btn-lg btn-outline-dark" id="btnModal" (click)="open(content)">Launch demo modal</button>
+<button hidden class="btn btn-lg btn-outline-dark" id="btnModal" (click)="open(content,'xl')">Launch demo modal</button>
+
+<ng-template #modalUser let-modal>
+  <app-employee-modal [employee]="employee"></app-employee-modal>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModalUser" (click)="open(modalUser,'md')">Launch demo modal</button>

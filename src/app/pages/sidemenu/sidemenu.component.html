@@ -50,7 +50,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a routerLink="/inside/home" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/home'}">
+            <a routerLink="/inside/home" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/home'||current_url == '/inside'}">
               <i class="nav-icon fas fa-home"></i>
               <p>
                 Acceuil
@@ -161,7 +161,7 @@
   </aside>
 </div>
 
-<div class="content-wrapper" style="overflow-y: auto; padding: 20px">
+<div class="content-wrapper" style="overflow-y: auto;padding: 20px">
   <router-outlet></router-outlet>
 
 </div>

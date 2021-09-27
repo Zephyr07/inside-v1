@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>{{title}}
+        <h1>{{titre}}
           <span class="spinner-grow spinner-grow-sm"
                 style="vertical-align: inherit"
                 *ngIf="show_spinnner"
@@ -51,6 +51,7 @@
               <div class="form-group">
                 <label for="type">Type</label>
                 <select class="custom-select form-control-border" [(ngModel)]="type" [ngModelOptions]="{standalone: true}" id="type">
+                  <option value="image">Image</option>
                   <option value="ceo">Mot du CEO</option>
                   <option value="history">Histoire</option>
                 </select>

@@ -74,4 +74,19 @@ export class ApiProvider {
       }
     }
   }
+
+  handleError(e:any){
+    let obj = {
+      title:'',
+      message:''
+    };
+
+    obj.title = e.error.message;
+    let x = e.error.errors;
+    for(let i in x){
+      obj.message += x[i]+" \n";
+    }
+
+    return obj;
+  }
 }

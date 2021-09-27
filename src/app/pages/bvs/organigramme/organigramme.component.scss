@@ -2,7 +2,19 @@
   fill: #000000;
 }
 
+:host ::ng-deep [data-ctrl-ec-id] circle {
+  fill: #000;
+}
+
+:host ::ng-deep [data-l-id] path {
+  stroke: #000;
+}
+
 :host ::ng-deep [data-n-id='1'] rect {
+  fill: #750000;
+}
+
+:host ::ng-deep [data-ctrl-ec-id='1'] circle {
   fill: #750000;
 }
 
@@ -10,6 +22,14 @@
   fill: #750077;
 }
 
+:host ::ng-deep [data-ctrl-ec-id='4'] circle {
+  fill: #750077;
+}
+
 :host ::ng-deep [data-n-id='3'] rect {
+  fill: #754400;
+}
+
+:host ::ng-deep [data-ctrl-ec-id='3'] circle {
   fill: #754400;
 }

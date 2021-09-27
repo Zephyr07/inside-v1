@@ -34,10 +34,10 @@
                 <b>Localisation</b> <a class="float-right">{{user.employee.location}}</a>
               </li>
               <li class="list-group-item">
-                <b>Supérieur Hiérachique</b> <a class="float-right">{{user.employee.sup.first_name}} {{user.employee.sup.last_name}}</a>
+                <b>Supérieur Hiérachique</b> <a class="float-right">{{sup.last_name}} {{sup.first_name}}</a>
               </li>
               <li class="list-group-item">
-                <b>Direction</b> <a class="float-right">{{user.employee.direction.name}}</a>
+                <b>Direction</b> <a class="float-right">{{direction.name}}</a>
               </li>
             </ul>
           </div>
@@ -46,274 +46,110 @@
         <!-- /.card -->
       </div>
       <!-- /.col -->
-      <div class="col-md-8" hidden>
-        <div class="card">
+      <div class="col-md-8">
+        <div class="card card-yellow card-outline">
           <div class="card-header p-2">
             <ul class="nav nav-pills">
-              <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Suggestions</a></li>
-              <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Programme</a></li>
-              <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Paramètres</a></li>
+              <li class="nav-item" (click)="state = 'new_suggestion'"><a class="nav-link text-dark" [ngClass]="{' bg-yellow': state == 'new_suggestion'}" href="#activity" data-toggle="tab">Nouvelle suggestion</a></li>
+              <li class="nav-item" (click)="state = 'suggestion'"><a class="nav-link text-dark" [ngClass]="{' bg-yellow': state == 'suggestion'}" href="#timeline" data-toggle="tab">Mes suggestions</a></li>
+              <li class="nav-item" (click)="state = 'info'"><a class="nav-link text-dark" [ngClass]="{' bg-yellow': state == 'info'}" href="#info" data-toggle="tab">Mes infos</a></li>
+              <li class="nav-item" (click)="state = 'pass'"><a class="nav-link text-dark" [ngClass]="{' bg-yellow': state == 'pass'}" href="#pass" data-toggle="tab">Mot de passe</a></li>
             </ul>
           </div><!-- /.card-header -->
           <div class="card-body">
             <div class="tab-content">
-              <div class="active tab-pane" id="activity">
-                <!-- Post -->
-                <div class="post">
-                  <div class="user-block">
-                    <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                    <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                    <span class="description">Shared publicly - 7:30 PM today</span>
-                  </div>
-                  <!-- /.user-block -->
-                  <p>
-                    Lorem ipsum represents a long-held tradition for designers,
-                    typographers and the like. Some people hate it and argue for
-                    its demise, but others ignore the hate as they create awesome
-                    tools to help create filler text for everyone from bacon lovers
-                    to Charlie Sheen fans.
-                  </p>
-
-                  <p>
-                    <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                    <a href="#" class="link-black text-sm"><i class="fas  fa-thumbs-up mr-1"></i> Like</a>
-                    <span class="float-right">
-                          <a href="#" class="link-black text-sm">
-                            <i class="fas  fa-comments mr-1"></i> Comments (5)
-                          </a>
-                        </span>
-                  </p>
-
-                  <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+              <div class="tab-pane active" id="activity">
+                <ngb-toast *ngIf="show" class="bg-danger" [autohide]="false" (hidden)="show=false">
+                  <ng-template ngbToastHeader>
+                    <strong class="mx-1">{{titre_toast}}</strong>
+                  </ng-template>
+                  {{message_toast}}
+                </ngb-toast>
+                <div class="form-group">
+                  <label for="usernamea">Titre</label>
+                  <input type="text" [(ngModel)]="title" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="usernamea" placeholder="Titre">
                 </div>
-                <!-- /.post -->
-
-                <!-- Post -->
-                <div class="post clearfix">
-                  <div class="user-block">
-                    <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
-                    <span class="username">
-                          <a href="#">Sarah Ross</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                    <span class="description">Sent you a message - 3 days ago</span>
-                  </div>
-                  <!-- /.user-block -->
-                  <p>
-                    Lorem ipsum represents a long-held tradition for designers,
-                    typographers and the like. Some people hate it and argue for
-                    its demise, but others ignore the hate as they create awesome
-                    tools to help create filler text for everyone from bacon lovers
-                    to Charlie Sheen fans.
-                  </p>
-
-                  <form class="form-horizontal">
-                    <div class="input-group input-group-sm mb-0">
-                      <input class="form-control form-control-sm" placeholder="Response">
-                      <div class="input-group-append">
-                        <button type="submit" class="btn btn-danger">Send</button>
-                      </div>
-                    </div>
-                  </form>
+                <div class="form-group">
+                  <label for="namea">Contenu</label>
+                  <textarea [(ngModel)]="contenu" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="namea" placeholder="Contenu"></textarea>
                 </div>
-                <!-- /.post -->
-
-                <!-- Post -->
-                <div class="post">
-                  <div class="user-block">
-                    <img class="img-circle img-bordered-sm" src="../../dist/img/user6-128x128.jpg" alt="User Image">
-                    <span class="username">
-                          <a href="#">Adam Jones</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                    <span class="description">Posted 5 photos - 5 days ago</span>
-                  </div>
-                  <!-- /.user-block -->
-                  <div class="row mb-3">
-                    <div class="col-sm-6">
-                      <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-sm-6">
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <img class="img-fluid mb-3" src="../../dist/img/photo2.png" alt="Photo">
-                          <img class="img-fluid" src="../../dist/img/photo3.jpg" alt="Photo">
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-6">
-                          <img class="img-fluid mb-3" src="../../dist/img/photo4.jpg" alt="Photo">
-                          <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">
-                        </div>
-                        <!-- /.col -->
-                      </div>
-                      <!-- /.row -->
-                    </div>
-                    <!-- /.col -->
-                  </div>
-                  <!-- /.row -->
-
-                  <p>
-                    <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                    <a href="#" class="link-black text-sm"><i class="fas  fa-thumbs-up mr-1"></i> Like</a>
-                    <span class="float-right">
-                          <a href="#" class="link-black text-sm">
-                            <i class="fas  fa-comments mr-1"></i> Comments (5)
-                          </a>
-                        </span>
-                  </p>
-
-                  <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
-                </div>
-                <!-- /.post -->
+                <div class="btn btn-warning" (click)="saveSuggestion()">Enregistrer <span class="spinner-grow spinner-grow-sm"
+                                                                                          style="vertical-align: inherit"
+                                                                                          *ngIf="show_loading"
+                                                                                          role="status" aria-hidden="true"></span></div>
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="timeline">
-                <!-- The timeline -->
-                <div class="timeline timeline-inverse">
-                  <!-- timeline time label -->
-                  <div class="time-label">
-                        <span class="bg-danger">
-                          10 Feb. 2014
+                <!-- Post -->
+                <div class="post clearfix" *ngFor="let s of suggestions">
+                  <div class="user-block">
+                    <span class="usedrname">
+                          <a>{{s.title}}.</a>
+                          <a class="float-right btn-tool" (click)="deleteSuggestion(s)"><i class="fas fa-trash"></i></a>
                         </span>
+                    <span class="description" style="margin-left: 0">Le {{s.created_at|dateFormat:true}}</span>
                   </div>
-                  <!-- /.timeline-label -->
-                  <!-- timeline item -->
-                  <div>
-                    <i class="fas fa-envelope bg-primary"></i>
+                  <!-- /.user-block -->
+                  <p>
+                    {{s.description}}
+                  </p>
 
-                    <div class="timeline-item">
-                      <span class="time"><i class="fas  fa-clock"></i> 12:05</span>
-
-                      <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-
-                      <div class="timeline-body">
-                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                        quora plaxo ideeli hulu weebly balihoo...
-                      </div>
-                      <div class="timeline-footer">
-                        <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                        <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- END timeline item -->
-                  <!-- timeline item -->
-                  <div>
-                    <i class="fas fa-user bg-info"></i>
-
-                    <div class="timeline-item">
-                      <span class="time"><i class="fas  fa-clock"></i> 5 mins ago</span>
-
-                      <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend request
-                      </h3>
-                    </div>
-                  </div>
-                  <!-- END timeline item -->
-                  <!-- timeline item -->
-                  <div>
-                    <i class="fas fa-comments bg-warning"></i>
-
-                    <div class="timeline-item">
-                      <span class="time"><i class="fas  fa-clock"></i> 27 mins ago</span>
-
-                      <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-                      <div class="timeline-body">
-                        Take me to your leader!
-                        Switzerland is small and neutral!
-                        We are more like Germany, ambitious and misunderstood!
-                      </div>
-                      <div class="timeline-footer">
-                        <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- END timeline item -->
-                  <!-- timeline time label -->
-                  <div class="time-label">
-                        <span class="bg-success">
-                          3 Jan. 2014
-                        </span>
-                  </div>
-                  <!-- /.timeline-label -->
-                  <!-- timeline item -->
-                  <div>
-                    <i class="fas fa-camera bg-purple"></i>
-
-                    <div class="timeline-item">
-                      <span class="time"><i class="fas  fa-clock"></i> 2 days ago</span>
-
-                      <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                      <div class="timeline-body">
-                        <img src="https://placehold.it/150x100" alt="...">
-                        <img src="https://placehold.it/150x100" alt="...">
-                        <img src="https://placehold.it/150x100" alt="...">
-                        <img src="https://placehold.it/150x100" alt="...">
-                      </div>
-                    </div>
-                  </div>
-                  <!-- END timeline item -->
-                  <div>
-                    <i class="fas  fa-clock bg-gray"></i>
-                  </div>
                 </div>
+                <!-- /.post -->
               </div>
               <!-- /.tab-pane -->
 
-              <div class="tab-pane" id="settings">
-                <form class="form-horizontal">
-                  <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" placeholder="Name">
-                    </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="info">
+                <div class="form-group">
+                  <label for="nom">Nom</label>
+                  <input type="text" [(ngModel)]="title" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="nom" placeholder="Titre">
+                </div>
+                <div class="form-group">
+                  <label for="phone">Contenu</label>
+                  <textarea [(ngModel)]="contenu" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="phone" placeholder="Contenu"></textarea>
+                </div>
+                <div class="btn btn-warning" (click)="saveSuggestion()">Enregistrer <span class="spinner-grow spinner-grow-sm"
+                                                                                          style="vertical-align: inherit"
+                                                                                          *ngIf="show_loading"
+                                                                                          role="status" aria-hidden="true"></span></div>
+              </div>
+              <!-- /.tab-pane -->
+
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="pass">
+                <form [formGroup]="signupForm" (submit)="updatePassword()">
+
+                  <div class="form-group">
+                    <label for="current_password">Actuel mot de passe</label>
+                    <input id="current_password" placeholder="Actuel mot de passe" formControlName="current_password" type="password" class="form-control">
                   </div>
-                  <div class="form-group row">
-                    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                    </div>
+                  
+                  <div class="form-group">
+                    <label for="password">Nouveau mot de passe</label>
+                    <input id="password" placeholder="Nouveau mot de passe" formControlName="password" type="password" class="form-control">
+                    <label class="text-danger" *ngIf="!signupForm.controls.password.valid && !signupForm.controls.password.pending && (signupForm.controls.password.dirty)">
+                      Le mot de passe doit comporter au moins 8 caractères et doit contenir un chiffre, un caractère et un caractère spécial.
+                    </label>
                   </div>
-                  <div class="form-group row">
-                    <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="Name">
-                    </div>
+
+                  <div class="form-group">
+                    <label for="password_confirmation">Actuel mot de passe</label>
+                    <input id="password_confirmation" placeholder="Actuel mot de passe" formControlName="password_confirmation" type="password" class="form-control">
+                    <label class="text-danger clearfix" *ngIf="!signupForm.controls.password_confirmation.valid && !signupForm.controls.password_confirmation.pending && (signupForm.controls.password_confirmation.dirty)">
+                      Le mot de passe doit comporter au moins 8 caractères et doit contenir un chiffre, un caractère et un caractère spécial.
+                    </label>
+                    <label class="text-danger" *ngIf="signupForm.controls.password_confirmation.value!= '' && signupForm.controls.password_confirmation.value != signupForm.controls.password.value">
+                      Les mots de passes sont différents
+                    </label>
                   </div>
-                  <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <div class="offset-sm-2 col-sm-10">
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <div class="offset-sm-2 col-sm-10">
-                      <button type="submit" class="btn btn-danger">Submit</button>
-                    </div>
-                  </div>
+                  
+                  <button [disabled]="signupForm.invalid" type="submit" class="btn btn-warning" (click)="updatePassword()">Enregistrer <span class="spinner-grow spinner-grow-sm"
+                                                                                            style="vertical-align: inherit"
+                                                                                            *ngIf="show_loading"
+                                                                                            role="status" aria-hidden="true"></span></button>
                 </form>
+
               </div>
               <!-- /.tab-pane -->
             </div>
@@ -328,3 +164,15 @@
   </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Succès</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{success_title}}.</p>
+  </div>
+</ng-template>
+<button hidden class="btn btn-lg btn-outline-primary" id="btnModal" (click)="open(content)">Launch demo modal</button>
