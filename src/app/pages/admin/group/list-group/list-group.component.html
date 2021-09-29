@@ -1,5 +1,5 @@
 <!-- Main content -->
-<section class="content">
+<section class="content" *ngxPermissionsOnly="['consult.group']">
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
@@ -14,7 +14,7 @@
                 <input type="text" name="table_search" [(ngModel)]="search_text" class="form-control float-right" placeholder="Recherche">
 
 
-                <div class="input-group-append">
+                <div class="input-group-append" *ngxPermissionsOnly="['add.group']">
                   <button routerLink="/admin/add-group" class="btn btn-warning">
                     <i class="fas fa-plus"></i> Ajouter
                   </button>
@@ -46,10 +46,10 @@
                 <td>{{u.proprio}}</td>
                 <td>{{u.members.length}}</td>
                 <td>
-                  <button routerLink="/admin/add-group/{{u.id}}" class="btn btn-warning btn-sm">
+                  <button routerLink="/admin/add-group/{{u.id}}" *ngxPermissionsOnly="['edit.group']" class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i>
                   </button>
-                  <button (click)="deleteGroup(u.id)" class="btn btn-danger btn-sm">
+                  <button (click)="deleteGroup(u.id)" *ngxPermissionsOnly="['delete.group']" class="btn btn-danger btn-sm">
                     <i class="fas fa-trash"></i>
                   </button>
                 </td>

@@ -1,5 +1,5 @@
 <!-- Main content -->
-<section class="content">
+<section class="content" *ngxPermissionsOnly="['consult.employee']">
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
@@ -14,7 +14,7 @@
                 <input type="text" name="table_search" [(ngModel)]="search_text" class="form-control float-right" placeholder="Recherche">
 
 
-                <div class="input-group-append">
+                <div class="input-group-append" *ngxPermissionsOnly="['add.employee']">
                   <button routerLink="/admin/add-user" class="btn btn-warning">
                     <i class="fas fa-plus"></i> Ajouter
                   </button>
@@ -48,13 +48,13 @@
                 <td>{{u.title|limitTo:30}}</td>
                 <td>{{u.status |status}}</td>
                 <td>
-                  <button (click)="resetPassword(u)" class="btn btn-warning btn-sm">
+                  <button (click)="resetPassword(u)" *ngxPermissionsOnly="['reset.password']" class="btn btn-warning btn-sm">
                     <i class="fas fa-key"></i>
                   </button>
-                  <button routerLink="/admin/add-user/{{u.id}}" class="btn btn-dark btn-sm">
+                  <button routerLink="/admin/add-user/{{u.id}}" *ngxPermissionsOnly="['edit.employee']" class="btn btn-dark btn-sm">
                     <i class="fas fa-edit"></i>
                   </button>
-                  <button [disabled]="u.username == 'bvnand01'" (click)="deleteUser(u.id)" class="btn btn-danger btn-sm">
+                  <button [disabled]="u.username == 'bvnand01' || u.username == 'admin'" (click)="deleteUser(u.id)" *ngxPermissionsOnly="['delete.employee']" class="btn btn-danger btn-sm">
                     <i class="fas fa-trash"></i>
                   </button>
                </td>

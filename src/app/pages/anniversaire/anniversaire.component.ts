@@ -42,6 +42,9 @@ export class AnniversaireComponent implements OnInit {
           v.superieur = {first_name : 'supérieur hiérachique',
           last_name:'Aucun'}
         }
+        // gestion des collaborateurs
+        v.collaborateur = _.filter(e,{sup_id:v.id});
+        v.collaborateur = _.orderBy(v.collaborateur,'first_name');
         if(v.last_name) {
           v.nom = v.last_name.split(' ')[0];
         } else {

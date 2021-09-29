@@ -9,11 +9,12 @@ import * as _ from "lodash";
   styleUrls: ['./direction.component.scss']
 })
 export class DirectionComponent implements OnInit {
-
+  public user :any;
   public employee : any = {};
   public employees : any = [];
   public managements : any = [];
   public search_text = "";
+  public entite = "";
   closeResult = '';
   public detail : any;
   public show = false;
@@ -21,6 +22,8 @@ export class DirectionComponent implements OnInit {
     private modalService: NgbModal,
     private api : ApiProvider
   ) {
+    // @ts-ignore
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.getManagements();
   }
 
@@ -28,25 +31,28 @@ export class DirectionComponent implements OnInit {
     this.getEmployees();
   }
 
-
   getManagements(){
-    this.show = true;
-    const opt = {
-      should_paginate: false,
-      _sort: 'name',
-      _sortDir: 'asc',
-      _includes: 'entity,employees'
-    };
+    this.api.Managements.get(this.user.employee.direction_id,{_includes:'entity'}).subscribe((a:any)=>{
+      this.show = true;
+      this.entite = "de "+a.body.entity.name;
+      const opt = {
+        entity_id: a.body.entity.id,
+        should_paginate: false,
+        _sort: 'name',
+        _sortDir: 'asc',
+        _includes: 'employees'
+      };
 
-    this.api.Managements.getList(opt).subscribe((d:any)=>{
-      d.forEach((v:any)=>{
-        v.employees = _.orderBy(v.employees, 'first_name');
-      });
-      this.managements = d;
-      this.show = false;
-    }, (e: any) => {
-      this.show = false;
-      console.log(e);
+      this.api.Managements.getList(opt).subscribe((d:any)=>{
+        d.forEach((v:any)=>{
+          v.employees = _.orderBy(v.employees, 'first_name');
+        });
+        this.managements = d;
+        this.show = false;
+      }, (e: any) => {
+        this.show = false;
+        console.log(e);
+      })
     })
   }
 

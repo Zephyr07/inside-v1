@@ -26,6 +26,7 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.auth.storeSession();
   }
 
   logout(){

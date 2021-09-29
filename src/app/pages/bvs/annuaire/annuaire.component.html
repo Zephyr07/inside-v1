@@ -1,11 +1,11 @@
 <!-- Main content -->
-<section class="content" *ngxPermissionsOnly="['consult.suggestion']">
+<section class="content">
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
         <div class="card card-outline card-yellow shadow">
           <div class="card-header">
-            <h3 class="card-title">Liste des suggestions
+            <h3 class="card-title">Annuaire téléphonique BVS
             </h3>
 
             <div class="card-tools">
@@ -15,34 +15,32 @@
             </div>
           </div>
           <!-- /.card-header -->
-          <div class="card-body table-responsive p-0" style="max-height: 650px">
+          <div class="card-body table-responsive p-0" style="max-height: 560px">
             <div class="progress" *ngIf="show">
               <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
             </div>
-            <table class="table table-head-fixed text-nowrap">
+            <table class="table table-head-fixed text-nowrap"
+                   *ngIf="employees.length>0">
               <thead>
               <tr>
-                <th>ID</th>
                 <th>Nom</th>
-                <th>Description</th>
-                <th *ngxPermissionsOnly="['consult_author.suggestion']">Employé</th>
-                <th>Action</th>
+                <th>Titre</th>
+                <th>Téléphone</th>
+                <th>Poste Fixe</th>
               </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let u of suggestions| filter:{ id:search_text, title: search_text, description: search_text, employee: search_text}: false">
-                <td>{{u.id}}</td>
-                <td>{{u.title}}</td>
-                <td>{{u.description}}</td>
-                <td *ngxPermissionsOnly="['consult_author.suggestion']">{{u.employee}}</td>
-                <td>
-                  <button (click)="deleteSuggestion(u.id)" *ngxPermissionsOnly="['delete.suggestion']" class="btn btn-danger btn-sm">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </td>
+              <tr *ngFor="let e of employees| filter:{ id:search_text, first_name: search_text, last_name: search_text, title: search_text, phone: search_text, ip_phone: search_text}: false">
+                <td>{{e.first_name}} {{e.last_name}}</td>
+                <td>{{e.title}}</td>
+                <td>{{e.phone|priceFormat}}</td>
+                <td>{{e.ip_phone|priceFormat}}</td>
               </tr>
               </tbody>
             </table>
+            <app-empty-data
+              *ngIf="employees.length==0 && !show"
+              title="Aucun contact"></app-empty-data>
           </div>
           <!-- /.card-body -->
         </div>

@@ -78,6 +78,9 @@ export class HomeComponent implements OnInit {
           v.superieur = {first_name : 'supérieur hiérachique',
             last_name:'Aucun'}
         }
+        // gestion des collaborateurs
+        v.collaborateur = _.filter(e,{sup_id:v.id});
+        v.collaborateur = _.orderBy(v.collaborateur,'first_name');
         if(v.birthday){
           v.mois = parseInt(v.birthday.split('-')[1]);
           v.jour = parseInt(v.birthday.split('-')[2])
@@ -135,7 +138,7 @@ export class HomeComponent implements OnInit {
       this.entity = "de "+a.body.entity.name;
       let opt = {
         per_page:10,
-        _sort:'date',
+        _sort:'created_at',
         _sortDir:'desc',
         entity_id: a.body.entity_id,
         _includes: 'newsletter'

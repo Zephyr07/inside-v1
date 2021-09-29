@@ -45,7 +45,7 @@
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" *ngxPermissionsOnly="['manage.admin']">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
@@ -57,7 +57,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-entity" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-entity'}">
+            <a routerLink="/admin/list-entity" class="nav-link" *ngxPermissionsOnly="['consult.entity']" [ngClass]="{'text-yellow':current_url == '/admin/list-entity'}">
               <i class="nav-icon fas fa-hotel"></i>
               <p>
                 Entités
@@ -65,7 +65,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-partner" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-partner'}">
+            <a routerLink="/admin/list-partner" class="nav-link" *ngxPermissionsOnly="['consult.partner']" [ngClass]="{'text-yellow':current_url == '/admin/list-partner'}">
               <i class="nav-icon fas fa-handshake"></i>
               <p>
                 Partenaires
@@ -73,7 +73,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-management" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-management'}">
+            <a routerLink="/admin/list-management" class="nav-link" *ngxPermissionsOnly="['consult.direction']" [ngClass]="{'text-yellow':current_url == '/admin/list-management'}">
               <i class="nav-icon fas fa-building"></i>
               <p>
                 Directions
@@ -81,7 +81,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-user" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-user'}">
+            <a routerLink="/admin/list-user" class="nav-link" *ngxPermissionsOnly="['consult.employee']" [ngClass]="{'text-yellow':current_url == '/admin/list-user'}">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Employés
@@ -89,7 +89,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-group" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-group'}">
+            <a routerLink="/admin/list-group" class="nav-link" *ngxPermissionsOnly="['consult.group']" [ngClass]="{'text-yellow':current_url == '/admin/list-group'}">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Groupes
@@ -97,7 +97,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-newsletter" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-newsletter'}">
+            <a routerLink="/admin/list-newsletter" class="nav-link" *ngxPermissionsOnly="['consult.newsletter']" [ngClass]="{'text-yellow':current_url == '/admin/list-newsletter'}">
               <i class="nav-icon fas fa-file-alt"></i>
               <p>
                 Notes
@@ -105,7 +105,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-event" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-event'}">
+            <a routerLink="/admin/list-event" class="nav-link" *ngxPermissionsOnly="['consult.event']" [ngClass]="{'text-yellow':current_url == '/admin/list-event'}">
               <i class="nav-icon fas fa-calendar-alt"></i>
               <p>
                 Evènements
@@ -113,7 +113,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/suggestion" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/suggestion'}">
+            <a routerLink="/admin/suggestion" class="nav-link" *ngxPermissionsOnly="['consult.suggestion']" [ngClass]="{'text-yellow':current_url == '/admin/suggestion'}">
               <i class="nav-icon fas fa-comment-dots"></i>
               <p>
                 Suggestions
@@ -121,7 +121,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-role" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-role'}">
+            <a routerLink="/admin/list-role" class="nav-link" *ngxPermissionsOnly="['consult.role']" [ngClass]="{'text-yellow':current_url == '/admin/list-role'}">
               <i class="nav-icon fas fa-user-tag"></i>
               <p>
                 Rôles
@@ -129,10 +129,18 @@
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="/admin/list-content" class="nav-link" [ngClass]="{'text-yellow':current_url == '/admin/list-content'}">
-              <i class="nav-icon fas fa-sticky-note"></i>
+            <a routerLink="/admin/list-content" class="nav-link" *ngxPermissionsOnly="['consult.content']" [ngClass]="{'text-yellow':current_url == '/admin/list-content'}">
+              <i class="nav-icon fas fa-file-alt"></i>
               <p>
                 Contenus
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/inside" class="nav-link">
+              <i class="nav-icon fas fa-baseball-ball"></i>
+              <p>
+                Inside
               </p>
             </a>
           </li>

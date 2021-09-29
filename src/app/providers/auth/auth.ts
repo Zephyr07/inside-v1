@@ -31,7 +31,6 @@ export class AuthProvider {
     return new Promise((resolve, reject) => {
       this.api.restangular.all('auth/signin').post(credentials)
         .subscribe( (response:any) => {
-          console.log(response);
           const data = response.body;
           this.storeSession(response.body);
           // this.save_token(data.user);
@@ -155,8 +154,10 @@ export class AuthProvider {
 
   loadPermissions() {
     this.api.me.get().subscribe((data:any) => {
+      console.log(data);
       this.storeSession(data.body.data);
     }, (q:any) => {
+      console.log(q);
       if (q.data.status_code === 500) {
         //Metro.notify.create('loadPermissions ' + JSON.stringify(q.data.error.message), 'Erreur ' + q.data.status_code, {cls: 'alert', keepOpen: true, width: 500});
       } else if (q.data.status_code === 401) {
@@ -167,7 +168,15 @@ export class AuthProvider {
     });
 
   }
-  private storeSession(data: any) {
+  public storeSession(d?: any) {
+    let data:any = {};
+    if(d){
+      data = d;
+      localStorage.setItem('data', JSON.stringify(data));
+    } else {
+      // @ts-ignore
+      data = JSON.parse(localStorage.getItem('data'));
+    }
     localStorage.setItem(this.token_key, data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
     if(data.roles != undefined){

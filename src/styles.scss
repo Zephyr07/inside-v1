@@ -5,12 +5,13 @@
 //@import '~bootstrap/scss/mixins';
 
 body{
-  background: #343a40;
+  //background: #343a40;
+  background: url(assets/img/bg_inside_low.png) no-repeat;
+  background-size: cover;
 }
 
 .content-wrapper{
-  background: url(assets/img/bg_inside_low.png) no-repeat;
-  background-size: cover;
+  background: transparent !important;
 }
 .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before,
 .custom-control-input:checked ~ .custom-control-label::before{

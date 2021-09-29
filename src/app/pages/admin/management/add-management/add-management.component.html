@@ -1,5 +1,5 @@
 <!-- Content Header (Page header) -->
-<section class="content-header">
+<section class="content-header" *ngxPermissionsOnly="['add.direction','edit.direction']">
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
@@ -21,7 +21,7 @@
 </section>
 
 <!-- Main content -->
-<section class="content">
+<section class="content" *ngxPermissionsOnly="['add.direction','edit.direction']">
   <div class="container-fluid">
     <div class="row">
       <!-- left column -->
@@ -78,7 +78,7 @@
     <!-- /.row -->
   </div><!-- /.container-fluid -->
 </section>
-<!-- /.content -->
+<!-- /.direction -->
 <ng-template #content let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="modal-basic-title">Succès</h5>

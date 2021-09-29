@@ -1,5 +1,5 @@
 <!-- Main content -->
-<section class="content">
+<section class="content" *ngxPermissionsOnly="['consult.content']">
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
@@ -13,7 +13,7 @@
               <div class="input-group input-group-sm" style="width: 300px;">
                 <input type="text" name="table_search" [(ngModel)]="search_text" class="form-control float-right" placeholder="Recherche">
 
-                <div class="input-group-append">
+                <div class="input-group-append" *ngxPermissionsOnly="['add.content']">
                   <button routerLink="/admin/add-content" class="btn btn-warning">
                     <i class="fas fa-plus"></i> Ajouter
                   </button>
@@ -46,10 +46,10 @@
                 <td *ngIf="e.type =='ceo'">Mot du CEO</td>
                 <td>{{e.updated_at}}</td>
                 <td>
-                  <button routerLink="/admin/add-content/{{e.id}}" class="btn btn-dark btn-sm">
+                  <button routerLink="/admin/add-content/{{e.id}}" *ngxPermissionsOnly="['edit.content']" class="btn btn-dark btn-sm">
                     <i class="fas fa-edit"></i>
                   </button>
-                  <button (click)="deleteContent(e.id)" class="btn btn-danger btn-sm">
+                  <button (click)="deleteContent(e.id)" *ngxPermissionsOnly="['delete.content']" class="btn btn-danger btn-sm">
                     <i class="fas fa-trash"></i>
                   </button>
                 </td>

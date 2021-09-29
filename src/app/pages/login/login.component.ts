@@ -9,8 +9,8 @@ import {AuthProvider} from "../../providers/auth/auth";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  public username = "";
-  public password = "";
+  public username = "bvnand01";
+  public password = "password";
   public show = false;
   constructor(
     private router: Router,

@@ -45,13 +45,14 @@
       <div class="card card-outline card-yellow shadow">
         <div class="card-header">
           <h5 class="card-title">Fils d'actualité
-            <span (click)="getPosts(true)">
-              <i class="fas fa-sync-alt"></i>
-            </span> &nbsp;
+            &nbsp;
             <span class="spinner-grow spinner-grow-sm"
                   style="vertical-align: inherit"
                   *ngIf="show_post"
                   role="status" aria-hidden="true"></span></h5>
+          <span (click)="getPosts(true)" class="float-right">
+              <i class="fas fa-sync-alt"></i>
+            </span>
         </div>
         <div class="card-body">
           <img class="img-fluid img-circle img-sm" src="{{user.employee.image}}" alt="Alt Text">
@@ -145,7 +146,7 @@
             <div class="btn btn-warning btn-sm" routerLink="/inside/event">Voir tout</div>
           </div>
         </div>
-        <div class="card-body" *ngFor="let e of events" style="max-height: 3700px; overflow-y: auto;padding: 10px;border-bottom: 1px solid #eee; cursor: pointer" (click)="openEvent(e)">
+        <div class="card-body" *ngFor="let e of events" style="max-height: 370px; overflow-y: auto;padding: 10px;border-bottom: 1px solid #eee; cursor: pointer" (click)="openEvent(e)">
           <h6 class="card-subtitle text-muted">{{e.newsletter.date|dateFormat:false}}</h6>
           <p class="card-text">{{e.newsletter.title}}</p>
         </div>
@@ -160,7 +161,7 @@
             <div class="btn btn-dark btn-sm" routerLink="/inside/group">Voir tout</div>
           </div>
         </div>
-        <div class="card-body" *ngFor="let g of group" style="max-height: 3700px; overflow-y: auto;padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
+        <div class="card-body" *ngFor="let g of group" style="max-height: 370px; overflow-y: auto;padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
         (click)="openGroup(g)">
           <p class="card-text">{{g.group.name}}</p>
           <h6 class="card-subtitle text-muted">{{g.group.description |limitTo: 100}} <span *ngIf="g.group.description.length>100">...</span></h6>
@@ -179,7 +180,7 @@
             <div class="btn btn-dark btn-sm" routerLink="/inside/note">Voir tout</div>
           </div>
         </div>
-        <div class="card-body" *ngFor="let n of note" style="max-height: 3700px; overflow-y: auto;padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
+        <div class="card-body" *ngFor="let n of note" style="max-height: 370px; overflow-y: auto;padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
         (click)="openNote(n)">
           <p class="card-text">{{n.newsletter.title}}</p>
           <h6 class="card-subtitle text-muted">Publié le {{n.newsletter.date |dateFormat:false}}</h6>
@@ -196,7 +197,7 @@
             <div class="btn btn-dark btn-sm" routerLink="/inside/anniversaire">Voir tout</div>
           </div>
         </div>
-        <div class="card-body" *ngIf="anniv.length>0" style="max-height: 3700px; overflow-y: auto">
+        <div class="card-body" *ngIf="anniv.length>0" style="max-height: 370px; overflow-y: auto">
           <ul class="users-list clearfix row">
             <li *ngFor="let e of anniv" (click)="openModal('btnModalUser',e)">
               <img src="{{e.image}}" alt="User Image">

@@ -9,6 +9,7 @@ import {ApiProvider} from "../../../providers/api/api";
   styleUrls: ['./organigramme.component.scss']
 })
 export class OrganigrammeComponent implements OnInit {
+  public show = true;
   constructor(
     private api: ApiProvider
   ){
@@ -21,8 +22,7 @@ export class OrganigrammeComponent implements OnInit {
 
   getEmployees(){
     const opt = {
-      should_paginate: true,
-      per_page:150,
+      should_paginate: false,
       _includes: 'direction.entity'
     };
 
@@ -59,6 +59,7 @@ export class OrganigrammeComponent implements OnInit {
           })
         });
         chart.load(x);
+        this.show = false;
       }
       //{ id: 7, pid: 3, name: "Fran Parsons", title: "Developer", img: "https://cdn.balkan.app/shared/8.jpg" }
     })

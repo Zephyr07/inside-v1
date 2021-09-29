@@ -27,7 +27,6 @@ export class ApiProvider {
   public Permissions: any = this.restangular.service('permissions');
   public Partners: any = this.restangular.service('partners');
   public Posts: any = this.restangular.service('posts');
-  public Mails: any = this.restangular.service('mails');
   public Ratings: any = this.restangular.service('ratings');
   public PermissionRoles: any = this.restangular.service('permission_roles');
   public RoleUsers: any = this.restangular.service('role_users');

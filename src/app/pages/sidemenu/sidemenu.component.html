@@ -10,11 +10,11 @@
       </ul>
 
       <!-- SEARCH FORM -->
-      <form class="form-inline ml-3">
+      <form class="form-inline ml-3"  *ngIf="show_search">
         <div class="input-group input-group-sm">
-          <input class="form-control form-control-navbar" type="search" placeholder="Rechercher" aria-label="Rechercher">
+          <input class="form-control form-control-navbar" [(ngModel)]="query" [ngModelOptions]="{standalone: true}" type="search" placeholder="Rechercher" aria-label="Rechercher" (submit)="search()">
           <div class="input-group-append">
-            <button class="btn btn-navbar">
+            <button class="btn btn-navbar" (click)="search()">
               <i class="fas fa-search"></i>
             </button>
           </div>
@@ -94,7 +94,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="https://bvs-sas.com/cameroun/33-tous-les-produits" target="_blank" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside'}">
+                <a href="https://bvs-sas.com/cameroun/33-tous-les-produits" target="_blank" class="nav-link">
                   <p>Produits</p>
                 </a>
               </li>
@@ -142,6 +142,14 @@
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Mon compte
+              </p>
+            </a>
+          </li>
+          <li class="nav-item" *ngxPermissionsOnly="['manage.admin']">
+            <a routerLink="/admin" class="nav-link">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>
+                Administration
               </p>
             </a>
           </li>

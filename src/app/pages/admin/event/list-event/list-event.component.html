@@ -1,5 +1,5 @@
 <!-- Main content -->
-<section class="content">
+<section class="content" *ngxPermissionsOnly="['consult.event']">
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
@@ -13,7 +13,7 @@
               <div class="input-group input-group-sm" style="width: 300px;">
                 <input type="text" name="table_search" [(ngModel)]="search_text" class="form-control float-right" placeholder="Recherche">
 
-                <div class="input-group-append">
+                <div class="input-group-append" *ngxPermissionsOnly="['add.event']">
                   <button routerLink="/admin/add-event" class="btn btn-warning">
                     <i class="fas fa-plus"></i> Ajouter
                   </button>
@@ -47,10 +47,10 @@
                 <td>{{u.newsletter_directions.length}}</td>
                 <td>{{u.newsletter_groups.length}}</td>
                 <td>
-                  <button routerLink="/admin/add-event/{{u.id}}" class="btn btn-dark btn-sm">
+                  <button routerLink="/admin/add-event/{{u.id}}" *ngxPermissionsOnly="['edit.event']" class="btn btn-dark btn-sm">
                     <i class="fas fa-edit"></i>
                   </button>
-                  <button (click)="deleteNewsletter(u.id)" class="btn btn-danger btn-sm">
+                  <button (click)="deleteNewsletter(u.id)" *ngxPermissionsOnly="['delete.event']" class="btn btn-danger btn-sm">
                     <i class="fas fa-trash"></i>
                   </button>
                 </td>
