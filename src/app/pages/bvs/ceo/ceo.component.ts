@@ -7,7 +7,7 @@ import {ApiProvider} from "../../../providers/api/api";
   styleUrls: ['./ceo.component.scss']
 })
 export class CeoComponent implements OnInit {
-
+  public show = true;
   public ceo :any = [];
   constructor(
     private api : ApiProvider
@@ -20,7 +20,10 @@ export class CeoComponent implements OnInit {
 
   getCeoMessage(){
     this.api.Contents.getList({type:'ceo'}).subscribe((v:any)=>{
+      this.show = false;
       this.ceo = v[0];
+    }, (e:any)=>{
+      this.show = false;
     })
   }
 

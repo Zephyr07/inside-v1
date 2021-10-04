@@ -13,25 +13,25 @@
                    alt="Edward">
             </div>
 
-            <h3 class="profile-username text-center">{{user.employee.last_name}} {{user.employee.first_name}}</h3>
+            <h3 class="profile-username text-center">{{employee.last_name}} {{employee.first_name}}</h3>
 
-            <p class="text-muted text-center">{{user.employee.title}}</p>
+            <p class="text-muted text-center">{{employee.title}}</p>
 
             <ul class="list-group list-group-unbordered mb-3">
               <li class="list-group-item">
                 <b>Email</b> <a class="float-right">{{user.employee.email}}</a>
               </li>
               <li class="list-group-item">
-                <b>Téléphone</b> <a class="float-right">{{user.employee.phone|priceFormat}}</a>
+                <b>Téléphone</b> <a class="float-right">{{employee.phone|priceFormat}}</a>
               </li>
               <li class="list-group-item">
-                <b>Fixe</b> <a class="float-right">{{user.employee.ip_phone|priceFormat}}</a>
+                <b>Fixe</b> <a class="float-right">{{employee.ip_phone|priceFormat}}</a>
               </li>
               <li class="list-group-item">
-                <b>Date de naissance</b> <a class="float-right">{{user.employee.birthday|dateFormat:false|limitTo:(user.employee.birthday|dateFormat:false).length-4}}</a>
+                <b>Date de naissance</b> <a class="float-right">{{employee.birthday|dateFormat:false|limitTo:(employee.birthday|dateFormat:false).length-4}}</a>
               </li>
               <li class="list-group-item">
-                <b>Localisation</b> <a class="float-right">{{user.employee.location}}</a>
+                <b>Localisation</b> <a class="float-right">{{employee.location}}</a>
               </li>
               <li class="list-group-item">
                 <b>Supérieur Hiérachique</b> <a class="float-right">{{sup.last_name}} {{sup.first_name}}</a>
@@ -101,15 +101,95 @@
 
               <!-- /.tab-pane -->
               <div class="tab-pane" id="info">
-                <div class="form-group">
-                  <label for="nom">Nom</label>
-                  <input type="text" [(ngModel)]="title" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="nom" placeholder="Titre">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="nom">Nom</label>
+                      <input type="text" [(ngModel)]="employee.first_name" [ngModelOptions]="{standalone: true}"
+                             class="form-control form-control-border" id="nom" placeholder="Nom">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="first_name">Prénom</label>
+                      <input type="text" [(ngModel)]="employee.last_name" [ngModelOptions]="{standalone: true}"
+                             class="form-control form-control-border" id="first_name" placeholder="Prénom">
+                    </div>
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="phone">Contenu</label>
-                  <textarea [(ngModel)]="contenu" [ngModelOptions]="{standalone: true}" class="form-control form-control-border" id="phone" placeholder="Contenu"></textarea>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="title">Fonction</label>
+                      <input type="text" [(ngModel)]="employee.title" [ngModelOptions]="{standalone: true}"
+                             class="form-control form-control-border" id="title" placeholder="Fonction">
+                    </div>
+                  </div>
                 </div>
-                <div class="btn btn-warning" (click)="saveSuggestion()">Enregistrer <span class="spinner-grow spinner-grow-sm"
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="phones">Téléphone</label>
+                      <input type="number" [(ngModel)]="employee.phone" [ngModelOptions]="{standalone: true}"
+                             class="form-control form-control-border" id="phones" placeholder="Téléphone">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="ip_phone">Poste fixe</label>
+                      <input type="number" [(ngModel)]="employee.ip_phone" [ngModelOptions]="{standalone: true}"
+                             class="form-control form-control-border" id="ip_phone" placeholder="Poste fixe">
+                    </div>
+                  </div>
+                </div>
+                 <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="location">Ville</label>
+                      <input type="text" [(ngModel)]="employee.location" [ngModelOptions]="{standalone: true}"
+                             class="form-control form-control-border" id="location" placeholder="Poste fixe">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="location">Date d'anniversaire</label>
+                      <div class="input-group">
+                        <input class="form-control" placeholder="Date d'anniversaire"
+                               name="dp" [(ngModel)]="date" [ngModelOptions]="{standalone: true}" ngbDatepicker #d="ngbDatepicker"
+                               [footerTemplate]="footerTemplate"
+                               (click)="d.toggle()">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-dark" (click)="d.toggle()" type="button">
+                            <i class="nav-icon fas fa-calendar"></i>
+                          </button>
+                        </div>
+                        <ng-template #footerTemplate>
+                          <hr class="my-0">
+                          <button class="btn btn-warning btn-sm m-2 float-left" (click)="date = today; d.close()">Aujourd'hui</button>
+                          <button class="btn btn-dark btn-sm m-2 float-right" (click)="d.close()">Fermer</button>
+                        </ng-template>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-3">
+                      <img [src]="imageSrc" *ngIf="imageSrc" style="width:100%">
+                    </div>
+                    <div class="col-9">
+                      <label for="image">Image</label>
+                      <div class="input-group">
+                        <div class="custom-file">
+                          <input type="file" (change)="onSelectImage($event)" class="custom-file-input" id="image" accept="image/*">
+                          <label class="custom-file-label">Choisir une image</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="btn btn-warning" (click)="updateEmployee()">Enregistrer <span class="spinner-grow spinner-grow-sm"
                                                                                           style="vertical-align: inherit"
                                                                                           *ngIf="show_loading"
                                                                                           role="status" aria-hidden="true"></span></div>

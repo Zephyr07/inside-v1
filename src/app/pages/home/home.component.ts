@@ -95,9 +95,16 @@ export class HomeComponent implements OnInit {
   }
 
   getBirthday(){
+    const x = new Date().getMonth()+1;
+    let mois = "";
+    if(x<10){
+      mois = "-0"+x+"-";
+    } else {
+      mois = "-"+x+"-";
+    }
     const opt = {
       should_paginate: false,
-      'birthday-lk':'-09-'
+      'birthday-lk':mois
     };
     this.api.Employees.getList(opt).subscribe((e:any)=>{
       e.forEach((v:any)=>{

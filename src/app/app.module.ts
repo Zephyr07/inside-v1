@@ -108,9 +108,6 @@ export function RestangularConfigFactory(RestangularProvider:any) {
 @NgModule({
   declarations: [
     AppComponent,
-    FilterPipe,
-    StatutPipe,
-    LimitToPipe,
     LoginComponent,
     DashboardComponent,
     SidemenuComponent,

@@ -7,11 +7,12 @@ import {ApiProvider} from "../../../providers/api/api";
   styleUrls: ['./histoire.component.scss']
 })
 export class HistoireComponent implements OnInit {
-
+  public show = true;
   public history :any = [];
   constructor(
     private api : ApiProvider
   ) {
+    this.show = true;
     this.getHistories();
   }
 
@@ -21,6 +22,9 @@ export class HistoireComponent implements OnInit {
   getHistories(){
     this.api.Contents.getList({type:'history'}).subscribe((v:any)=>{
       this.history = v;
+      this.show = false;
+    }, (e:any)=>{
+      this.show = false;
     })
   }
 

@@ -1,18 +1,52 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {ApiProvider} from "../../providers/api/api";
-import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ModalDismissReasons, NgbCalendar, NgbDatepickerI18n, NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import * as _ from "lodash";
 import {AuthProvider} from "../../providers/auth/auth";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {regexValidators} from "../../services/regex";
 
+const I18N_VALUES = {
+  'fr': {
+    weekdays: ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di'],
+    months: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Déc'],
+    weekLabel: 'sem'
+  }
+  // other languages you would support
+};
+
+// Define a service holding the language. You probably already have one if your app is i18ned. Or you could also
+// use the Angular LOCALE_ID value
+@Injectable()
+export class I18n {
+  language = 'fr';
+}
+
+// Define custom service providing the months and weekdays translations
+@Injectable()
+export class CustomDatepickerI18n extends NgbDatepickerI18n {
+  constructor(private _i18n: I18n) { super(); }
+
+  getWeekdayLabel(weekday: number): string { // @ts-ignore
+    return I18N_VALUES[this._i18n.language].weekdays[weekday - 1]; }
+  getWeekLabel(): string { // @ts-ignore
+    return I18N_VALUES[this._i18n.language].weekLabel; }
+  getMonthShortName(month: number): string { // @ts-ignore
+    return I18N_VALUES[this._i18n.language].months[month - 1]; }
+  getMonthFullName(month: number): string { return this.getMonthShortName(month); }
+  getDayAriaLabel(date: NgbDateStruct): string { return `${date.day}-${date.month}-${date.year}`; }
+}
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
+  providers:
+    [I18n, {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}]  // define custom NgbDatepickerI18n provider
 })
 export class ProfileComponent implements OnInit {
   public u: any;
+  public e: any;
+  public employee: any ={};
   public user: any;
   public sup: any = {};
   public direction: any = {};
@@ -22,18 +56,24 @@ export class ProfileComponent implements OnInit {
   public state = 'new_suggestion';
   public show = false;
   public show_loading = false;
+  public today = this.calendar.getToday();
+  public date:any;
   public titre_toast = "";
   public message_toast = "";
   public success_title = "";
   closeResult = '';
   public signupForm: FormGroup;
+  public imageSrc ="";
+  public images = new FormData();
+  file_selected = false;
 
 
   constructor(
     private api:ApiProvider,
     private auth:AuthProvider,
     private modalService: NgbModal,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+  private calendar: NgbCalendar
   ) {
     this.signupForm = this.formBuilder.group({
       current_password: new FormControl('', Validators.compose([
@@ -62,6 +102,18 @@ export class ProfileComponent implements OnInit {
     this.api.Users.get(this.user.id).subscribe((d:any) => {
       this.u = d;
     });
+
+    this.api.Employees.get(this.user.employee.id).subscribe((e:any)=>{
+      this.e = e;
+      this.imageSrc = e.body.image;
+      this.employee = e.body;
+      const x = this.employee.birthday.split(" ")[0];
+      this.date = {
+        year: parseInt(x.split("-")[0]),
+        month: parseInt(x.split("-")[1]),
+        day: parseInt(x.split("-")[2]),
+      };
+    })
   }
 
   ngOnInit(): void {
@@ -95,6 +147,46 @@ export class ProfileComponent implements OnInit {
     })
   }
 
+  updateEmployee(){
+    this.show_loading = true;
+    this.e.first_name = this.employee.first_name;
+    this.e.last_name = this.employee.last_name;
+    this.e.phone = this.employee.phone;
+    this.e.ip_phone = this.employee.ip_phone;
+    this.e.location = this.employee.location;
+    this.e.title = this.employee.title;
+    this.e.location = this.employee.location;
+    this.e.birthday = this.date.year+'-'+this.date.month+"-"+this.date.day+' 00:00:00';
+    this.e.id = this.e.body.id;
+
+    this.e.put().subscribe((e:any)=>{
+      if(this.file_selected){
+        // mise à jour de la photo
+        this.images.append('_method', 'PUT');
+        this.api.restangular.all('employees/' + e.body.id).customPOST(this.images, undefined, undefined, {'Content-Type': undefined}).subscribe((d:any) => {
+          this.openModal("Vos informations ont été mise à jour");
+          this.show_loading = false;
+        }, (e:any)=>{
+          console.log(e);
+        })
+      } else {
+        this.openModal("Vos informations ont été mise à jour");
+        this.show_loading = false;
+      }
+    })
+  }
+
+  onSelectImage(event:any) {
+    this.file_selected = true;
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    //this.imageSrc = reader.result as string;
+    this.images.append('image', event.target.files[0], event.target.files[0].name);
+    reader.onload = () => {
+      this.imageSrc = reader.result as string;
+    };
+  }
+
   saveSuggestion(){
     if(this.title!="" && this.contenu!=""){
       this.show_loading=true;
@@ -105,7 +197,6 @@ export class ProfileComponent implements OnInit {
       };
       this.api.Suggestions.post(opt).subscribe((d:any)=>{
         this.openModal('Suggestion '+d.body.title+ ' enregistréée');
-        console.log(d);
         this.suggestions.push(d.body);
         this.suggestions = _.orderBy(this.suggestions,'created_at').reverse();
         this.title = "";
