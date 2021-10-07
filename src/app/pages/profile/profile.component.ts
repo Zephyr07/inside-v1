@@ -55,6 +55,7 @@ export class ProfileComponent implements OnInit {
   public suggestions:any = [];
   public state = 'new_suggestion';
   public show = false;
+  public show_bar = true;
   public show_loading = false;
   public today = this.calendar.getToday();
   public date:any;
@@ -96,11 +97,13 @@ export class ProfileComponent implements OnInit {
 
     // @ts-ignore
     this.user = JSON.parse(localStorage.getItem('user'));
+    this.show_bar = true;
     this.getDirection(this.user.employee.direction_id);
     this.getSup(this.user.employee.sup_id);
     this.getSuggestion();
     this.api.Users.get(this.user.id).subscribe((d:any) => {
       this.u = d;
+      this.show_bar = false;
     });
 
     this.api.Employees.get(this.user.employee.id).subscribe((e:any)=>{

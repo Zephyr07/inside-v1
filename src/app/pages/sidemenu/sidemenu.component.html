@@ -21,6 +21,19 @@
         </div>
       </form>
 
+      <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/inside/profile">
+            <i class="fas fa-user"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+          </a>
+        </li>
+      </ul>
     </nav>
     <!-- /.navbar -->
   </div>
@@ -57,7 +70,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <!--<li class="nav-item">
             <a class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/ceo' || current_url == '/inside/bvs/histoire'
             ||current_url == '/inside/bvs/direction' || current_url == '/inside/bvs/organigramme' || current_url == '/inside/bvs/annuaire'
             ||current_url == '/inside/bvs/partenaire'}">
@@ -104,6 +117,48 @@
                 </a>
               </li>
             </ul>
+          </li>-->
+          <li class="nav-item">
+            <a routerLink="/inside/bvs/ceo" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/ceo'}">
+              <i class="nav-icon fas fa-star"></i>
+              <p>Mot du CEO</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/inside/bvs/histoire" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/histoire'}">
+              <i class="nav-icon fas fa-expand-alt"></i>
+              <p>Histoire</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/inside/bvs/direction" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/direction'}">
+              <i class="nav-icon fas fa-building"></i>
+              <p>Direction</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/inside/bvs/organigramme" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/organigramme'}">
+              <i class="nav-icon fas fa-sitemap"></i>
+              <p>Organigramme</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/inside/bvs/annuaire" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/annuaire'}">
+              <i class="nav-icon fas fa-address-book"></i>
+              <p>Annuaire</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="https://bvs-sas.com/cameroun/33-tous-les-produits" target="_blank" class="nav-link">
+              <i class="nav-icon fas fa-boxes"></i>
+              <p>Produits</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/inside/bvs/partenaire" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/bvs/partenaire'}">
+              <i class="nav-icon fas fa-handshake"></i>
+              <p>Spiders Lions</p>
+            </a>
           </li>
           <li class="nav-item">
             <a routerLink="/inside/group" class="nav-link" [ngClass]="{'text-yellow':current_url == '/inside/group'}">

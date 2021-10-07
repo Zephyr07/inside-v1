@@ -7,6 +7,9 @@ import {Router} from "@angular/router";
   templateUrl: './sidemenu.component.html',
   styleUrls: ['./sidemenu.component.scss']
 })
+
+
+
 export class SidemenuComponent implements OnInit {
   public user:any;
   public current_url = "";

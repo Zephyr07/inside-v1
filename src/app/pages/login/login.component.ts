@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {NavigationExtras, Router} from "@angular/router";
 import {ApiProvider} from "../../providers/api/api";
 import {AuthProvider} from "../../providers/auth/auth";
 
@@ -9,8 +9,8 @@ import {AuthProvider} from "../../providers/auth/auth";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  public username = "bvnand01";
-  public password = "password";
+  public username = "";
+  public password = "";
   public show = false;
   constructor(
     private router: Router,
@@ -34,7 +34,13 @@ export class LoginComponent implements OnInit {
       alert('Mot de passe absent');
     } else {
       this.auth.login({username: this.username, password: this.password}).then((rep:any) => {
-        this.router.navigate(['/inside']);
+        if (!rep.user.has_reset_password) {
+          const navigationExtra: NavigationExtras = {state: {id: rep.user.id}};
+          this.router.navigate(['reset'],navigationExtra);
+        } else {
+          this.router.navigate(['/inside']);
+        }
+
       }).catch((err) => {
         // console(err);
         this.show = false;

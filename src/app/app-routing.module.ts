@@ -39,6 +39,7 @@ import {HistoireComponent} from "./pages/bvs/histoire/histoire.component";
 import {CeoComponent} from "./pages/bvs/ceo/ceo.component";
 import {AnnuaireComponent} from "./pages/bvs/annuaire/annuaire.component";
 import {SearchComponent} from "./pages/search/search.component";
+import {ResetComponent} from "./pages/reset/reset.component";
 
 const routes: Routes = [
   {
@@ -48,6 +49,10 @@ const routes: Routes = [
   {
     path : 'register',
     component : RegisterComponent,
+  },
+  {
+    path : 'reset',
+    component : ResetComponent,
   },
   {
     path : 'inside',

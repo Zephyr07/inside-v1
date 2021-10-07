@@ -1,0 +1,66 @@
+<div class="hold-transition login-page">
+  <div class="login-box">
+    <!-- /.login-logo -->
+    <div class="card card-outline card-yellow">
+      <div class="card-header text-center">
+        <h1><img src="../../../assets/img/logo_03.png" class="logo" alt=""><b>Inside</b></h1>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="frmSignup" (submit)="submit()">
+          <div class="form-group">
+            <input id="password" placeholder="Nouveau mot de passe" formControlName="password" type="password" class="form-control" [ngClass]="frmSignup.controls['password'].invalid ? 'is-invalid' : ''">
+            <!-- <label class="text-danger col" *ngIf="frmSignup.controls['password'].hasError('required')">
+              Password is Required!
+            </label> -->
+            <label class="col" [ngClass]="frmSignup.controls['password'].hasError('required') || frmSignup.controls['password'].hasError('minlength')  ? 'text-danger' : 'text-dark'">
+              <span [ngClass]="frmSignup.controls['password'].hasError('required') || frmSignup.controls['password'].hasError('minlength')  ? 'fa fa-times' : 'fa fa-check  text-warning'"></span>
+              Doit avoir 8 caractères
+            </label>
+            <br>
+            <label class="col" [ngClass]="frmSignup.controls['password'].hasError('required') || frmSignup.controls['password'].hasError('hasNumber')  ? 'text-danger' : 'text-dark'">
+              <span [ngClass]="frmSignup.controls['password'].hasError('required') || frmSignup.controls['password'].hasError('hasNumber')  ? 'fa fa-times' : 'fa fa-check  text-warning'"></span>
+              Doit contenir au moins 1 chiffre
+            </label>
+            <br>
+            <label class="col" [ngClass]="frmSignup.controls['password'].hasError('required') || frmSignup.controls['password'].hasError('hasCapitalCase')  ? 'text-danger' : 'text-dark'">
+              <span [ngClass]="frmSignup.controls['password'].hasError('required') || frmSignup.controls['password'].hasError('hasCapitalCase')  ? 'fa fa-times' : 'fa fa-check  text-warning'"></span>
+              Doit contenir au moins 1 en majuscule
+            </label>
+            <br>
+            <label class="col" [ngClass]="frmSignup.controls['password'].hasError('required') || frmSignup.controls['password'].hasError('hasSmallCase')  ? 'text-danger' : 'text-dark'">
+              <span [ngClass]="frmSignup.controls['password'].hasError('required') || frmSignup.controls['password'].hasError('hasSmallCase')  ? 'fa fa-times' : 'fa fa-check  text-warning'"></span>
+              Doit contenir au moins 1 lettre en minuscule
+            </label>
+            <br>
+            <label class="col" [ngClass]="frmSignup.controls['password'].hasError('required') || frmSignup.controls['password'].hasError('hasSpecialCharacters') ? 'text-danger' : 'text-dark'">
+              <span [ngClass]="frmSignup.controls['password'].hasError('required') || frmSignup.controls['password'].hasError('hasSpecialCharacters')  ? 'fa fa-times' : 'fa fa-check  text-warning'"></span>
+              Doit contenir au moins 1 caractère spécial (@ € $ . ! ? &)
+            </label>
+
+          </div>
+          <div class="form-group">
+            <input id="confirmPassword" placeholder="Confirmer mot de passe" formControlName="confirmPassword" type="password" class="form-control"
+                   [ngClass]="frmSignup.controls['confirmPassword'].invalid ? 'is-invalid' : ''">
+            <label class="text-danger" *ngIf="frmSignup.controls['confirmPassword'].hasError('required')">
+              Mot de passe requis!
+            </label>
+            <label class="text-danger" *ngIf="frmSignup.controls['confirmPassword'].hasError('NoPassswordMatch')">
+              Le mot de passe ne correspond pas
+            </label>
+          </div>
+          <div class="form-group">
+            <button [disabled]="frmSignup.invalid" type="submit" class="btn btn-warning btn-block">Enregistrer
+              <span class="spinner-grow spinner-grow-sm"
+                    style="vertical-align: inherit"
+                    *ngIf="show"
+                    role="status" aria-hidden="true"></span>
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+
+</div>
