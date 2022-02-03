@@ -19,8 +19,8 @@ export class ResetComponent implements OnInit {
 
   constructor(private api: ApiProvider, private router: Router, private route: ActivatedRoute, private fb: FormBuilder) {
     // @ts-ignore
-    //this.id = this.router.getCurrentNavigation().extras.state.id;
-    this.id = 68;
+    this.id = this.router.getCurrentNavigation().extras.state.id;
+    //this.id = 68;
     this.api.Users.get(this.id).subscribe((d:any) => {
       console.log(d);
       this.user = d;

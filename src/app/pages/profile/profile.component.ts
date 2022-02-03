@@ -230,7 +230,7 @@ export class ProfileComponent implements OnInit {
   updatePassword(){
     const opt = {
       id:this.user.id,
-      username : this.user.username,
+      phone : this.user.phone,
       current_password : this.signupForm.value.current_password,
       password : this.signupForm.value.password,
       password_confirmation : this.signupForm.value.password_confirmation,

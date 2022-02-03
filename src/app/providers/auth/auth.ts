@@ -26,7 +26,7 @@ export class AuthProvider {
     return localStorage.getItem(this.token_key) != undefined;
   }
 
-  login(credentials: {username: string, password: string}) {
+  login(credentials: {phone: number, password: string}) {
     this.permissionsService.flushPermissions();
     return new Promise((resolve, reject) => {
       this.api.restangular.all('auth/signin').post(credentials)
@@ -61,7 +61,7 @@ export class AuthProvider {
     });
 
   }
-  register(credentials: {username: string, password: string}) {
+  register(credentials: {phone: number, password: string}) {
     return new Promise((resolve, reject) => {
       this.api.restangular.all('auth/signup').post(credentials)
         .subscribe( (response:any) => {
@@ -110,7 +110,7 @@ export class AuthProvider {
   }*/
 
   update_info(credentials: {
-    id: number, username?: string, has_reset_password?: boolean, status?: string,
+    id: number, phone: number, has_reset_password?: boolean, status?: string,
     password?: string, device_tokens?: string[]
   }) {
     return new Promise((resolve, reject) => {

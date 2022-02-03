@@ -59,13 +59,13 @@ export class HomeComponent implements OnInit {
     this.getEmployees();
   }
 
-  getCeoMessage(){
+  async getCeoMessage(){
     this.api.Contents.getList({type:'ceo'}).subscribe((v:any)=>{
       this.ceo = v[0];
     })
   }
 
-  getEmployees(){
+  async getEmployees(){
     const opt = {
       should_paginate:false,
       _includes:'direction.entity'
@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  getBirthday(){
+  async getBirthday(){
     const x = new Date().getMonth()+1;
     let mois = "";
     if(x<10){
@@ -120,7 +120,7 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  getGroup(){
+  async getGroup(){
     const opt = {
       should_paginate: false,
       employee_id : this.user.employee.id,
@@ -137,8 +137,8 @@ export class HomeComponent implements OnInit {
       console.log(e);
     })
   }
-  
-  getNote(){
+
+  async getNote(){
     // recuperation de l'entitié de l'employé
     this.api.Managements.get(this.user.employee.direction_id,{_includes:'entity'}).subscribe((a:any)=>{
       // recuperation des notes de l'entitié d'appartenance
@@ -169,7 +169,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  getPosts(s:boolean){
+  async getPosts(s:boolean){
     if(s){
       // première requète
       this.page = 1;
@@ -212,7 +212,7 @@ export class HomeComponent implements OnInit {
 
   }
 
-  savePost(){
+  async savePost(){
     this.show = true;
     this.api.Posts.post({content:this.content,employee_id:this.user.employee.id}).subscribe((e:any)=>{
       // enretistrement de l'image
@@ -239,7 +239,7 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  saveComment(p:any){
+  async saveComment(p:any){
    if(p!=''){
      p.show = true;
      const opt = {
@@ -260,7 +260,7 @@ export class HomeComponent implements OnInit {
    }
   }
 
-  deleteComment(post:any,p:any){
+  async deleteComment(post:any,p:any){
     const x = _.find(post.posts,p);
     post.posts.splice(post.posts.indexOf(x),1);
     this.api.Posts.get(p.id).subscribe((e:any)=>{
@@ -272,7 +272,7 @@ export class HomeComponent implements OnInit {
     })
   };
 
-  saveRating(p:any){
+  async saveRating(p:any){
     if(!p.like){
       // ajout
       p.like = true;

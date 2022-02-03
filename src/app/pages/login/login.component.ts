@@ -9,31 +9,33 @@ import {AuthProvider} from "../../providers/auth/auth";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  public username = "";
+  public phone : number;
   public password = "";
   public show = false;
   constructor(
     private router: Router,
     private api: ApiProvider,
     private auth: AuthProvider,
-  ) { }
+  ) {
+    this.phone = 690404180;
+  }
 
   ngOnInit(): void {
   }
 
   login(){
     this.show = true;
-    if (this.username === '' && this.password === '') {
+    if (this.phone === 0 && this.password === '') {
       this.show = false;
-      alert('Identifiant et mot de passe absents');
-    } else if (this.username === '' ) {
+      alert('Téléphone et mot de passe absents');
+    } else if (this.phone === 0 ) {
       this.show = false;
-      alert('Identifiant absent');
+      alert('Téléphone absent');
     } else if ( this.password === '') {
       this.show = false;
       alert('Mot de passe absent');
     } else {
-      this.auth.login({username: this.username, password: this.password}).then((rep:any) => {
+      this.auth.login({phone: this.phone, password: this.password}).then((rep:any) => {
         if (!rep.user.has_reset_password) {
           const navigationExtra: NavigationExtras = {state: {id: rep.user.id}};
           this.router.navigate(['reset'],navigationExtra);

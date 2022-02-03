@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  public username = "bvnand01";
+  public phone = 690613323;
   public password = "T@rija690";
   public password_confirmation = "T@rija690";
   constructor(
@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
   register() {
     // creation de l'utilisateur
     const user = {
-      username:this.username,
+      phone:this.phone,
       password:this.password,
       password_confirmation:this.password_confirmation,
     };
