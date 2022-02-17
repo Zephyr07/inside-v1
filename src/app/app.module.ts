@@ -61,6 +61,7 @@ import { AnnuaireComponent } from './pages/bvs/annuaire/annuaire.component';
 import { SearchComponent } from './pages/search/search.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ResetComponent } from './pages/reset/reset.component';
+import {UtilProvider} from "./providers/util/util";
 
 
 export function RestangularConfigFactory(RestangularProvider:any) {
@@ -173,6 +174,7 @@ export function RestangularConfigFactory(RestangularProvider:any) {
   ],
   providers: [
     ApiProvider,
+    UtilProvider,
     AuthProvider,],
   bootstrap: [AppComponent]
 })

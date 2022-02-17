@@ -28,7 +28,7 @@
               <ngb-carousel class="shadow newsletter carousel-fade carousel-dark" [interval]="10000">
                 <ng-template ngbSlide *ngFor="let e of events">
                   <div class="picsum-img-wrapper">
-                    <img src="{{e.newsletter.image}}" alt="e.newsletter.title">
+                    <img src="{{e.image}}" alt="e.newsletter.title">
                   </div>
                 </ng-template>
               </ngb-carousel>
@@ -143,12 +143,16 @@
                                              *ngIf="show_note"
                                              role="status" aria-hidden="true"></span></h5>
           <div class="card-tools">
+            <div class="btn btn-warning btn-sm" (click)="getNote()"><i class="fas fa-sync-alt"></i></div> &nbsp;
             <div class="btn btn-warning btn-sm" routerLink="/inside/event">Voir tout</div>
           </div>
         </div>
-        <div class="card-body" *ngFor="let e of events" style="max-height: 370px; overflow-y: auto;padding: 10px;border-bottom: 1px solid #eee; cursor: pointer" (click)="openEvent(e)">
-          <h6 class="card-subtitle text-muted">{{e.newsletter.date|dateFormat:false}}</h6>
-          <p class="card-text">{{e.newsletter.title}}</p>
+        <div style="max-height: 300px; overflow-y: auto">
+          <div class="card-body" *ngFor="let e of events" style="padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
+               (click)="openEvent(e)">
+            <h6 class="card-subtitle text-muted">{{e.date|dateFormat:false}}</h6>
+            <p class="card-text">{{e.title}}</p>
+          </div>
         </div>
       </div>
       <div class="card card-outline card-yellow shadow">
@@ -158,13 +162,16 @@
                                                   *ngIf="show_group"
                                                   role="status" aria-hidden="true"></span></h5>
           <div class="card-tools">
+            <div class="btn btn-dark btn-sm" (click)="getGroup()"><i class="fas fa-sync-alt"></i></div> &nbsp;
             <div class="btn btn-dark btn-sm" routerLink="/inside/group">Voir tout</div>
           </div>
         </div>
-        <div class="card-body" *ngFor="let g of group" style="max-height: 370px; overflow-y: auto;padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
-        (click)="openGroup(g)">
-          <p class="card-text">{{g.group.name}}</p>
-          <h6 class="card-subtitle text-muted">{{g.group.description |limitTo: 100}} <span *ngIf="g.group.description.length>100">...</span></h6>
+        <div style="max-height: 300px; overflow-y: auto">
+          <div class="card-body" *ngFor="let g of group" style="padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
+               (click)="openGroup(g)">
+            <p class="card-text">{{g.group.name}}</p>
+            <h6 class="card-subtitle text-muted">{{g.group.description |limitTo: 100}} <span *ngIf="g.group.description.length>100">...</span></h6>
+          </div>
         </div>
       </div>
     </div>
@@ -177,13 +184,16 @@
                                                         *ngIf="show_note"
                                                         role="status" aria-hidden="true"></span></h5>
           <div class="card-tools">
+            <div class="btn btn-dark btn-sm" (click)="getNote()"><i class="fas fa-sync-alt"></i></div> &nbsp;
             <div class="btn btn-dark btn-sm" routerLink="/inside/note">Voir tout</div>
           </div>
         </div>
-        <div class="card-body" *ngFor="let n of note" style="max-height: 370px; overflow-y: auto;padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
-        (click)="openNote(n)">
-          <p class="card-text">{{n.newsletter.title}}</p>
-          <h6 class="card-subtitle text-muted">Publié le {{n.newsletter.date |dateFormat:false}}</h6>
+        <div style="max-height: 300px; overflow-y: auto;">
+          <div class="card-body" *ngFor="let n of note" style="padding: 10px;border-bottom: 1px solid #eee; cursor: pointer"
+               (click)="openNote(n)">
+            <p class="card-text">{{n.title}}</p>
+            <h6 class="card-subtitle text-muted">Publié le {{n.date |dateFormat:false}}</h6>
+          </div>
         </div>
       </div>
 
@@ -194,10 +204,11 @@
                                                             *ngIf="show_anniv"
                                                             role="status" aria-hidden="true"></span></h5>
           <div class="card-tools">
+            <div class="btn btn-dark btn-sm" (click)="getBirthday()"><i class="fas fa-sync-alt"></i></div> &nbsp;
             <div class="btn btn-dark btn-sm" routerLink="/inside/anniversaire">Voir tout</div>
           </div>
         </div>
-        <div class="card-body" *ngIf="anniv.length>0" style="max-height: 370px; overflow-y: auto">
+        <div class="card-body" *ngIf="anniv.length>0" style="max-height: 300px; overflow-y: auto">
           <ul class="users-list clearfix row">
             <li *ngFor="let e of anniv" (click)="openModal('btnModalUser',e)">
               <img src="{{e.image}}" alt="User Image">
@@ -263,12 +274,12 @@
     </button>
   </div>
   <div class="modal-body">
-    <p><strong>{{detail.newsletter.title}} <br></strong>
-      <small>Le {{detail.newsletter.date|dateFormat:false}}</small>
+    <p><strong>{{detail.title}} <br></strong>
+      <small>Le {{detail.date|dateFormat:false}}</small>
     </p>
-    <p>{{detail.newsletter.description}}</p>
+    <p>{{detail.description}}</p>
     <p>
-      <img [src]="detail.newsletter.image" width="100%" height="400px">
+      <img [src]="detail.image" width="100%" height="400px">
     </p>
   </div>
 </ng-template>
@@ -282,10 +293,10 @@
     </button>
   </div>
   <div class="modal-body">
-    <p><strong>{{detail.newsletter.title}} <br></strong>
-      <small>Publié le {{detail.newsletter.date|dateFormat:true}}</small>
+    <p><strong>{{detail.title}} <br></strong>
+      <small>Publié le {{detail.date|dateFormat:true}}</small>
     </p>
-    <p>{{detail.newsletter.description}}</p>
+    <p>{{detail.description}}</p>
     <p>
       <iframe [src]="detail.fichier" width="100%" height="400px"></iframe>
     </p>

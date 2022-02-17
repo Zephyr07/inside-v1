@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiProvider} from "../../../../providers/api/api";
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-list-user',
@@ -34,7 +35,7 @@ export class ListUserComponent implements OnInit {
   getUsers(){
     const opt = {
       should_paginate: false,
-      _sort: 'username',
+      _sort: 'phone',
       _sortDir: 'asc',
       _includes: 'employee'
     };
@@ -42,11 +43,18 @@ export class ListUserComponent implements OnInit {
     this.api.Users.getList(opt).subscribe((d:any)=>{
       this.show = false;
       d.forEach((v:any)=>{
-        v.first_name = v.employee.first_name;
-        v.last_name = v.employee.last_name;
-        v.title = v.employee.title;
+        if(v.employee!=undefined){
+          v.first_name = v.employee.first_name;
+          v.last_name = v.employee.last_name;
+          v.title = v.employee.title;
+        } else {
+          v.first_name = "Admin";
+          v.last_name = "BVS";
+          v.title = "Super";
+        }
+
       });
-      this.users = d;
+      this.users = _.orderBy(d,'first_name');
     }, (e: any) => {
       this.show = false;
       console.log(e);

@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   public employee : any;
   public news : any;
   public state = "description";
+  public index_news :any = [];
   public ceo :any = [];
   public post :any = [];
   public posts :any = [];
@@ -48,9 +49,9 @@ export class HomeComponent implements OnInit {
   ) {
     // @ts-ignore
     this.user = JSON.parse(localStorage.getItem('user'));
+    this.getNoteOfEntity();
     this.getBirthday();
     this.getGroup();
-    this.getNote();
     this.getCeoMessage();
     this.getPosts(true);
   }
@@ -138,7 +139,11 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  async getNote(){
+  getNote(){
+
+  };
+
+  async getNoteOfEntity(){
     // recuperation de l'entitié de l'employé
     this.api.Managements.get(this.user.employee.direction_id,{_includes:'entity'}).subscribe((a:any)=>{
       // recuperation des notes de l'entitié d'appartenance
@@ -153,17 +158,92 @@ export class HomeComponent implements OnInit {
       this.api.NewsletterEntities.getList(opt).subscribe((d:any)=>{
         d.forEach((v:any)=>{
           if(v.newsletter.type == 'event'){
-            this.events.push(v);
+            this.events.push(v.newsletter);
+            this.index_news.push(v.newsletter.id);
           } else {
-            this.note.push(v);
+            this.note.push(v.newsletter);
+            this.index_news.push(v.newsletter.id);
           }
         });
         //this.events = _.orderBy(this.events,'date').reverse();
         //this.note = _.orderBy(this.note,'date').reverse();
-        this.show_note = false;
+        this.getNoteOfDirection(this.user.employee.direction_id);
       }, (e:any)=>{
         console.log(e);
       })
+    }, (e:any)=>{
+      console.log(e);
+    });
+  }
+
+  async getNoteOfDirection(direction_id:number){
+    const opt = {
+      direction_id,
+      per_page:10,
+      _sort:'created_at',
+      _sortDir:'desc',
+      _includes: 'newsletter'
+    };
+    this.api.NewsletterDirections.getList(opt).subscribe((d:any)=>{
+      d.forEach((v:any)=>{
+        if(v.newsletter.type == 'event'){
+          // recuparation de l'index
+          if(this.index_news.indexOf(v.newsletter.id)===-1) { // n'existe pas dans le tableau
+            this.events.push(v.newsletter);
+            this.index_news.push(v.newsletter.id);
+          }
+        } else {
+          // recuparation de l'index
+          if(this.index_news.indexOf(v.newsletter.id)===-1) { // n'existe pas dans le tableau
+            this.note.push(v.newsletter);
+            this.index_news.push(v.newsletter.id);
+          }
+        }
+      });
+      this.getNoteOfGroup(this.user.employee.id);
+    }, (e:any)=>{
+      console.log(e);
+    })
+  }
+
+  getNoteOfGroup(employee_id:number){
+    // recuperation des groupes de l'employé
+    const opt = {
+      employee_id,
+      _includes: "group",
+      should_paginte:false
+    };
+    this.api.Members.getList(opt).subscribe((a:any)=>{
+      // recupération des notes de chaque groupe
+      a.forEach((v:any)=>{
+        let opt2 = {
+          per_page:10,
+          _sort:'created_at',
+          _sortDir:'desc',
+          group_id: v.id,
+          _includes: 'newsletter'
+        };
+        this.api.NewsletterGroups.getList(opt2).subscribe((d:any)=>{
+          d.forEach((v:any)=>{
+            if(v.newsletter.type == 'event'){
+              // recuparation de l'index
+              if(this.index_news.indexOf(v.newsletter.id)===-1) { // n'existe pas dans le tableau
+                this.events.push(v.newsletter);
+              }
+            } else {
+              // recuparation de l'index
+              if(this.index_news.indexOf(v.newsletter.id)===-1) { // n'existe pas dans le tableau
+                this.note.push(v.newsletter);
+              }
+            }
+          });
+          this.events = _.orderBy(this.events,'date').reverse();
+          this.note = _.orderBy(this.note,'date').reverse();
+          this.show_note = false;
+        }, (e:any)=>{
+          console.log(e);
+        })
+      });
     }, (e:any)=>{
       console.log(e);
     });
@@ -344,14 +424,14 @@ export class HomeComponent implements OnInit {
 
   openNote(n:any){
     this.detail = n;
-    this.detail.fichier = this.sanitizer.bypassSecurityTrustResourceUrl(n.newsletter.file);
+    this.detail.fichier = this.sanitizer.bypassSecurityTrustResourceUrl(n.file);
     // @ts-ignore
     document.getElementById('btnModalNote').click();
   }
 
   openModal2(n:any){
     this.news = n;
-    this.news.fichier = this.sanitizer.bypassSecurityTrustResourceUrl(n.newsletter.file);
+    this.news.fichier = this.sanitizer.bypassSecurityTrustResourceUrl(n.file);
     // @ts-ignore
     document.getElementById('btnModal2').click();
   }

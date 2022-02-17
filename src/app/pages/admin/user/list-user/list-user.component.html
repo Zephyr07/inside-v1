@@ -42,7 +42,7 @@
               <tbody>
               <tr *ngFor="let u of users| filter:{ id:search_text, username: search_text, status: search_text, first_name: search_text, title: search_text}: false">
                 <td>{{u.id}}</td>
-                <td>{{u.username}}</td>
+                <td>{{u.phone}}</td>
                 <td>{{u.first_name}}</td>
                 <td>{{u.last_name}}</td>
                 <td>{{u.title|limitTo:30}}</td>

@@ -33,7 +33,11 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "plugin/jquery.min.js",
+              "plugin/bootstrap.js",
+              "plugin/adminlte.js"
+            ]
           },
           "configurations": {
             "production": {
