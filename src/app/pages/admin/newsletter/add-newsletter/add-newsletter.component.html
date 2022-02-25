@@ -78,7 +78,8 @@
                 <br>
                 <label *ngIf="fichier!=''">{{fichier}}</label>
                 <div class="input-group">
-                  <input type="file" placeholder="Selectionner un fichicer" (change)="onSelectFile($event)" id="file" accept="image/*, .pdf,.docx,.doc">
+                  <input type="file" placeholder="Selectionner un fichicer" (change)="onSelectFile($event)" id="file"
+                         accept=".pdf">
                 </div>
               </div>
             </div>

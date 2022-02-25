@@ -99,6 +99,7 @@ export class AddEventComponent implements OnInit {
         this.newsletter.description = this.description;
         this.newsletter.display_name = this.location;
         this.newsletter.date = this.date.year+'-'+this.date.month+"-"+this.date.day+' 00:00:00';
+        this.newsletter.type = "event";
         this.newsletter.put().subscribe((n:any)=>{
           // traitement du fichier
           if(this.file_selected){
@@ -256,6 +257,7 @@ export class AddEventComponent implements OnInit {
     this.api.Newsletters.get(id,opt).subscribe((d:any)=>{
       this.newsletter = d;
       this.title = d.body.title;
+      this.type = d.body.type;
       this.description = d.body.description;
       this.location = d.body.location;
       this.imageSrc = d.body.image;
