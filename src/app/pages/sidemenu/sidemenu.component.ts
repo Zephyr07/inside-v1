@@ -40,7 +40,7 @@ export class SidemenuComponent implements OnInit {
   }
 
   search(){
-    if(this.query!="" && this.query.length>3){
+    if(this.query!="" && this.query.length>=3){
       this.router.navigate(['/inside/search/'+this.query]);
     } else {
       alert("Il faut minimum 3 caractères pour lancer la recherche");

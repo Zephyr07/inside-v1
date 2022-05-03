@@ -247,7 +247,7 @@ export class GroupeComponent implements OnInit {
   }
 
   private getDismissReason(reason: any): string {
-    this.detail = undefined;
+    //this.detail = undefined;
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {

@@ -30,6 +30,8 @@ export class EvenementComponent implements OnInit {
   }
 
   getEvents(){
+    this.events = [];
+    this.getGroupEvent(this.user.employee.id);
     // recuperation de l'entitié de l'employé
     this.api.Managements.get(this.user.employee.direction_id,{_includes:'entity'}).subscribe((a:any)=>{
       // recuperation des events de l'entitié d'appartenance
@@ -41,10 +43,11 @@ export class EvenementComponent implements OnInit {
         _includes: 'newsletter'
       };
       this.api.NewsletterEntities.getList(opt).subscribe((d:any)=>{
-        this.events = [];
         d.forEach((v:any)=>{
           if(v.newsletter.type === 'event'){
-            this.events.push(v);
+            if(_.find(this.events,{'newsletter':v.newsletter})==undefined) {// pas encore dans la liste
+              this.events.push(v);
+            }
           }
         });
         // recupération des events de la direction d'appartenance
@@ -57,7 +60,7 @@ export class EvenementComponent implements OnInit {
         this.api.NewsletterDirections.getList(opt).subscribe((e:any)=>{
           e.forEach((x:any)=>{
             if(x.newsletter.type == 'event'){
-              if(_.find(d,{'newsletter':x.newsletter})==undefined) {// pas encore dans la liste
+              if(_.find(this.events,{'newsletter':x.newsletter})==undefined) {// pas encore dans la liste
                 this.events.push(x);
               }
             }
@@ -80,6 +83,36 @@ export class EvenementComponent implements OnInit {
     // @ts-ignore
     document.getElementById('btnModal').click();
   }
+
+  getGroupEvent(employee_id:number){
+    // recupération des groupes d'appartenance
+    let opt = {
+      should_paginate:false,
+      employee_id,
+    };
+
+    this.api.Members.getList(opt).subscribe((a:any)=>{
+      a.forEach((x:any)=>{
+        let opt1 = {
+          should_paginate:false,
+          group_id:x.group_id,
+          _includes: 'newsletter'
+        };
+        this.api.NewsletterGroups.getList(opt1).subscribe((s:any)=>{
+          s.forEach((q:any)=>{
+            if(q.newsletter.type == 'event'){
+              this.events.push(q);
+            }
+          });
+        }, (e:any)=>{
+          console.log(e);
+        })
+      })
+    }, (e:any)=>{
+      console.log(e);
+    })
+  }
+
 
   open(content:any) {
     this.modalService.open(content, {size: 'xl',scrollable: true}).result.then((result) => {

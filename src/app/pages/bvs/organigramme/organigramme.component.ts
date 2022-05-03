@@ -39,6 +39,7 @@ export class OrganigrammeComponent implements OnInit {
         });
         let x: any = [];
         d.forEach((v:any)=>{
+          console.log(v);
           v.pid = v.sup_id;
           v.img = v.image;
           //v.direction = v.direction.name;

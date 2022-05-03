@@ -248,11 +248,11 @@ export class AddUserComponent implements OnInit {
       this.message_toast = "Date d'anniversaire absente";
       this.show = true;
       return false;
-    } else if(this.username==undefined || this.username==null || this.username==""){
+    }/* else if(this.username==undefined || this.username==null || this.username==""){
       this.message_toast = "Nom d'utilisateur absent";
       this.show = true;
       return false;
-    } else if(this.first_name==undefined || this.first_name==null || this.first_name==""){
+    }*/ else if(this.first_name==undefined || this.first_name==null || this.first_name==""){
       this.message_toast = "Nom absent";
       this.show = true;
       return false;

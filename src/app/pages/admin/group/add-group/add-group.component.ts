@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ApiProvider} from "../../../../providers/api/api";
 import * as _ from 'lodash';
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {AuthProvider} from "../../../../providers/auth/auth";
 
 @Component({
   selector: 'app-add-group',
@@ -30,10 +31,12 @@ export class AddGroupComponent implements OnInit {
   public search_text = "";
   public title = "Nouveau groupe";
   private group:any;
+  private user:any;
   constructor(
     public route: ActivatedRoute,
     private router: Router,
     private modalService: NgbModal,
+    private auth: AuthProvider,
     private api:ApiProvider
   ) {
     const id:any = this.route.snapshot.paramMap.get('id');
@@ -47,6 +50,11 @@ export class AddGroupComponent implements OnInit {
       this.title = "Modification";
       this.show_spinnner = true;
     }
+    this.auth.getContext().then((d:any)=>{
+      this.user = d;
+    }, (e:any)=>{
+    });
+
     this.getEmployees();
     this.group = {
       members :[]
@@ -59,6 +67,9 @@ export class AddGroupComponent implements OnInit {
   }
 
   saveGroup(){
+    if(!this.show_bread){
+      this.owner = this.user.employee.id;
+    }
     if(this.checkForm()) {
       this.show_loading = true;
       if(this.group.body !== undefined && this.group.body !== null){
@@ -140,9 +151,11 @@ export class AddGroupComponent implements OnInit {
             // creation des membres
             this.employees.forEach((v:any)=>{
               if(v.check){
-                this.api.Members.post({profile:'member', group_id:d.body.id, employee_id:v.id}).subscribe(()=>{
-                  console.log("membre", v.id, 'créé');
-                })
+                if(v.id!=this.owner){
+                  this.api.Members.post({profile:'member', group_id:d.body.id, employee_id:v.id}).subscribe(()=>{
+                    console.log("membre", v.id, 'créé');
+                  })
+                }
               }
             });
             this.openModal("Groupe "+this.name +" créé");
@@ -231,7 +244,11 @@ export class AddGroupComponent implements OnInit {
   }
 
   private getDismissReason(reason: any): string {
-    this.router.navigate(['/admin/list-group']);
+    if(this.show_bread){
+      this.router.navigate(['/admin/list-group']);
+    } else {
+      this.router.navigate(['/inside/group']);
+    }
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {

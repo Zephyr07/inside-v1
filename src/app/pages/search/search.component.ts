@@ -48,7 +48,7 @@ export class SearchComponent implements OnInit {
 
   search(){
     console.log(this.query);
-    if(this.query!="" && this.query.length>3){
+    if(this.query!="" && this.query.length>=3){
       this.show_group = true;
       this.show_direction = true;
       this.show_employee = true;
