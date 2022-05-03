@@ -34,51 +34,6 @@ export class ListNoteComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getNote(){
-    // recuperation de l'entitié de l'employé
-    this.api.Managements.get(this.user.employee.direction_id,{_includes:'entity'}).subscribe((a:any)=>{
-      // recuperation des notes de l'entitié d'appartenance
-      //this.entity = "de "+a.body.entity.name;
-      let opt = {
-        should_paginate: false,
-        _sort:'updated_at',
-        entity_id: a.body.entity_id,
-        _includes: 'newsletter'
-      };
-      this.api.NewsletterEntities.getList(opt).subscribe((d:any)=>{
-        this.note = [];
-        d.forEach((v:any)=>{
-          if(v.newsletter.type !== 'event'){
-            this.note.push(v);
-          }
-        });
-        // recupération des notes de la direction d'appartenance
-        let opt = {
-          should_paginate: false,
-          _sort:'updated_at',
-          direction_id: this.user.employee.direction_id,
-          _includes: 'newsletter'
-        };
-        this.api.NewsletterDirections.getList(opt).subscribe((e:any)=>{
-          e.forEach((x:any)=>{
-            if(x.newsletter.type != 'event'){
-              if(_.find(d,{'newsletter':x.newsletter})==undefined) {// pas encore dans la liste
-                this.note.push(x);
-              }
-            }
-          });
-          this.show = false;
-        }, (e:any)=>{
-          console.log(e);
-        })
-      }, (e:any)=>{
-        console.log(e);
-      })
-    }, (e:any)=>{
-      console.log(e);
-    });
-  }
-
   async getNoteOfEntity(){
     // recuperation de l'entitié de l'employé
     this.api.Managements.get(this.user.employee.direction_id,{_includes:'entity'}).subscribe((a:any)=>{
