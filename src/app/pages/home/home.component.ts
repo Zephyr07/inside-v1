@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
   ) {
     // @ts-ignore
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.getNoteOfEntity();
+    this.getNote();
     this.getBirthday();
     this.getGroup();
     this.getCeoMessage();
@@ -140,10 +140,13 @@ export class HomeComponent implements OnInit {
   }
 
   getNote(){
-
+    this.getNoteOfEntity();
+    this.getNoteOfDirection(this.user.employee.direction_id);
+    this.getNoteOfGroup(this.user.employee.id);
   };
 
-  async getNoteOfEntity(){
+   getNoteOfEntity(){
+    console.log("Entity");
     // recuperation de l'entitié de l'employé
     this.api.Managements.get(this.user.employee.direction_id,{_includes:'entity'}).subscribe((a:any)=>{
       // recuperation des notes de l'entitié d'appartenance
@@ -156,18 +159,21 @@ export class HomeComponent implements OnInit {
         _includes: 'newsletter'
       };
       this.api.NewsletterEntities.getList(opt).subscribe((d:any)=>{
-        d.forEach((v:any)=>{
-          if(v.newsletter.type == 'event'){
-            this.events.push(v.newsletter);
-            this.index_news.push(v.newsletter.id);
-          } else {
-            this.note.push(v.newsletter);
-            this.index_news.push(v.newsletter.id);
-          }
-        });
-        //this.events = _.orderBy(this.events,'date').reverse();
-        //this.note = _.orderBy(this.note,'date').reverse();
-        this.getNoteOfDirection(this.user.employee.direction_id);
+        if(d.length>0){
+          d.forEach((v:any)=>{
+            if(v.newsletter.type == 'event'){
+              this.events.push(v.newsletter);
+              this.index_news.push(v.newsletter.id);
+            } else {
+              this.note.push(v.newsletter);
+              this.index_news.push(v.newsletter.id);
+            }
+          });
+          this.events = _.orderBy(this.events,'date').reverse();
+          this.note = _.orderBy(this.note,'date').reverse();
+        } else {
+          console.log("Aucun note Entity");
+        }
       }, (e:any)=>{
         console.log(e);
       })
@@ -176,7 +182,8 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  async getNoteOfDirection(direction_id:number){
+   getNoteOfDirection(direction_id:number){
+    console.log("Direction");
     const opt = {
       direction_id,
       per_page:10,
@@ -185,28 +192,34 @@ export class HomeComponent implements OnInit {
       _includes: 'newsletter'
     };
     this.api.NewsletterDirections.getList(opt).subscribe((d:any)=>{
-      d.forEach((v:any)=>{
-        if(v.newsletter.type == 'event'){
-          // recuparation de l'index
-          if(this.index_news.indexOf(v.newsletter.id)===-1) { // n'existe pas dans le tableau
-            this.events.push(v.newsletter);
-            this.index_news.push(v.newsletter.id);
+      if(d.length>0){
+        d.forEach((v:any)=>{
+          if(v.newsletter.type == 'event'){
+            // recuparation de l'index
+            if(this.index_news.indexOf(v.newsletter.id)===-1) { // n'existe pas dans le tableau
+              this.events.push(v.newsletter);
+              this.index_news.push(v.newsletter.id);
+            }
+          } else {
+            // recuparation de l'index
+            if(this.index_news.indexOf(v.newsletter.id)===-1) { // n'existe pas dans le tableau
+              this.note.push(v.newsletter);
+              this.index_news.push(v.newsletter.id);
+            }
           }
-        } else {
-          // recuparation de l'index
-          if(this.index_news.indexOf(v.newsletter.id)===-1) { // n'existe pas dans le tableau
-            this.note.push(v.newsletter);
-            this.index_news.push(v.newsletter.id);
-          }
-        }
-      });
-      this.getNoteOfGroup(this.user.employee.id);
+        });
+        this.events = _.orderBy(this.events,'date').reverse();
+        this.note = _.orderBy(this.note,'date').reverse();
+      } else {
+        console.log("Aucun note Direction");
+      }
     }, (e:any)=>{
       console.log(e);
     })
   }
 
   getNoteOfGroup(employee_id:number){
+    console.log("group");
     // recuperation des groupes de l'employé
     const opt = {
       employee_id,
@@ -224,21 +237,25 @@ export class HomeComponent implements OnInit {
           _includes: 'newsletter'
         };
         this.api.NewsletterGroups.getList(opt2).subscribe((d:any)=>{
-          d.forEach((v:any)=>{
-            if(v.newsletter.type == 'event'){
-              // recuparation de l'index
-              if(this.index_news.indexOf(v.newsletter.id)===-1) { // n'existe pas dans le tableau
-                this.events.push(v.newsletter);
+          if(d.length>0){
+            d.forEach((v:any)=>{
+              if(v.newsletter.type == 'event'){
+                // recuparation de l'index
+                if(this.index_news.indexOf(v.newsletter.id)===-1) { // n'existe pas dans le tableau
+                  this.events.push(v.newsletter);
+                }
+              } else {
+                // recuparation de l'index
+                if(this.index_news.indexOf(v.newsletter.id)===-1) { // n'existe pas dans le tableau
+                  this.note.push(v.newsletter);
+                }
               }
-            } else {
-              // recuparation de l'index
-              if(this.index_news.indexOf(v.newsletter.id)===-1) { // n'existe pas dans le tableau
-                this.note.push(v.newsletter);
-              }
-            }
-          });
-          this.events = _.orderBy(this.events,'date').reverse();
-          this.note = _.orderBy(this.note,'date').reverse();
+            });
+            this.events = _.orderBy(this.events,'date').reverse();
+            this.note = _.orderBy(this.note,'date').reverse();
+          } else {
+            console.log("Aucun note Group");
+          }
           this.show_note = false;
         }, (e:any)=>{
           console.log(e);
