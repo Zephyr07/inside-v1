@@ -129,31 +129,30 @@ export class AddNewsletterComponent implements OnInit {
           this.api.restangular.all('newsletters/' + n.body.id).customPOST(this.file, undefined, undefined, {'Content-Type': undefined}).subscribe((d:any) => {
             //console.log('ok', d);
             this.openModal("Note "+this.title +" créée");
+            // affectation entité
+            this.entities.forEach((e:any)=>{
+              if(e.check){
+                this.api.NewsletterEntities.post({entity_id:e.id,newsletter_id:n.body.id});
+                e.check = false;
+              }
+            });
+            // affectation direction
+            this.directions.forEach((e:any)=>{
+              if(e.check){
+                this.api.NewsletterDirections.post({direction_id:e.id,newsletter_id:n.body.id});
+                e.check = false;
+              }
+            });
+            // affectation group
+            this.groups.forEach((e:any)=>{
+              if(e.check){
+                this.api.NewsletterGroups.post({group_id:e.id,newsletter_id:n.body.id});
+                e.check = false;
+              }
+            });
           }, (e:any)=>{
             console.log(e);
           });
-          // affectation entité
-          this.entities.forEach((e:any)=>{
-            if(e.check){
-              this.api.NewsletterEntities.post({entity_id:e.id,newsletter_id:n.body.id});
-              e.check = false;
-            }
-          });
-          // affectation direction
-          this.directions.forEach((e:any)=>{
-            if(e.check){
-              this.api.NewsletterDirections.post({direction_id:e.id,newsletter_id:n.body.id});
-              e.check = false;
-            }
-          });
-          // affectation group
-          this.groups.forEach((e:any)=>{
-            if(e.check){
-              this.api.NewsletterGroups.post({group_id:e.id,newsletter_id:n.body.id});
-              e.check = false;
-            }
-          });
-
         })
       }
     }
