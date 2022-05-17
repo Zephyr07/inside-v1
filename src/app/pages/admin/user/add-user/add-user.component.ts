@@ -101,12 +101,12 @@ export class AddUserComponent implements OnInit {
         if(this.user.body.username != this.username){
           this.user.username = this.username;
           this.user.put().subscribe((u:any)=>{
-            console.log('user update',u.body.username);
-            this.updateEmployee(this.user.body.employee.id);
+            this.updateEmployee(u.body.employee.id);
           }, (e:any)=>{
             console.log("erreur",e);
           })
         } else {
+          console.log(this.user,this.user.body.employee.id);
           this.updateEmployee(this.user.body.employee.id);
         }
 
@@ -308,34 +308,32 @@ export class AddUserComponent implements OnInit {
           this.openModal("Employé "+this.first_name + " "+ this.last_name +" mise à jour");
           if(this.user.body.role_user !=undefined){
             if(this.role_id != this.user.body.role_user.role_id){
-              this.api.RoleUsers.get(this.user.body.role_user.id).subscribe((a:any)=>{
-                console.log("profil affecté");
-                a.id = a.body.id;
-                a.role_id = this.role_id;
-                a.put().subscribe((s:any)=>{
-                  console.log("ok",s);
-                  this.show_loading = false;
-                });
-              }, (e:any)=>{
-                console.log(e);
-                this.show_loading = false;
-              })
+              // suppression de l'ancien profil
+              this.api.restangular.all('role_users/'+this.user.body.role_user.role_id+'/'+this.user.id).remove().subscribe(()=>{
+                console.log("profil supprimé");
+                // affectation du nouveau profile
+                this.createRole();
+              });
             }
           } else {
             // creation
-            this.api.RoleUsers.post({user_id:this.user.body.id, role_id:this.role_id, user_type:"App\\user"}).subscribe(()=>{
-              console.log("profil affecté");
-              this.show_loading = false;
-            }, (e:any)=>{
-              console.log(e);
-              this.show_loading = false;
-            })
+            this.createRole();
           }
 
         }
       })
     }, (e:any)=>{
       console.log("erreur",e);
+    })
+  }
+
+  createRole(){
+    this.api.RoleUsers.post({user_id:this.user.body.id, role_id:this.role_id, user_type:"App\\user"}).subscribe(()=>{
+      console.log("profil affecté");
+      this.show_loading = false;
+    }, (e:any)=>{
+      console.log(e);
+      this.show_loading = false;
     })
   }
 
